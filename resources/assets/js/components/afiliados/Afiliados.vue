@@ -92,7 +92,7 @@ export default {
                 {id:14, name:"Chris",age:55,createdAt: '',score: 0.03343},
                 {id:15, name:"Dan",age:40,createdAt: '2011-10-31',score: 0.03343},
                 {id:19, name:"Chris",age:55,createdAt: '2011-10-31',score: 0.03343},
-                {id:20, name:"Danden",age:40,createdAt: '2011-10-31',score: 0.03343},
+                {id:20, name:"Dan mr",age:40,createdAt: '2011-10-31',score: 0.03343},
             ],
         }
     }
