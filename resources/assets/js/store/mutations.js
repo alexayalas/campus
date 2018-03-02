@@ -10,5 +10,9 @@ export default {
         //state.user_system = datos    // aca estan los datos del usuario loggeado        
         localStorage.setItem('autentificado', true)
         //localStorage.setItem('user', JSON.stringify(datos))
-    }   
+    },
+    SET_AFILIADOS_LIST: (state, { list }) => {      // PACIENTES
+        state.afiliados = list.afiliados.data
+        //state.patients_paginate = list.pagination
+    },       
 }

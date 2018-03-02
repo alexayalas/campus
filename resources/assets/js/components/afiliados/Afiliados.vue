@@ -16,20 +16,21 @@
                     <!-- START DEFAULT DATATABLE -->
                     <div class="panel panel-default">
                         <div class="panel-heading">                                
-                            <h3 class="panel-title">JR</h3>
-                            <ul class="panel-controls">
-                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
-                                <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
-                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
-                            </ul>                                
+                            <h3 class="panel-title">JR</h3>                              
                         </div>
                         <div class="panel-body">
                             <vue-good-table
-                            title="Demo Table"
+                            title="Lista General de Afiliados"
                             :columns="columns"
                             :rows="rows"
                             :paginate="true"
-                            :lineNumbers="true"/>
+                            :lineNumbers="true"
+                            :onClick="onClickFn"
+                            :rowsPerPageText="textpage"
+                            :nextText="textnext"
+                            :prevText="textprev"
+                            :ofText="textof"
+                            styleClass="table condensed table-bordered table-striped"/>
                         </div>
                     </div>
                     <!-- END DEFAULT DATATABLE -->
@@ -46,34 +47,51 @@
 <script>
 export default {
     name: 'afiliados',
+    mounted() {
+        this.$store.dispatch('LOAD_AFILIADOS_LIST').then(() => {
+            //this.pagination = this.patients_paginate
+            //this.show = false
+        })  
+    },
     data() {
         return {
+            textpage: 'Registros por pagina',
+            textnext:'Sig',
+            textprev:'Ant',
+            textof:'de',
             columns: [
                 {
-                label: 'Name',
-                field: 'name',
+                label: 'Credencial',
+                field: 'credencial',
                 filterable: true,
+                width:'10%',
                 },
                 {
-                label: 'Age',
-                field: 'age',
-                type: 'number',
-                html: false,
+                label: 'Afiliado',
+                field: 'nombre_completo',
                 filterable: true,
+                width:'30%',                
                 },
                 {
-                label: 'Created On',
-                field: 'createdAt',
-                type: 'date',
-                inputFormat: 'YYYYMMDD',
-                outputFormat: 'MMM Do YY',
+                label: 'DNI',
+                field: 'dni',
+                width:'10%',                
                 },
                 {
-                label: 'Percent',
-                field: 'score',
-                type: 'percentage',
-                html: false,
+                label: 'Telefono',
+                field: 'telefono',
+                width:'10%',                
                 },
+                {
+                label: 'Celular',
+                field: 'celular',
+                width:'10%',                
+                }, 
+                {
+                label: 'Email',
+                field: 'email',
+                width:'30%',                
+                },                               
             ],
             rows: [
                 {id:1, name:"John",age:20,createdAt: '201-10-31:9:35 am',score: 0.03343},
@@ -94,7 +112,14 @@ export default {
                 {id:19, name:"Chris",age:55,createdAt: '2011-10-31',score: 0.03343},
                 {id:20, name:"Dan mr.bot",age:40,createdAt: '2011-10-31',score: 0.03343},
             ],
+           
         }
+    },
+    methods: {
+            onClickFn: function(row, index){
+                console.log(row); //the object for the row that was clicked on
+                console.log(index); // index of the row that was clicked on
+            }, 
     }
   
 }

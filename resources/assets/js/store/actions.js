@@ -17,5 +17,14 @@ export default {
     },
     CLOSE_SESSION({ commit }) {
         commit('LOGOUT')
-    }    
+    },
+    LOAD_AFILIADOS_LIST: function ({ commit }) {
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlAfiliados = '/api/afiliados';
+        return axios.get(urlAfiliados).then((response) => {
+            commit('SET_AFILIADOS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },        
 }
