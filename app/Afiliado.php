@@ -15,3 +15,4 @@ class Afiliado extends Model
                          'condicion','estudios', 'titular_id', 'user_id','activo'];
 
 }
+
