@@ -17,6 +17,7 @@ Route::post('login', 'AuthenticateController@login');
 Route::middleware('auth')->group(function() {
   Route::get('/home', 'HomeController@index')->name('home');
   Route::post('logout', 'AuthenticateController@logout');  
-  Route::resource('users','UsersController', ['except' => ['edit']]);  
+  Route::resource('users','UsersController', ['except' => ['edit']]); 
+  Route::resource('afiliados','AfiliadosController', ['except' => ['edit']]);    
 });
 

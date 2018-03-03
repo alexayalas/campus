@@ -26,5 +26,13 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },        
+    }, 
+    LOAD_DATA_INIT_LIST: function ({ commit }) {
+        var urlType = '/api/afiliados/create';
+        return axios.get(urlType).then((response) => {
+            commit('SET_DATA_INIT_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },           
 }

@@ -14,5 +14,20 @@ class Afiliado extends Model
                          'nivel_instruccion', 'sexo', 'estadocivil_id','profesion', 'foto',
                          'condicion','estudios', 'titular_id', 'user_id','activo'];
 
+    public function ubigeo()
+    {
+        return $this->belongsTo('App\Ubigeo');
+    } 
+
+    public function estadocivil()
+    {
+        return $this->belongsTo('App\EstadoCivil');
+    } 
+    
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }     
+
 }
 
