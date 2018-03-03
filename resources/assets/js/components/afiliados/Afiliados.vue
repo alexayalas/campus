@@ -25,7 +25,7 @@
                             <vue-good-table
                             title="Lista General de Afiliados"
                             :columns="columns"
-                            :rows="rows"
+                            :rows="afiliados"
                             :paginate="true"
                             :lineNumbers="true"
                             :onClick="onClickFn"
@@ -46,12 +46,12 @@
         <!-- PAGE CONTENT WRAPPER -->  
         <modal name="afiliado" :width="'90%'" :height="'auto'" :scrollable="true" :clickToClose="false">
         <!-- form de registro de afiliados -->
-        <div class="container">
+        <div class="row">
             <div class="row title-form">
                 <h3 class="pull-left h3-title">Registro de Afiliados</h3>
-                <div class="pull-right close-form" @click="$modal.hide('afiliado')"><i class="fa fa-close"></i></div>                
+                <div class="pull-right close-form" @click="$modal.hide('afiliado')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
-            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createPatient">
+            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createAfiliado">
                 <div class="form-body">
                 <div class="col-md-5 pt-20">
                     <div class="form-group">
@@ -77,13 +77,17 @@
                         <div class="col-sm-8">
                             <input type="text" class="form-control input-sm mayusculas" name="apellido_materno" v-model="dataAfiliado.apellido_materno" required>
                         </div>
-                    </div><!-- /.form-group -->                    
+                    </div><!-- /.form-group --> 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Domicilio <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="domicilio" v-model="dataAfiliado.domicilio" required>
+                        <label class="col-sm-4 control-label">Sexo <span class="asterisk">*</span></label>
+                        <div class="col-sm-8 pt-5">
+                        <p class="mb-0">
+                            Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataAfiliado.sexo" required />
+                            Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataAfiliado.sexo" />
+                        </p>
                         </div>
-                    </div><!-- /.form-group -->                    
+                    </div>                                       
+                   
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Numero DNI</label>
                         <div class="col-sm-8">
@@ -114,6 +118,15 @@
                         <masked-input v-model="dataAfiliado.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>
                     </div>
+                                                                                                                                                                                  
+                </div>
+                <div class="col-md-2 pt-20">
+                    <label class="col-sm-12 text-center">Foto </label>
+                    <div class="form-group pull-right">
+                        <file-upload @cargaImagen="getImagen" @removeImage="getClear"></file-upload>
+                    </div><!-- /.form-group -->
+                </div>                    
+                <div class="col-md-5 pt-20 pr-20">                  
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Lugar de Nacimiento </label>
                         <div class="col-sm-8">
@@ -131,7 +144,7 @@
                         </div>
                         <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dpto.text"></span>
                         <div class="col-md-1 col-sm-1" v-if="item_dpto.text">
-                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetDpto"><i class="fa fa-close"></i> </button>
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDpto"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                         </div>
                     </div> 
                     <div class="form-group">
@@ -145,7 +158,7 @@
                         </div>
                         <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_prov.text"></span>
                         <div class="col-md-1 col-sm-1" v-if="item_prov.text">
-                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetProv"><i class="fa fa-close"></i> </button>
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetProv"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                         </div>
                     </div> 
                     <div class="form-group">
@@ -159,38 +172,15 @@
                         </div>
                         <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dist.text"></span>
                         <div class="col-md-1 col-sm-1" v-if="item_dist.text">
-                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetDist"><i class="fa fa-close"></i> </button>
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDist"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                         </div>
                     </div>  
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Ocupación </label>
+                        <label class="col-sm-4 control-label">Domicilio </label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control input-sm" name="ocupacion" v-model="dataAfiliado.ocupacion">
+                            <input type="text" class="form-control input-sm" name="domicilio" v-model="dataAfiliado.domicilio">
                         </div>
-                    </div><!-- /.form-group -->   
-                    <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-4">Nivel de Instrucción </label>
-                        <div class="col-md-7 col-sm-7 col-xs-7">
-                            <basic-select :options="nivelesinstruccion"
-                            :selected-option="item_ni"
-                            placeholder="seleccione una opción"
-                            @select="onSelectNI">
-                            </basic-select>
-                        </div>
-                        <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ni.text"></span>
-                        <div class="col-md-1 col-sm-1" v-if="item_ni.text">
-                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetNI"><i class="fa fa-close"></i> </button>
-                        </div>
-                    </div>                                                                                                                                              
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Sexo <span class="asterisk">*</span></label>
-                        <div class="col-sm-8 pt-5">
-                        <p class="mb-0">
-                            Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataAfiliado.sex" required />
-                            Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataAfiliado.sex" />
-                        </p>
-                        </div>
-                    </div>
+                    </div><!-- /.form-group -->                       
                     <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-4">Estado Civil </label>
                         <div class="col-md-7 col-sm-7 col-xs-7">
@@ -202,23 +192,35 @@
                         </div>
                         <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ec.text"></span>
                         <div class="col-md-1 col-sm-1" v-if="item_ec.text">
-                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetEC"><i class="fa fa-close"></i> </button>
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetEC"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>                     
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-4">Nivel de Instrucción </label>
+                        <div class="col-md-7 col-sm-7 col-xs-7">
+                            <basic-select :options="nivelesinstruccion"
+                            :selected-option="item_ni"
+                            placeholder="seleccione una opción"
+                            @select="onSelectNI">
+                            </basic-select>
+                        </div>
+                        <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ni.text"></span>
+                        <div class="col-md-1 col-sm-1" v-if="item_ni.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetNI"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                         </div>
                     </div>  
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Ocupación </label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control input-sm" name="ocupacion" v-model="dataAfiliado.ocupacion">
+                        </div>
+                    </div><!-- /.form-group -->                                                                                                                                                                    
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Profesion </label>
                         <div class="col-sm-8">
                             <input type="email" class="form-control input-sm" name="profesion" v-model="dataAfiliado.profesion">
                         </div>
-                    </div><!-- /.form-group -->                                                                                                                                                                                     
-                </div>
-                <div class="col-md-2 pt-20">
-                    <label class="col-sm-12 text-center">Foto </label>
-                    <div class="form-group pull-right">
-                        <file-upload @cargaImagen="getImagen" @removeImage="getClear"></file-upload>
-                    </div><!-- /.form-group -->
-                </div>                    
-                <div class="col-md-5 pt-20 pr-20">
+                    </div><!-- /.form-group -->                       
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Estudios </label>
                         <div class="col-sm-8">
@@ -229,7 +231,7 @@
                 </div><!-- /.form-body -->
                 <div class="col-md-12 pt-20 mb-10 mt-0 pr-20 separator">
                     <div class="pull-right pr-10">
-                        <button type="button" class="btn btn-danger active" @click="$modal.hide('example')"><i class="fa fa-reply-all"></i> Cancelar</button>
+                        <button type="button" class="btn btn-danger active" @click="$modal.hide('afiliado')"><i class="fa fa-reply-all"></i> Cancelar</button>
                         <button type="submit" class="btn btn-primary active"><i class="fa fa-cloud-upload"></i> Grabar</button>
                     </div>
                 </div><!-- /.form-footer -->
@@ -365,16 +367,16 @@ export default {
       BasicSelect
     },    
     computed: {
-        ...mapState([ 'afiliados','estadosciviles']),
+        ...mapState(['afiliados','estadosciviles']),
         ...mapGetters(['getubigeos']),
         departamentosBy: function(){
-            return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '0').filter((ubigeo) => ubigeo.coddist == '0');
+            return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
         },
         provinciasBy: function(){
-            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov != '0').filter((ubigeo) => ubigeo.coddist == '0');
+            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov != '00').filter((ubigeo) => ubigeo.coddist == '00');
         },
         distritosBy: function(){
-            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov == this.codpro).filter((ubigeo) => ubigeo.coddist != '0');
+            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov == this.codpro).filter((ubigeo) => ubigeo.coddist != '00');
         }
     },    
     methods: {
@@ -417,10 +419,49 @@ export default {
             this.$emit('getClear')
             this.$store.dispatch('LOAD_DATA_INIT_LIST')       
             this.$modal.show('afiliado')
-        },        
+        },  
+        createAfiliado: function(){
+            var url = '/api/afiliados';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            if(this.id_dep != '0'){
+                this.dataAfiliado.ubigeo_id = this.id_dep
+                if (this.id_pro != '0') {
+                    this.dataAfiliado.ubigeo_id = this.id_pro
+                    if (this.id_dis != '0') {
+                        this.dataAfiliado.ubigeo_id = this.id_dis
+                    }
+                }            
+            }
+
+            axios.post(url, this.dataAfiliado).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_AFILIADOS_LIST')
+            //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
+            this.errors = [];
+            this.$modal.hide('afiliado');
+            toastr.success('Nuevo Afiliado creado con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },              
         onClickFn: function(row, index){
             console.log(row); //the object for the row that was clicked on
             console.log(index); // index of the row that was clicked on
+            this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
         }, 
         getImagen: function(imagen){
             this.dataAfiliado.image = imagen;
@@ -491,4 +532,37 @@ export default {
   
 }
 </script>
+<style scoped>
+  .title-form {
+    background-color: #347c7c;
+    color: white;
+    margin:0;
+    padding:0
+  }
+
+  .h3-title {
+    margin:10px 0 10px 20px;
+    color: white;
+  }
+
+  .close-form {
+    margin:15px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .img-thumbs {
+    max-width: 35px;
+  }
+
+  .separator {
+    border-top: 1px solid #CCC7B8;
+  }
+
+  input.mayusculas{
+    text-transform:uppercase;
+  }   
+
+</style>
+
 

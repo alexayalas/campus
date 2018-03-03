@@ -46,31 +46,31 @@ export default [
                 component: AfiliadosMain,
                 children: [
                     {
-                        path: 'datospersonales/:afiliado/:page',
+                        path: 'datospersonales/:afiliado',
                         name: 'AfiDatosPersonales',
                         component: AfiDatosPersonales,
                         props: true
                     },
                     {
-                        path: 'datosfamilares/:afiliado/:page',
+                        path: 'datosfamilares/:afiliado',
                         name: 'AfiDatosFamiliares',
                         component: AfiDatosFamiliares,
                         props: true
                     },                    
                     {
-                        path: 'documentos/:afiliado/:page',
+                        path: 'documentos/:afiliado',
                         name: 'AfiDocumentos',
                         component: AfiDocumentos,
                         props: true
                     },
                     {
-                        path: 'ventas/:afiliado/:page',
+                        path: 'ventas/:afiliado',
                         name: 'AfiVentas',
                         component: AfiVentas,
                         props: true
                     },
                     {
-                        path: 'pagosextraordinarios/:afiliado/:page',
+                        path: 'pagosextraordinarios/:afiliado',
                         name: 'AfiPagosextraordinarios',
                         component: AfiPagosExtraordinarios,
                         props: true

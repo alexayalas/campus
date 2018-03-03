@@ -18,5 +18,6 @@ export default {
     SET_DATA_INIT_LIST: (state, { list }) => {
         state.estadosciviles = list.estadosciviles
         state.ubigeos = list.ubigeos   
+        //console.log('ubigeos',state.ubigeos)
     },        
 }
