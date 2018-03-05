@@ -1,194 +1,276 @@
 <template>
     <div class="col-md-9">
-
-        <!-- START TIMELINE -->
-        <div class="timeline timeline-right">
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-main">
-                <div class="timeline-date">Today</div>
-            </div>
-            <!-- END TIMELINE ITEM -->                                                  
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-item-right">
-                <div class="timeline-item-info">21:37</div>
-                <div class="timeline-item-icon"><span class="fa fa-users"></span></div>                                   
-                <div class="timeline-item-content">
-                    <div class="timeline-heading" style="padding-bottom: 10px;">
-                        <img src="assets/images/users/user3.jpg"/>
-                        <a href="#">Nadia Ali</a> added to friends 
-                        <img src="assets/images/users/user.jpg"/>
-                        <img src="assets/images/users/user2.jpg"/>
-                        <img src="assets/images/users/user4.jpg"/>
-                    </div>                                        
-                    <div class="timeline-body comments">
-                        <div class="comment-item">
-                            <img src="assets/images/users/user.jpg"/>
-                            <p class="comment-head">
-                                <a href="#">Dmitry Ivaniuk</a> <span class="text-muted">@Aqvatarius</span>
-                            </p>
-                            <p>Thank you so much... I would like to meet you :)</p>
-                            <small class="text-muted">15min ago</small>
-                        </div>                                            
-                        <div class="comment-item">
-                            <img src="assets/images/users/user3.jpg"/>
-                            <p class="comment-head">
-                                <a href="#">Nadia Ali</a> <span class="text-muted">@nadiaAli</span>
-                            </p>
-                            <p>Sure, i will contact you ;)</p>
-                            <small class="text-muted">16min ago</small>
-                        </div>                                            
-                        <div class="comment-write">                                                
-                            <textarea class="form-control" placeholder="Write a comment" rows="1"></textarea>                                                
-                        </div>
+        <!-- START FORM VALIDATION STATES -->
+        <div class="block">                            
+            <h4>Datos Personales</h4>                                
+            <div class="col-md-6">
+                <div class="form-group has-success">
+                    <label class="control-label">Credencial</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label">Nombres</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label">Apellido Paterno</label>
+                    <input type="text" class="form-control"/>
+                </div> 
+                <div class="form-group has-success">
+                    <label class="control-label">Apellido Materno</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-success">
+                    <label class="control-label">Sexo <span class="asterisk">*</span></label>
+                    <div>
+                    <p class="mb-0">
+                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataAfiliado.sexo" required />
+                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataAfiliado.sexo" />
+                    </p>
+                    </div>
+                </div> 
+                <div class="form-group has-error">
+                    <label class="control-label">Numero DNI</label>
+                    <input type="text" class="form-control"/>
+                </div>  
+                <div class="form-group has-success">
+                    <label class="control-label">Telefono</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label">Celular</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label">Email</label>
+                    <input type="text" class="form-control"/>
+                </div> 
+                <div class="form-group has-success">
+                    <label class="control-label">Fec.Nacimiento </label>
+                    <div>
+                    <masked-input v-model="dataAfiliado.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                     </div>
                 </div>                                    
-            </div>       
-            <!-- END TIMELINE ITEM -->
-
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-item-right">
-                <div class="timeline-item-info">20:23</div>
-                <div class="timeline-item-icon"><span class="fa fa-reply"></span></div>                                   
-                <div class="timeline-item-content">
-                    <div class="timeline-heading padding-bottom-0">
-                        <img src="assets/images/users/user2.jpg"/> <a href="#">John Doe</a> posted article <a href="#">How to...?</a>
-                    </div>                                        
-                    <div class="timeline-body">                                                                                        
-                        <img src="assets/images/gallery/nature-6.jpg" width="200" class="img-text" align="left"/> 
-                        <h4>Lorem ipsum dolor</h4>
-                        <p>Aenean ultricies condimentum pellentesque. Maecenas pulvinar arcu vel tortor aliquet commodo. Phasellus dapibus nisl quis nunc pharetra, id lobortis arcu sagittis. Nunc facilisis nibh non diam dictum, vitae iaculis tellus egestas. Curabitur vitae dui tempus, tempus metus vitae, cursus nunc. In cursus odio vitae metus commodo, in posuere ante varius.</p> 
-                        <p>Mauris sodales faucibus est, eu consequat dolor tristique in. Quisque at lacus sed ligula semper iaculis. In eu imperdiet ipsum. Ut vestibulum ornare venenatis.</p>           
-                        <ul class="list-tags push-up-10">                                            
-                            <li><a href="#"><strong>#</strong>tempor</a></li>
-                            <li><a href="#"><strong>#</strong>eros</a></li>
-                            <li><a href="#"><strong>#</strong>suspendisse</a></li>
-                            <li><a href="#"><strong>#</strong>dolor</a></li>
-                        </ul>
-                    </div>                
-                    <div class="timeline-footer">
-                        <a href="#">Details</a>
-                        <div class="pull-right">
-                            <a href="#"><span class="fa fa-comments"></span> 35</a> 
-                            <a href="#"><span class="fa fa-eye"></span> 1,432</a>
-                        </div>
-                    </div>
-                </div>                                    
-            </div>       
-            <!-- END TIMELINE ITEM -->                                                                
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-main">
-                <div class="timeline-date">Yesterday</div>
-            </div>
-            <!-- END TIMELINE ITEM -->                                
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-item-right">
-                <div class="timeline-item-info">20:23</div>
-                <div class="timeline-item-icon"><span class="fa fa-info-circle"></span></div>                                   
-                <div class="timeline-item-content">
-                    <div class="timeline-heading padding-bottom-0">
-                        <img src="assets/images/users/user3.jpg"/> <a href="#">Nadia Ali</a> changed status to:
-                    </div>                                        
-                    <div class="timeline-body">                                            
-                        <i>Peace Will Come, This World Will Rest, Once We Have Togetherness</i>
-                    </div>                                               
-                </div>                                    
-            </div>       
-            <!-- END TIMELINE ITEM -->                                
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-item-right">
-                <div class="timeline-item-info">18:34</div>
-                <div class="timeline-item-icon"><span class="fa fa-photo"></span></div>                                   
-                <div class="timeline-item-content">
-                    <div class="timeline-heading">
-                        <img src="assets/images/users/user3.jpg"/> <a href="#">Nadia Ali</a> added images to gallery
-                    </div>
-                    <div class="timeline-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img src="assets/images/gallery/music-2.jpg" class="img-responsive img-text"/>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img src="assets/images/gallery/music-3.jpg" class="img-responsive img-text"/>
-                                </a>                                                    
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img src="assets/images/gallery/space-1.jpg" class="img-responsive img-text"/>
-                                </a>                                                    
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img src="assets/images/gallery/space-2.jpg" class="img-responsive img-text"/>
-                                </a>                                                    
-                            </div>
-                        </div>
-                        <ul class="list-tags push-up-10">                                            
-                            <li><a href="#"><strong>#</strong>tempor</a></li>
-                            <li><a href="#"><strong>#</strong>eros</a></li>
-                            <li><a href="#"><strong>#</strong>suspendisse</a></li>
-                            <li><a href="#"><strong>#</strong>dolor</a></li>
-                        </ul>                                            
-                    </div>
-                </div>                                    
-            </div>       
-            <!-- END TIMELINE ITEM -->
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-item-right">
-                <div class="timeline-item-info">15:21</div>
-                <div class="timeline-item-icon"><span class="fa fa-users"></span></div>                                   
-                <div class="timeline-item-content">
-                    <div class="timeline-heading" style="padding-bottom: 10px;">
-                        <img src="assets/images/users/user3.jpg"/>
-                        <a href="#">Nadia Ali</a> added to friends 
-                        <img src="assets/images/users/user5.jpg"/>
-                        <img src="assets/images/users/user6.jpg"/>
-                        <img src="assets/images/users/user7.jpg"/>
-                    </div>                                        
-                    <div class="timeline-body comments">
-                        <div class="comment-item">
-                            <img src="assets/images/users/user6.jpg"/>
-                            <p class="comment-head">
-                                <a href="#">Darth Vader</a> <span class="text-muted">@darthvader</span>
-                            </p>
-                            <p>Hello, honey!</p>
-                            <small class="text-muted">15min ago</small>
-                        </div>                                                                                                                        
-                        <div class="comment-write">                                                
-                            <textarea class="form-control" placeholder="Write a comment" rows="1"></textarea>                                                
-                        </div>
-                    </div>
-                </div>                                    
-            </div>       
-            <!-- END TIMELINE ITEM -->
-
-            
-            <!-- START TIMELINE ITEM -->
-            <div class="timeline-item timeline-main">
-                <div class="timeline-date"><a href="#"><span class="fa fa-ellipsis-h"></span></a></div>
             </div>                                
-            <!-- END TIMELINE ITEM -->
+            <div class="col-md-6">
+                <div class="form-group has-success">
+                    <label class="control-label">Lugar de Nacimiento</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
+                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                        <basic-select :options="departamentosBy"
+                        :selected-option="item_dpto"
+                        placeholder="seleccione una opción"
+                        @select="onSelectDpto">
+                        </basic-select>
+                    </div>
+                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dpto.text"></span>
+                    <div class="col-md-1 col-sm-1" v-if="item_dpto.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDpto"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                    </div>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label col-md-12 col-sm-12 pl-0">Provincia</label>
+                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                        <basic-select :options="provinciasBy"
+                        :selected-option="item_prov"
+                        placeholder="seleccione una opción"
+                        @select="onSelectProv">
+                        </basic-select>
+                    </div>
+                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_prov.text"></span>
+                    <div class="col-md-1 col-sm-1" v-if="item_prov.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetProv"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                    </div>
+                </div>  
+                <div class="form-group has-success">
+                    <label class="control-label col-md-12 col-sm-12 pl-0">Distrito</label>
+                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                        <basic-select :options="distritosBy"
+                        :selected-option="item_dist"
+                        placeholder="seleccione una opción"
+                        @select="onSelectDist">
+                        </basic-select>
+                    </div>
+                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dist.text"></span>
+                    <div class="col-md-1 col-sm-1" v-if="item_dist.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDist"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                    </div>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0">Domicilio</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label">Estado Civil</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-success">
+                    <label class="control-label">Distrito</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label">Nivel de Instrucción</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-error">
+                    <label class="control-label">Ocupación</label>
+                    <input type="text" class="form-control"/>
+                </div>  
+                <div class="form-group has-success">
+                    <label class="control-label">Profesión</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label">Estudios</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                                                   
+            </div>                                                                                
         </div>
-        <!-- END TIMELINE -->                            
+        <!-- END FORM VALIDATION STATES -->                          
         
     </div>  
 </template>
 <script>
+import { BasicSelect } from 'vue-search-select'
+import MaskedInput from 'vue-masked-input'
+import { mapState, mapGetters } from 'vuex'
+
 export default {
     name:'afidatospersonales',
     data() {
         return {
+            searchText: '', // If value is falsy, reset searchText & searchItem
+            item_ec: { value: '', text: ''},  
+            item_ni: { value: '', text: ''},                
+            item_dpto: { value: '', text: ''},
+            item_prov: { value: '', text: ''},
+            item_dist: { value: '', text: ''},
 
+            coddep:'',
+            codpro:'',
+            coddis:'',
+            id_dep:'0',
+            id_pro:'0',
+            id_dis:'0', 
+
+            dataAfiliado : {
+                credencial:'',
+                apellido_paterno:'',
+                apellido_materno:'',
+                nombres:'',
+                domicilio: '',
+                dni:'',
+                telefono:'',
+                celular:'',
+                email:'',
+                fecha_nacimiento:'',
+                lugar_nacimiento:'',
+                ubigeo_id:'',
+                ocupacion:'',
+                nivel_instruccion:'',
+                sexo:'H',
+                estadocivil_id:'',
+                profesion:'',
+                foto:'no-image.png',
+                condicion:'',
+                estudios:'',
+                titular_id:'',
+                user_id:'',
+                image: ''       
+            }
         }
-    }
+    },
+    components: {
+      MaskedInput ,
+      BasicSelect
+    },
+    computed: {
+        ...mapState(['afiliados','estadosciviles']),
+        ...mapGetters(['getubigeos']),
+        departamentosBy: function(){
+            return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
+        },
+        provinciasBy: function(){
+            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov != '00').filter((ubigeo) => ubigeo.coddist == '00');
+        },
+        distritosBy: function(){
+            return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov == this.codpro).filter((ubigeo) => ubigeo.coddist != '00');
+        }
+    }, 
+    methods: {          
+        onClickFn: function(row, index){
+            console.log(row); //the object for the row that was clicked on
+            console.log(index); // index of the row that was clicked on
+            this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
+        }, 
+        getImagen: function(imagen){
+            this.dataAfiliado.image = imagen;
+        },
+        getClear: function(){
+            console.log("evento clear");
+        },
+        getPro: function(){
+            this.codpro = "";
+            this.dataAfiliado.ubigeo_id ="";
+        },
+        getDis: function(){
+            this.dataAfiliado.ubigeo_id ="";
+        },
+        onSelectNI (item_ni) {
+            this.item_ni = item_ni
+            this.dataAfiliado.nivelinstruccion = item_ni.value
+        },
+        resetNI () {
+            this.item_ni = {}
+            this.dataAfiliado.nivelinstruccion = ''   
+        },
+        onSelectEC (item_ec) {
+            this.item_ec = item_ec
+            this.dataAfiliado.estadocivil_id = item_ec.value
+        },
+        resetEC () {
+            this.item_ec = {}
+            this.dataAfiliado.estadocivil_id = ''
+        },      
+        onSelectDpto (item_dpto) {
+            this.item_dpto = item_dpto
+            this.coddep = item_dpto.coddpto
+            this.resetProv()
+            this.id_dep = item_dpto.value        
+        },
+        resetDpto () {
+            this.item_dpto = {}
+            this.coddep = ''
+            this.id_dep = '0'        
+            this.resetProv()        
+        },   
+        onSelectProv (item_prov) {
+            this.item_prov = item_prov
+            this.codpro = item_prov.codprov
+            this.resetDist()
+            this.id_pro = item_prov.value         
+        },
+        resetProv () {
+            this.item_prov = {}
+            this.codpro = ''
+            this.id_pro = '0'        
+            this.resetDist()
+        }, 
+        onSelectDist (item_dist) {
+            this.item_dist = item_dist
+            this.id_dis = item_dist.value   
+            //this.dataPatient.ubigeo_id = item_dist.value
+        },
+        resetDist () {
+            this.item_dist = {}
+            this.id_dis = '0'
+            //this.dataPatient.ubigeo_id = ''
+        }                                      
+    }      
   
 }
 </script>
