@@ -4,7 +4,7 @@
         <div class="block">                            
             <h4>Datos Personales</h4>                                
             <div class="col-md-6">
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Credencial</label>
                     <input type="text" class="form-control"/>
                 </div>
@@ -12,28 +12,28 @@
                     <label class="control-label">Nombres</label>
                     <input type="text" class="form-control"/>
                 </div>
-                <div class="form-group has-error">
+                <div class="form-group has-warning">         
                     <label class="control-label">Apellido Paterno</label>
                     <input type="text" class="form-control"/>
                 </div> 
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Apellido Materno</label>
                     <input type="text" class="form-control"/>
                 </div>
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Sexo <span class="asterisk">*</span></label>
-                    <div>
+                    <div class="mb-20">
                     <p class="mb-0">
                         Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataAfiliado.sexo" required />
                         Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataAfiliado.sexo" />
                     </p>
                     </div>
                 </div> 
-                <div class="form-group has-error">
+                <div class="form-group has-warning">
                     <label class="control-label">Numero DNI</label>
                     <input type="text" class="form-control"/>
                 </div>  
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Telefono</label>
                     <input type="text" class="form-control"/>
                 </div>
@@ -41,11 +41,11 @@
                     <label class="control-label">Celular</label>
                     <input type="text" class="form-control"/>
                 </div>
-                <div class="form-group has-error">
+                <div class="form-group has-warning">
                     <label class="control-label">Email</label>
                     <input type="text" class="form-control"/>
                 </div> 
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Fec.Nacimiento </label>
                     <div>
                     <masked-input v-model="dataAfiliado.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
@@ -53,7 +53,7 @@
                 </div>                                    
             </div>                                
             <div class="col-md-6">
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Lugar de Nacimiento</label>
                     <input type="text" class="form-control"/>
                 </div>
@@ -67,12 +67,12 @@
                         </basic-select>
                     </div>
                     <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dpto.text"></span>
-                    <div class="col-md-1 col-sm-1" v-if="item_dpto.text">
+                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_dpto.text">
                         <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDpto"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                     </div>
                 </div>
-                <div class="form-group has-error">
-                    <label class="control-label col-md-12 col-sm-12 pl-0">Provincia</label>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Provincia</label>
                     <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
                         <basic-select :options="provinciasBy"
                         :selected-option="item_prov"
@@ -81,12 +81,12 @@
                         </basic-select>
                     </div>
                     <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_prov.text"></span>
-                    <div class="col-md-1 col-sm-1" v-if="item_prov.text">
+                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_prov.text">
                         <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetProv"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                     </div>
                 </div>  
-                <div class="form-group has-success">
-                    <label class="control-label col-md-12 col-sm-12 pl-0">Distrito</label>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Distrito</label>
                     <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
                         <basic-select :options="distritosBy"
                         :selected-option="item_dist"
@@ -95,31 +95,48 @@
                         </basic-select>
                     </div>
                     <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dist.text"></span>
-                    <div class="col-md-1 col-sm-1" v-if="item_dist.text">
+                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_dist.text">
                         <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDist"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                     </div>
                 </div>
                 <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0">Domicilio</label>
-                    <input type="text" class="form-control"/>
-                </div>
-                <div class="form-group has-error">
-                    <label class="control-label">Estado Civil</label>
-                    <input type="text" class="form-control"/>
-                </div>
-                <div class="form-group has-success">
-                    <label class="control-label">Distrito</label>
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
                     <input type="text" class="form-control"/>
                 </div>
                 <div class="form-group has-warning">
-                    <label class="control-label">Nivel de Instrucción</label>
-                    <input type="text" class="form-control"/>
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
+                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                        <basic-select :options="estadosciviles"
+                        :selected-option="item_ec"
+                        placeholder="seleccione una opción"
+                        @select="onSelectEC">
+                        </basic-select>
+                    </div>
+                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ec.text"></span>
+                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_ec.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetEC"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                    </div>
                 </div>
-                <div class="form-group has-error">
-                    <label class="control-label">Ocupación</label>
+                <div class="clearfix"></div>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Nivel de Instrucción </label>
+                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                        <basic-select :options="nivelesinstruccion"
+                        :selected-option="item_ni"
+                        placeholder="seleccione una opción"
+                        @select="onSelectNI">
+                        </basic-select>
+                    </div>
+                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ni.text"></span>
+                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_ni.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetNI"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                    </div>
+                </div>
+                <div class="form-group has-warning">
+                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
                     <input type="text" class="form-control"/>
                 </div>  
-                <div class="form-group has-success">
+                <div class="form-group has-warning">
                     <label class="control-label">Profesión</label>
                     <input type="text" class="form-control"/>
                 </div>
@@ -181,7 +198,13 @@ export default {
                 titular_id:'',
                 user_id:'',
                 image: ''       
-            }
+            },
+            nivelesinstruccion :[
+                {value: 1 , text: 'Primaria'},
+                {value: 2 , text: 'Secundaria'},
+                {value: 3 , text: 'Tecnico'},
+                {value: 4 , text: 'Universitario'},         
+            ],             
         }
     },
     components: {

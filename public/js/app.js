@@ -49417,6 +49417,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -49464,7 +49481,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 titular_id: '',
                 user_id: '',
                 image: ''
-            }
+            },
+            nivelesinstruccion: [{ value: 1, text: 'Primaria' }, { value: 2, text: 'Secundaria' }, { value: 3, text: 'Tecnico' }, { value: 4, text: 'Universitario' }]
         };
     },
 
@@ -49597,10 +49615,10 @@ var render = function() {
         _vm._v(" "),
         _vm._m(3),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group has-success" }, [
+        _c("div", { staticClass: "form-group has-warning" }, [
           _vm._m(4),
           _vm._v(" "),
-          _c("div", [
+          _c("div", { staticClass: "mb-20" }, [
             _c("p", { staticClass: "mb-0" }, [
               _vm._v("\n                    Masculino: "),
               _c("input", {
@@ -49661,7 +49679,7 @@ var render = function() {
         _vm._v(" "),
         _vm._m(8),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group has-success" }, [
+        _c("div", { staticClass: "form-group has-warning" }, [
           _c("label", { staticClass: "control-label" }, [
             _vm._v("Fec.Nacimiento ")
           ]),
@@ -49721,7 +49739,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.item_dpto.text
-            ? _c("div", { staticClass: "col-md-1 col-sm-1" }, [
+            ? _c("div", { staticClass: "col-md-1 col-sm-1 ml-10" }, [
                 _c(
                   "button",
                   {
@@ -49740,10 +49758,10 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group has-error" }, [
+        _c("div", { staticClass: "form-group has-warning" }, [
           _c(
             "label",
-            { staticClass: "control-label col-md-12 col-sm-12 pl-0" },
+            { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10" },
             [_vm._v("Provincia")]
           ),
           _vm._v(" "),
@@ -49773,7 +49791,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.item_prov.text
-            ? _c("div", { staticClass: "col-md-1 col-sm-1" }, [
+            ? _c("div", { staticClass: "col-md-1 col-sm-1 ml-10" }, [
                 _c(
                   "button",
                   {
@@ -49792,10 +49810,10 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group has-success" }, [
+        _c("div", { staticClass: "form-group has-warning" }, [
           _c(
             "label",
-            { staticClass: "control-label col-md-12 col-sm-12 pl-0" },
+            { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10" },
             [_vm._v("Distrito")]
           ),
           _vm._v(" "),
@@ -49825,7 +49843,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.item_dist.text
-            ? _c("div", { staticClass: "col-md-1 col-sm-1" }, [
+            ? _c("div", { staticClass: "col-md-1 col-sm-1 ml-10" }, [
                 _c(
                   "button",
                   {
@@ -49846,17 +49864,117 @@ var render = function() {
         _vm._v(" "),
         _vm._m(10),
         _vm._v(" "),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c(
+            "label",
+            { staticClass: "control-label col-md-12 col-sm-12 pl-0 mb-0" },
+            [_vm._v("Estado Civil ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-md-10 col-sm-10 col-xs-10 pl-0" },
+            [
+              _c("basic-select", {
+                attrs: {
+                  options: _vm.estadosciviles,
+                  "selected-option": _vm.item_ec,
+                  placeholder: "seleccione una opción"
+                },
+                on: { select: _vm.onSelectEC }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          !_vm.item_ec.text
+            ? _c("span", {
+                staticClass: "glyphicon glyphicon-folder-open mt-5",
+                staticStyle: { "font-size": "20px" },
+                attrs: { "aria-hidden": "true" }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.item_ec.text
+            ? _c("div", { staticClass: "col-md-1 col-sm-1 ml-10" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm pull-right mb-10",
+                    attrs: { type: "button", title: "Borrar Opción" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.resetEC($event)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "glyphicon glyphicon-remove mt-5" })]
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "clearfix" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c(
+            "label",
+            {
+              staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0"
+            },
+            [_vm._v("Nivel de Instrucción ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-md-10 col-sm-10 col-xs-10 pl-0" },
+            [
+              _c("basic-select", {
+                attrs: {
+                  options: _vm.nivelesinstruccion,
+                  "selected-option": _vm.item_ni,
+                  placeholder: "seleccione una opción"
+                },
+                on: { select: _vm.onSelectNI }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          !_vm.item_ni.text
+            ? _c("span", {
+                staticClass: "glyphicon glyphicon-folder-open mt-5",
+                staticStyle: { "font-size": "20px" },
+                attrs: { "aria-hidden": "true" }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.item_ni.text
+            ? _c("div", { staticClass: "col-md-1 col-sm-1 ml-10" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm pull-right mb-10",
+                    attrs: { type: "button", title: "Borrar Opción" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.resetNI($event)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "glyphicon glyphicon-remove mt-5" })]
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
         _vm._m(11),
         _vm._v(" "),
         _vm._m(12),
         _vm._v(" "),
-        _vm._m(13),
-        _vm._v(" "),
-        _vm._m(14),
-        _vm._v(" "),
-        _vm._m(15),
-        _vm._v(" "),
-        _vm._m(16)
+        _vm._m(13)
       ])
     ])
   ])
@@ -49866,7 +49984,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [_vm._v("Credencial")]),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
@@ -49886,7 +50004,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-error" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [
         _vm._v("Apellido Paterno")
       ]),
@@ -49898,7 +50016,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [
         _vm._v("Apellido Materno")
       ]),
@@ -49919,7 +50037,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-error" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [_vm._v("Numero DNI")]),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
@@ -49929,7 +50047,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [_vm._v("Telefono")]),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
@@ -49949,7 +50067,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-error" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [_vm._v("Email")]),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
@@ -49959,7 +50077,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [
         _vm._v("Lugar de Nacimiento")
       ]),
@@ -49972,29 +50090,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label col-md-12 col-sm-12 pl-0" }, [
-        _vm._v("Domicilio")
-      ]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-error" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Estado Civil")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Distrito")]),
+      _c(
+        "label",
+        { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10" },
+        [_vm._v("Domicilio")]
+      ),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
     ])
@@ -50004,9 +50104,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [
-        _vm._v("Nivel de Instrucción")
-      ]),
+      _c(
+        "label",
+        { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0" },
+        [_vm._v("Ocupación")]
+      ),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
     ])
@@ -50015,17 +50117,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-error" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Ocupación")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-success" }, [
+    return _c("div", { staticClass: "form-group has-warning" }, [
       _c("label", { staticClass: "control-label" }, [_vm._v("Profesión")]),
       _vm._v(" "),
       _c("input", { staticClass: "form-control", attrs: { type: "text" } })
