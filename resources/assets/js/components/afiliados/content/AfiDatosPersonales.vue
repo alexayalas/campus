@@ -158,6 +158,36 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
     name:'afidatospersonales',
+    mounted() {
+      //this.show = typeof this.patientByid === 'undefined' ? true : false 
+      // cargamos los datos del paciente
+        console.log("datitos: ",this.afiliadoByid)
+        if(typeof this.afiliadoByid != 'undefined'){
+            console.log("datitos: ",this.afiliadoByid)
+            //this.show = false
+            if(this.afiliadoByid.ubigeo_id != null){
+                this.coddep = this.afiliadoByid.ubigeo.coddpto;
+                this.codpro = this.afiliadoByid.ubigeo.codprov;
+                this.coddis = this.afiliadoByid.ubigeo.coddist;          
+                this.item_dpto = this.departamentosBy.find(depa => depa.coddpto == this.afiliadoByid.ubigeo.coddpto)
+                    if(this.codpro != '00'){
+                        this.item_prov = this.provinciasBy.find(provi => provi.codprov == this.afiliadoByid.ubigeo.codprov)
+                    }
+                    if(this.coddis != '00'){
+                        this.item_dist = this.distritosBy.find(dist => dist.value == this.afiliadoByid.ubigeo_id)
+                    }
+            }
+    /*         if(this.patientByid.typedocument_id != null){
+            this.item_doc = this.typedocuments.find(type => type.value == this.afiliadoByid.typedocument_id)
+            }
+            if(this.patientByid.catchment_id != null){
+            this.item_cap = this.captaciones.find(captac => captac.value == this.afiliadoByid.catchment_id)
+            }  
+            if(this.patientByid.venue_id != null){
+            this.item_sed = this.sedes.find(se => se.value == this.afiliadoByid.venue_id)
+            }  */                    
+        }      
+    },    
     data() {
         return {
             searchText: '', // If value is falsy, reset searchText & searchItem
@@ -213,7 +243,11 @@ export default {
     },
     computed: {
         ...mapState(['afiliados','estadosciviles']),
-        ...mapGetters(['getubigeos']),
+        ...mapGetters(['getAfiliadoById','getubigeos']),
+        afiliadoByid: function(){
+            //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
+            return this.getAfiliadoById(this.$route.params.afiliado);
+        },        
         departamentosBy: function(){
             return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
         },

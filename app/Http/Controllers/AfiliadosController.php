@@ -25,7 +25,7 @@ class AfiliadosController extends Controller
      */
     public function index()
     {
-        $afiliados = Afiliado::orderBy('id','ASC')->get();          
+        $afiliados = Afiliado::with('ubigeo')->orderBy('id','ASC')->get();          
         return $afiliados;
     }
 

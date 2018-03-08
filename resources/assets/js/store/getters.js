@@ -1,4 +1,7 @@
 export default {
+    getAfiliadoById: (state, getters) => (id) => {
+        return state.afiliados.find(afiliado => afiliado.id == id)
+    },    
     getubigeos: state => {
         return state.ubigeos
     },  

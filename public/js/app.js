@@ -44440,6 +44440,13 @@ var index = function(options, storage, key) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    getAfiliadoById: function getAfiliadoById(state, getters) {
+        return function (id) {
+            return state.afiliados.find(function (afiliado) {
+                return afiliado.id == id;
+            });
+        };
+    },
     getubigeos: function getubigeos(state) {
         return state.ubigeos;
     },
@@ -46989,7 +46996,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 field: 'email',
                 width: '30%'
             }],
-            rows: [{ id: 1, name: "John", age: 20, createdAt: '201-10-31:9:35 am', score: 0.03343 }, { id: 2, name: "Jane", age: 24, createdAt: '2011-10-31', score: 0.03343 }, { id: 3, name: "Susan", age: 16, createdAt: '2011-10-30', score: 0.03343 }, { id: 4, name: "Chris", age: 55, createdAt: '2011-10-11', score: 0.03343 }, { id: 5, name: "Dan", age: 40, createdAt: '2011-10-21', score: 0.03343 }, { id: 6, name: "John", age: 20, createdAt: '2011-10-31', score: 0.03343 }, { id: 7, name: "Jane", age: 24, createdAt: '20111031' }, { id: 8, name: "Susan", age: 16, createdAt: '2013-10-31', score: 0.03343 }, { id: 9, name: "Chris", age: 55, createdAt: '2012-10-31', score: 0.03343 }, { id: 10, name: "Dan", age: 40, createdAt: '2011-10-31', score: 0.03343 }, { id: 11, name: "John", age: 20, createdAt: '2011-10-31', score: 0.03343 }, { id: 12, name: "Jane", age: 24, createdAt: '2011-07-31', score: 0.03343 }, { id: 13, name: "Susan", age: 16, createdAt: '2017-02-28', score: 0.03343 }, { id: 14, name: "Chris", age: 55, createdAt: '', score: 0.03343 }, { id: 15, name: "Dan", age: 40, createdAt: '2011-10-31', score: 0.03343 }, { id: 19, name: "Chris", age: 55, createdAt: '2011-10-31', score: 0.03343 }, { id: 20, name: "Dan mr.bot", age: 40, createdAt: '2011-10-31', score: 0.03343 }],
             dataAfiliado: {
                 credencial: '',
                 apellido_paterno: '',
@@ -49441,6 +49447,44 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'afidatospersonales',
+    mounted: function mounted() {
+        var _this = this;
+
+        //this.show = typeof this.patientByid === 'undefined' ? true : false 
+        // cargamos los datos del paciente
+        console.log("datitos: ", this.afiliadoByid);
+        if (typeof this.afiliadoByid != 'undefined') {
+            console.log("datitos: ", this.afiliadoByid);
+            //this.show = false
+            if (this.afiliadoByid.ubigeo_id != null) {
+                this.coddep = this.afiliadoByid.ubigeo.coddpto;
+                this.codpro = this.afiliadoByid.ubigeo.codprov;
+                this.coddis = this.afiliadoByid.ubigeo.coddist;
+                this.item_dpto = this.departamentosBy.find(function (depa) {
+                    return depa.coddpto == _this.afiliadoByid.ubigeo.coddpto;
+                });
+                if (this.codpro != '00') {
+                    this.item_prov = this.provinciasBy.find(function (provi) {
+                        return provi.codprov == _this.afiliadoByid.ubigeo.codprov;
+                    });
+                }
+                if (this.coddis != '00') {
+                    this.item_dist = this.distritosBy.find(function (dist) {
+                        return dist.value == _this.afiliadoByid.ubigeo_id;
+                    });
+                }
+            }
+            /*         if(this.patientByid.typedocument_id != null){
+                    this.item_doc = this.typedocuments.find(type => type.value == this.afiliadoByid.typedocument_id)
+                    }
+                    if(this.patientByid.catchment_id != null){
+                    this.item_cap = this.captaciones.find(captac => captac.value == this.afiliadoByid.catchment_id)
+                    }  
+                    if(this.patientByid.venue_id != null){
+                    this.item_sed = this.sedes.find(se => se.value == this.afiliadoByid.venue_id)
+                    }  */
+        }
+    },
     data: function data() {
         return {
             searchText: '', // If value is falsy, reset searchText & searchItem
@@ -49490,7 +49534,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         MaskedInput: __WEBPACK_IMPORTED_MODULE_1_vue_masked_input__["a" /* default */],
         BasicSelect: __WEBPACK_IMPORTED_MODULE_0_vue_search_select__["BasicSelect"]
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['afiliados', 'estadosciviles']), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['getubigeos']), {
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['afiliados', 'estadosciviles']), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['getAfiliadoById', 'getubigeos']), {
+        afiliadoByid: function afiliadoByid() {
+            //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
+            return this.getAfiliadoById(this.$route.params.afiliado);
+        },
         departamentosBy: function departamentosBy() {
             return this.getubigeos.filter(function (ubigeo) {
                 return ubigeo.codprov == '00';
@@ -49499,10 +49547,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         },
         provinciasBy: function provinciasBy() {
-            var _this = this;
+            var _this2 = this;
 
             return this.getubigeos.filter(function (ubigeo) {
-                return ubigeo.coddpto == _this.coddep;
+                return ubigeo.coddpto == _this2.coddep;
             }).filter(function (ubigeo) {
                 return ubigeo.codprov != '00';
             }).filter(function (ubigeo) {
@@ -49510,12 +49558,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         },
         distritosBy: function distritosBy() {
-            var _this2 = this;
+            var _this3 = this;
 
             return this.getubigeos.filter(function (ubigeo) {
-                return ubigeo.coddpto == _this2.coddep;
+                return ubigeo.coddpto == _this3.coddep;
             }).filter(function (ubigeo) {
-                return ubigeo.codprov == _this2.codpro;
+                return ubigeo.codprov == _this3.codpro;
             }).filter(function (ubigeo) {
                 return ubigeo.coddist != '00';
             });
