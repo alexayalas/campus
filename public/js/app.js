@@ -49440,6 +49440,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -49452,9 +49461,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
         //this.show = typeof this.patientByid === 'undefined' ? true : false 
         // cargamos los datos del paciente
-        console.log("datitos: ", this.afiliadoByid);
         if (typeof this.afiliadoByid != 'undefined') {
-            console.log("datitos: ", this.afiliadoByid);
             //this.show = false
             if (this.afiliadoByid.ubigeo_id != null) {
                 this.coddep = this.afiliadoByid.ubigeo.coddpto;
@@ -49474,15 +49481,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     });
                 }
             }
-            /*         if(this.patientByid.typedocument_id != null){
-                    this.item_doc = this.typedocuments.find(type => type.value == this.afiliadoByid.typedocument_id)
-                    }
-                    if(this.patientByid.catchment_id != null){
-                    this.item_cap = this.captaciones.find(captac => captac.value == this.afiliadoByid.catchment_id)
-                    }  
-                    if(this.patientByid.venue_id != null){
-                    this.item_sed = this.sedes.find(se => se.value == this.afiliadoByid.venue_id)
-                    }  */
+            if (this.afiliadoByid.estadocivil_id != null) {
+                this.item_ec = this.estadosciviles.find(function (type) {
+                    return type.value == _this.afiliadoByid.estadocivil_id;
+                });
+            }
+            if (this.afiliadoByid.nivel_instruccion != null) {
+                this.item_ni = this.nivelesinstruccion.find(function (niv) {
+                    return niv.value == _this.afiliadoByid.nivel_instruccion;
+                });
+            }
         }
     },
     data: function data() {
@@ -49501,31 +49509,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             id_pro: '0',
             id_dis: '0',
 
-            dataAfiliado: {
-                credencial: '',
-                apellido_paterno: '',
-                apellido_materno: '',
-                nombres: '',
-                domicilio: '',
-                dni: '',
-                telefono: '',
-                celular: '',
-                email: '',
-                fecha_nacimiento: '',
-                lugar_nacimiento: '',
-                ubigeo_id: '',
-                ocupacion: '',
-                nivel_instruccion: '',
-                sexo: 'H',
-                estadocivil_id: '',
-                profesion: '',
-                foto: 'no-image.png',
-                condicion: '',
-                estudios: '',
-                titular_id: '',
-                user_id: '',
-                image: ''
-            },
             nivelesinstruccion: [{ value: 1, text: 'Primaria' }, { value: 2, text: 'Secundaria' }, { value: 3, text: 'Tecnico' }, { value: 4, text: 'Universitario' }]
         };
     },
@@ -49576,33 +49559,33 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$router.push({ name: 'AfiDatosPersonales', params: { afiliado: row.id } });
         },
         getImagen: function getImagen(imagen) {
-            this.dataAfiliado.image = imagen;
+            this.afiliadoByid.image = imagen;
         },
         getClear: function getClear() {
             console.log("evento clear");
         },
         getPro: function getPro() {
             this.codpro = "";
-            this.dataAfiliado.ubigeo_id = "";
+            this.afiliadoByid.ubigeo_id = "";
         },
         getDis: function getDis() {
-            this.dataAfiliado.ubigeo_id = "";
+            this.afiliadoByid.ubigeo_id = "";
         },
         onSelectNI: function onSelectNI(item_ni) {
             this.item_ni = item_ni;
-            this.dataAfiliado.nivelinstruccion = item_ni.value;
+            this.afiliadoByid.nivelinstruccion = item_ni.value;
         },
         resetNI: function resetNI() {
             this.item_ni = {};
-            this.dataAfiliado.nivelinstruccion = '';
+            this.afiliadoByid.nivelinstruccion = '';
         },
         onSelectEC: function onSelectEC(item_ec) {
             this.item_ec = item_ec;
-            this.dataAfiliado.estadocivil_id = item_ec.value;
+            this.afiliadoByid.estadocivil_id = item_ec.value;
         },
         resetEC: function resetEC() {
             this.item_ec = {};
-            this.dataAfiliado.estadocivil_id = '';
+            this.afiliadoByid.estadocivil_id = '';
         },
         onSelectDpto: function onSelectDpto(item_dpto) {
             this.item_dpto = item_dpto;
@@ -49655,16 +49638,124 @@ var render = function() {
       _c("h4", [_vm._v("Datos Personales")]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Credencial")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.credencial,
+                expression: "afiliadoByid.credencial"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", required: "" },
+            domProps: { value: _vm.afiliadoByid.credencial },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "credencial", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group has-warning" }, [
-          _vm._m(4),
+          _c("label", { staticClass: "control-label" }, [_vm._v("Nombres")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.nombres,
+                expression: "afiliadoByid.nombres"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", required: "" },
+            domProps: { value: _vm.afiliadoByid.nombres },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "nombres", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [
+            _vm._v("Apellido Paterno")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.apellido_paterno,
+                expression: "afiliadoByid.apellido_paterno"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", required: "" },
+            domProps: { value: _vm.afiliadoByid.apellido_paterno },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.afiliadoByid,
+                  "apellido_paterno",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [
+            _vm._v("Apellido Materno")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.apellido_materno,
+                expression: "afiliadoByid.apellido_materno"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", required: "" },
+            domProps: { value: _vm.afiliadoByid.apellido_materno },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.afiliadoByid,
+                  "apellido_materno",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "mb-20" }, [
             _c("p", { staticClass: "mb-0" }, [
@@ -49674,8 +49765,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.dataAfiliado.sexo,
-                    expression: "dataAfiliado.sexo"
+                    value: _vm.afiliadoByid.sexo,
+                    expression: "afiliadoByid.sexo"
                   }
                 ],
                 attrs: {
@@ -49685,10 +49776,10 @@ var render = function() {
                   value: "H",
                   required: ""
                 },
-                domProps: { checked: _vm._q(_vm.dataAfiliado.sexo, "H") },
+                domProps: { checked: _vm._q(_vm.afiliadoByid.sexo, "H") },
                 on: {
                   change: function($event) {
-                    _vm.$set(_vm.dataAfiliado, "sexo", "H")
+                    _vm.$set(_vm.afiliadoByid, "sexo", "H")
                   }
                 }
               }),
@@ -49698,8 +49789,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.dataAfiliado.sexo,
-                    expression: "dataAfiliado.sexo"
+                    value: _vm.afiliadoByid.sexo,
+                    expression: "afiliadoByid.sexo"
                   }
                 ],
                 attrs: {
@@ -49708,10 +49799,10 @@ var render = function() {
                   id: "genderF",
                   value: "M"
                 },
-                domProps: { checked: _vm._q(_vm.dataAfiliado.sexo, "M") },
+                domProps: { checked: _vm._q(_vm.afiliadoByid.sexo, "M") },
                 on: {
                   change: function($event) {
-                    _vm.$set(_vm.dataAfiliado, "sexo", "M")
+                    _vm.$set(_vm.afiliadoByid, "sexo", "M")
                   }
                 }
               })
@@ -49719,13 +49810,109 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(5),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Numero DNI")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.dni,
+                expression: "afiliadoByid.dni"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", required: "" },
+            domProps: { value: _vm.afiliadoByid.dni },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "dni", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(6),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Telefono")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.telefono,
+                expression: "afiliadoByid.telefono"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.telefono },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "telefono", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(7),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Celular")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.celular,
+                expression: "afiliadoByid.celular"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.celular },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "celular", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(8),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Email")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.email,
+                expression: "afiliadoByid.email"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "email", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group has-warning" }, [
           _c("label", { staticClass: "control-label" }, [
@@ -49738,11 +49925,11 @@ var render = function() {
               _c("masked-input", {
                 attrs: { mask: "11/11/1111", placeholder: "DD/MM/YYYY" },
                 model: {
-                  value: _vm.dataAfiliado.fecha_nacimiento,
+                  value: _vm.afiliadoByid.fecha_nacimiento,
                   callback: function($$v) {
-                    _vm.$set(_vm.dataAfiliado, "fecha_nacimiento", $$v)
+                    _vm.$set(_vm.afiliadoByid, "fecha_nacimiento", $$v)
                   },
-                  expression: "dataAfiliado.fecha_nacimiento"
+                  expression: "afiliadoByid.fecha_nacimiento"
                 }
               })
             ],
@@ -49752,7 +49939,37 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
-        _vm._m(9),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [
+            _vm._v("Lugar de Nacimiento")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.lugar_nacimiento,
+                expression: "afiliadoByid.lugar_nacimiento"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.lugar_nacimiento },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.afiliadoByid,
+                  "lugar_nacimiento",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group has-warning" }, [
           _c(
@@ -49910,7 +50127,35 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _vm._m(10),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c(
+            "label",
+            { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10" },
+            [_vm._v("Domicilio")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.domicilio,
+                expression: "afiliadoByid.domicilio"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.domicilio },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "domicilio", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group has-warning" }, [
           _c(
@@ -50018,60 +50263,98 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _vm._m(11),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c(
+            "label",
+            {
+              staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0"
+            },
+            [_vm._v("Ocupación")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.ocupacion,
+                expression: "afiliadoByid.ocupacion"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.ocupacion },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "ocupacion", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(12),
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Profesión")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.profesion,
+                expression: "afiliadoByid.profesion"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.profesion },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "profesion", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(13)
-      ])
+        _c("div", { staticClass: "form-group has-warning" }, [
+          _c("label", { staticClass: "control-label" }, [_vm._v("Estudios")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.afiliadoByid.estudios,
+                expression: "afiliadoByid.estudios"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.afiliadoByid.estudios },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.afiliadoByid, "estudios", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm._m(1)
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Credencial")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Nombres")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [
-        _vm._v("Apellido Paterno")
-      ]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [
-        _vm._v("Apellido Materno")
-      ]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -50085,101 +50368,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Numero DNI")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Telefono")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Celular")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Email")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [
-        _vm._v("Lugar de Nacimiento")
-      ]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c(
-        "label",
-        { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10" },
-        [_vm._v("Domicilio")]
-      ),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c(
-        "label",
-        { staticClass: "control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0" },
-        [_vm._v("Ocupación")]
-      ),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Profesión")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group has-warning" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("Estudios")]),
-      _vm._v(" "),
-      _c("input", { staticClass: "form-control", attrs: { type: "text" } })
-    ])
+    return _c(
+      "div",
+      {
+        staticClass: "col-md-12 mt-20 pt-10",
+        staticStyle: { "border-top": "1px solid #000" }
+      },
+      [
+        _c("div", { staticClass: "form-footer mt-10" }, [
+          _c("div", { staticClass: "col-sm-offset-3 pull-right mb-20 pr-10" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn-success", attrs: { type: "submit" } },
+              [
+                _c("i", { staticClass: "fa fa-check-square-o" }),
+                _vm._v(" Actualizar")
+              ]
+            )
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

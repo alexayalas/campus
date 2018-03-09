@@ -6,56 +6,56 @@
             <div class="col-md-6">
                 <div class="form-group has-warning">
                     <label class="control-label">Credencial</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.credencial" required/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Nombres</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.nombres" required/>
                 </div>
                 <div class="form-group has-warning">         
                     <label class="control-label">Apellido Paterno</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.apellido_paterno" required/>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Apellido Materno</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.apellido_materno" required/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Sexo <span class="asterisk">*</span></label>
                     <div class="mb-20">
                     <p class="mb-0">
-                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataAfiliado.sexo" required />
-                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataAfiliado.sexo" />
+                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="afiliadoByid.sexo" required />
+                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="afiliadoByid.sexo" />
                     </p>
                     </div>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Numero DNI</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.dni" required/>
                 </div>  
                 <div class="form-group has-warning">
                     <label class="control-label">Telefono</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.telefono"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Celular</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.celular"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Email</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.email"/>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Fec.Nacimiento </label>
                     <div>
-                    <masked-input v-model="dataAfiliado.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                    <masked-input v-model="afiliadoByid.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                     </div>
                 </div>                                    
             </div>                                
             <div class="col-md-6">
                 <div class="form-group has-warning">
                     <label class="control-label">Lugar de Nacimiento</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.lugar_nacimiento"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.domicilio"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
@@ -134,17 +134,26 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.ocupacion"/>
                 </div>  
                 <div class="form-group has-warning">
                     <label class="control-label">Profesión</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.profesion"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Estudios</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" v-model="afiliadoByid.estudios"/>
                 </div>
                                                    
+            </div>
+            <hr/>
+            <div class="col-md-12 mt-20 pt-10" style="border-top:1px solid #000;">
+                <div class="form-footer mt-10">
+                    <div class="col-sm-offset-3 pull-right mb-20 pr-10">
+                        <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>-->
+                        <button type="submit" class="btn btn-success"><i class="fa fa-check-square-o"></i> Actualizar</button>
+                    </div>
+                </div><!-- /.form-footer -->
             </div>                                                                                
         </div>
         <!-- END FORM VALIDATION STATES -->                          
@@ -161,9 +170,7 @@ export default {
     mounted() {
       //this.show = typeof this.patientByid === 'undefined' ? true : false 
       // cargamos los datos del paciente
-        console.log("datitos: ",this.afiliadoByid)
         if(typeof this.afiliadoByid != 'undefined'){
-            console.log("datitos: ",this.afiliadoByid)
             //this.show = false
             if(this.afiliadoByid.ubigeo_id != null){
                 this.coddep = this.afiliadoByid.ubigeo.coddpto;
@@ -177,15 +184,12 @@ export default {
                         this.item_dist = this.distritosBy.find(dist => dist.value == this.afiliadoByid.ubigeo_id)
                     }
             }
-    /*         if(this.patientByid.typedocument_id != null){
-            this.item_doc = this.typedocuments.find(type => type.value == this.afiliadoByid.typedocument_id)
+            if(this.afiliadoByid.estadocivil_id != null){
+                this.item_ec = this.estadosciviles.find(type => type.value == this.afiliadoByid.estadocivil_id)
             }
-            if(this.patientByid.catchment_id != null){
-            this.item_cap = this.captaciones.find(captac => captac.value == this.afiliadoByid.catchment_id)
+            if(this.afiliadoByid.nivel_instruccion != null){
+                this.item_ni = this.nivelesinstruccion.find(niv => niv.value == this.afiliadoByid.nivel_instruccion)
             }  
-            if(this.patientByid.venue_id != null){
-            this.item_sed = this.sedes.find(se => se.value == this.afiliadoByid.venue_id)
-            }  */                    
         }      
     },    
     data() {
@@ -204,31 +208,6 @@ export default {
             id_pro:'0',
             id_dis:'0', 
 
-            dataAfiliado : {
-                credencial:'',
-                apellido_paterno:'',
-                apellido_materno:'',
-                nombres:'',
-                domicilio: '',
-                dni:'',
-                telefono:'',
-                celular:'',
-                email:'',
-                fecha_nacimiento:'',
-                lugar_nacimiento:'',
-                ubigeo_id:'',
-                ocupacion:'',
-                nivel_instruccion:'',
-                sexo:'H',
-                estadocivil_id:'',
-                profesion:'',
-                foto:'no-image.png',
-                condicion:'',
-                estudios:'',
-                titular_id:'',
-                user_id:'',
-                image: ''       
-            },
             nivelesinstruccion :[
                 {value: 1 , text: 'Primaria'},
                 {value: 2 , text: 'Secundaria'},
@@ -265,33 +244,33 @@ export default {
             this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
         }, 
         getImagen: function(imagen){
-            this.dataAfiliado.image = imagen;
+            this.afiliadoByid.image = imagen;
         },
         getClear: function(){
             console.log("evento clear");
         },
         getPro: function(){
             this.codpro = "";
-            this.dataAfiliado.ubigeo_id ="";
+            this.afiliadoByid.ubigeo_id ="";
         },
         getDis: function(){
-            this.dataAfiliado.ubigeo_id ="";
+            this.afiliadoByid.ubigeo_id ="";
         },
         onSelectNI (item_ni) {
             this.item_ni = item_ni
-            this.dataAfiliado.nivelinstruccion = item_ni.value
+            this.afiliadoByid.nivelinstruccion = item_ni.value
         },
         resetNI () {
             this.item_ni = {}
-            this.dataAfiliado.nivelinstruccion = ''   
+            this.afiliadoByid.nivelinstruccion = ''   
         },
         onSelectEC (item_ec) {
             this.item_ec = item_ec
-            this.dataAfiliado.estadocivil_id = item_ec.value
+            this.afiliadoByid.estadocivil_id = item_ec.value
         },
         resetEC () {
             this.item_ec = {}
-            this.dataAfiliado.estadocivil_id = ''
+            this.afiliadoByid.estadocivil_id = ''
         },      
         onSelectDpto (item_dpto) {
             this.item_dpto = item_dpto
