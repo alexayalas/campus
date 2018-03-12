@@ -282,7 +282,8 @@ export default {
             this.item_dpto = {}
             this.coddep = ''
             this.id_dep = '0'        
-            this.resetProv()        
+            this.resetProv()   
+            console.log("hola")     
         },   
         onSelectProv (item_prov) {
             this.item_prov = item_prov
