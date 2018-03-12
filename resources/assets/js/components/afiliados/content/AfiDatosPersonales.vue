@@ -10,15 +10,15 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Nombres</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.nombres" required/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.nombres" required/>
                 </div>
                 <div class="form-group has-warning">         
                     <label class="control-label">Apellido Paterno</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.apellido_paterno" required/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.apellido_paterno" required/>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Apellido Materno</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.apellido_materno" required/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.apellido_materno" required/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Sexo <span class="asterisk">*</span></label>
@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="form-group has-warning">
                     <label class="control-label">Lugar de Nacimiento</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.lugar_nacimiento"/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.lugar_nacimiento"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.domicilio"/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.domicilio"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
@@ -134,15 +134,15 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.ocupacion"/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.ocupacion"/>
                 </div>  
                 <div class="form-group has-warning">
                     <label class="control-label">Profesión</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.profesion"/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.profesion"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Estudios</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.estudios"/>
+                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.estudios"/>
                 </div>
                                                    
             </div>
@@ -151,7 +151,7 @@
                 <div class="form-footer mt-10">
                     <div class="col-sm-offset-3 pull-right mb-20 pr-10">
                         <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>-->
-                        <button type="submit" class="btn btn-success"><i class="fa fa-check-square-o"></i> Actualizar</button>
+                        <button type="button" @click.prevent="updateAfiliado" class="btn btn-success"><i class="fa fa-check-square-o"></i> Actualizar</button>
                     </div>
                 </div><!-- /.form-footer -->
             </div>                                                                                
@@ -243,6 +243,42 @@ export default {
             console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
         }, 
+        updateAfiliado: function(){
+            if(this.id_dep != '0'){
+                this.afiliadoByid.ubigeo_id = this.id_dep          
+            } 
+            if (this.id_pro != '0') {
+                this.afiliadoByid.ubigeo_id = this.id_pro
+            }  
+            if (this.id_dis != '0') {
+                this.afiliadoByid.ubigeo_id = this.id_dis
+            }                                   
+            var data_completa = this.afiliadoByid
+            var url = '/api/afiliados/'+this.$route.params.afiliado;
+
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            axios.put(url, data_completa).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.errors = [];
+            toastr.success('se actualizo el afiliado con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },        
         getImagen: function(imagen){
             this.afiliadoByid.image = imagen;
         },
@@ -283,7 +319,6 @@ export default {
             this.coddep = ''
             this.id_dep = '0'        
             this.resetProv()   
-            console.log("hola")     
         },   
         onSelectProv (item_prov) {
             this.item_prov = item_prov

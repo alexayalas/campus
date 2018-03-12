@@ -154,7 +154,49 @@ class AfiliadosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction(); 
+        $afe_pac = $request->get('afecciones');
+        try {
+            $rules = ['nombres'     => 'required',
+                      'apellido_paterno' => 'required',
+                      'apellido_materno' => 'required',
+                      'credencial' => 'required',
+                      'dni' => 'required'
+                    ];
+  
+            if($request->has('fecha_nacimiento')){
+                $rules = array_add($rules, 'fecha_nacimiento', 'date_format:d/m/Y');
+            }
+            if($request->get('image')){
+                $rules = array_add($rules, 'image', 'image64:jpeg,jpg,png');
+            }
+            $messages = ['fecha_nacimiento.date_format' => 'Formato de fecha invalido',
+                        'image.image64' => 'formato de imagen invalido'];
+    
+            $validator = Validator::make($request->all(), $rules , $messages);
+            if ($validator->fails()) {
+                return response()->json(['errors'=>$validator->errors()]);
+            }
+
+            $afiliado = Afiliado::find($id);
+            $afiliado->fill($request->all());
+            $afiliado->fecha_nacimiento = empty($afiliado->fecha_nacimiento) ? null : date("Y-m-d", strtotime($afiliado->fecha_nacimiento));
+            $afiliado->nombres = Str::upper($afiliado->nombres);
+            $afiliado->apellido_paterno = Str::upper($afiliado->apellido_paterno);
+            $afiliado->apellido_materno = Str::upper($afiliado->apellido_materno);          
+            $afiliado->nombre_completo = Str::upper($afiliado->nombres).' '.Str::upper($afiliado->apellido_paterno).' '.Str::upper($afiliado->apellido_materno);
+            $afiliado->ubigeo_id = ($afiliado->ubigeo_id == 0 ? null : $afiliado->ubigeo_id);
+  
+            $afiliado->save();
+  
+          DB::commit();           
+          return;
+        } catch (Exception $e) {
+          DB::rollback();          
+          return response()->json(
+              ['status' => $e->getMessage()], 422
+          );
+        }
     }
 
     /**
