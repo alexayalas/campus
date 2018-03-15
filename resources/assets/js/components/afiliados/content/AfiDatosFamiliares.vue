@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-9">
         <!-- START FORM VALIDATION STATES -->
-        <div class="block">                            
+        <div class="block" v-if="conyuge_afiliadoByid != null">                            
             <h4>Datos Familiares</h4> 
             <div>
                 <h3>Datos del Conyuge</h3>
@@ -9,52 +9,52 @@
             <div class="col-md-6">
                 <div class="form-group has-warning">
                     <label class="control-label">Nombres</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.nombres" required/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.nombres" required/>
                 </div>
                 <div class="form-group has-warning">         
                     <label class="control-label">Apellido Paterno</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.apellido_paterno" required/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_paterno" required/>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Apellido Materno</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.apellido_materno" required/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_materno" required/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Sexo <span class="asterisk">*</span></label>
                     <div class="mb-20">
                     <p class="mb-0">
-                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="afiliadoByid.sexo" required />
-                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="afiliadoByid.sexo" />
+                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="conyuge_afiliadoByid.sexo" required />
+                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="conyuge_afiliadoByid.sexo" />
                     </p>
                     </div>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Numero DNI</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.dni" required/>
+                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.dni" required/>
                 </div>  
                 <div class="form-group has-warning">
                     <label class="control-label">Telefono</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.telefono"/>
+                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.telefono"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Celular</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.celular"/>
+                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.celular"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Email</label>
-                    <input type="text" class="form-control" v-model="afiliadoByid.email"/>
+                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.email"/>
                 </div> 
                 <div class="form-group has-warning">
                     <label class="control-label">Fec.Nacimiento </label>
                     <div>
-                    <masked-input v-model="afiliadoByid.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                    <masked-input v-model="conyuge_afiliadoByid.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                     </div>
                 </div>                                    
             </div>                                
             <div class="col-md-6">
                 <div class="form-group has-warning">
                     <label class="control-label">Lugar de Nacimiento</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.lugar_nacimiento"/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.lugar_nacimiento"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.domicilio"/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.domicilio"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
@@ -133,15 +133,15 @@
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.ocupacion"/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.ocupacion"/>
                 </div>  
                 <div class="form-group has-warning">
                     <label class="control-label">Profesión</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.profesion"/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.profesion"/>
                 </div>
                 <div class="form-group has-warning">
                     <label class="control-label">Estudios</label>
-                    <input type="text" class="form-control mayusculas" v-model="afiliadoByid.estudios"/>
+                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.estudios"/>
                 </div>
                                                    
             </div>
@@ -155,8 +155,49 @@
                 </div><!-- /.form-footer -->
             </div>                                                                                
         </div>
-        <!-- END FORM VALIDATION STATES -->                          
-        
+        <!-- END FORM VALIDATION STATES --> 
+        <!-- DATA EMPTY CONYUGE -->   
+        <div class="block" v-if="conyuge_afiliadoByid == null">
+            <h4>Datos Familiares</h4> 
+            <div>
+                <h3>Datos del Conyuge</h3>
+            </div>             
+            <div class="text-center">
+                <label for="" class="form-control text-center" >No hay datos para mostrar</label>
+                <button class="btn btn-success">Agregar Conyuge</button>
+            </div>
+        </div>                 
+        <!-- END DATA EMPTY CONYUGE -->     
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">                                
+<!--                         <h3 class="panel-title">JR</h3>  --> 
+                        <ul class="panel-controls">
+                            <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Agregar Hijo</button></li>
+                        </ul>                                                        
+                    </div>
+                    <div class="panel-body">
+                        <vue-good-table
+                        title="Hijos del Afiliado"
+                        :columns="columns"
+                        :rows="hijos"
+                        :paginate="true"
+                        :lineNumbers="true"
+                        :onClick="onClickFn"
+                        :rowsPerPageText="textpage"
+                        :nextText="textnext"
+                        :prevText="textprev"
+                        :ofText="textof"
+                        styleClass="table condensed table-bordered table-striped"/>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+
+            </div>
+        </div>        
     </div>    
 </template>
 <script>
@@ -167,6 +208,7 @@ import { mapState, mapGetters } from 'vuex'
 export default {
     name:'afidatospersonales',
     mounted() {
+        console.log("conyuge : ",this.conyuge_afiliadoByid)
       //this.show = typeof this.patientByid === 'undefined' ? true : false 
       // cargamos los datos del paciente
         if(typeof this.afiliadoByid != 'undefined'){
@@ -207,6 +249,45 @@ export default {
             id_pro:'0',
             id_dis:'0', 
 
+            textpage: 'Registros por pagina',
+            textnext:'Sig',
+            textprev:'Ant',
+            textof:'de',
+            columns: [
+                {
+                label: 'Credencial',
+                field: 'credencial',
+                filterable: true,
+                width:'10%',
+                },
+                {
+                label: 'Afiliado',
+                field: 'nombre_completo',
+                filterable: true,
+                width:'30%',                
+                },
+                {
+                label: 'DNI',
+                field: 'dni',
+                width:'10%',                
+                },
+                {
+                label: 'Telefono',
+                field: 'telefono',
+                width:'10%',                
+                },
+                {
+                label: 'Celular',
+                field: 'celular',
+                width:'10%',                
+                }, 
+                {
+                label: 'Email',
+                field: 'email',
+                width:'30%',                
+                },                               
+            ],
+
             nivelesinstruccion :[
                 {value: 1 , text: 'Primaria'},
                 {value: 2 , text: 'Secundaria'},
@@ -220,11 +301,11 @@ export default {
       BasicSelect
     },
     computed: {
-        ...mapState(['afiliados','estadosciviles']),
-        ...mapGetters(['getAfiliadoById','getubigeos']),
-        afiliadoByid: function(){
+        ...mapState(['afiliados','hijos','estadosciviles']),
+        ...mapGetters(['getAfiliadoById','getConyugeAfiliadoById','getubigeos']),
+        conyuge_afiliadoByid: function(){
             //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
-            return this.getAfiliadoById(this.$route.params.afiliado);
+            return this.getConyugeAfiliadoById(this.$route.params.afiliado);
         },        
         departamentosBy: function(){
             return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
