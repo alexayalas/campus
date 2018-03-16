@@ -1,173 +1,179 @@
 <template>
     <div class="col-md-9">
-        <!-- START FORM VALIDATION STATES -->
-        <div class="block" v-if="conyuge_afiliadoByid != null">                            
-            <h4>Datos Familiares</h4> 
-            <div>
-                <h3>Datos del Conyuge</h3>
-            </div>                               
-            <div class="col-md-6">
-                <div class="form-group has-warning">
-                    <label class="control-label">Nombres</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.nombres" required/>
-                </div>
-                <div class="form-group has-warning">         
-                    <label class="control-label">Apellido Paterno</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_paterno" required/>
-                </div> 
-                <div class="form-group has-warning">
-                    <label class="control-label">Apellido Materno</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_materno" required/>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label">Sexo <span class="asterisk">*</span></label>
-                    <div class="mb-20">
-                    <p class="mb-0">
-                        Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="conyuge_afiliadoByid.sexo" required />
-                        Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="conyuge_afiliadoByid.sexo" />
-                    </p>
+        <transition name="fade">
+            <!-- START FORM VALIDATION STATES -->
+            <div class="block" v-if="opsee">                            
+                <h4>Datos Familiares</h4> 
+                <div>
+                    <h3>Datos del Conyuge</h3>
+                </div>                               
+                <div class="col-md-6">
+                    <div class="form-group has-warning">
+                        <label class="control-label">Nombres</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.nombres" required/>
                     </div>
-                </div> 
-                <div class="form-group has-warning">
-                    <label class="control-label">Numero DNI</label>
-                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.dni" required/>
-                </div>  
-                <div class="form-group has-warning">
-                    <label class="control-label">Telefono</label>
-                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.telefono"/>
+                    <div class="form-group has-warning">         
+                        <label class="control-label">Apellido Paterno</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_paterno" required/>
+                    </div> 
+                    <div class="form-group has-warning">
+                        <label class="control-label">Apellido Materno</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.apellido_materno" required/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label">Sexo <span class="asterisk">*</span></label>
+                        <div class="mb-20">
+                        <p class="mb-0">
+                            Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="conyuge_afiliadoByid.sexo" required />
+                            Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="conyuge_afiliadoByid.sexo" />
+                        </p>
+                        </div>
+                    </div> 
+                    <div class="form-group has-warning">
+                        <label class="control-label">Numero DNI</label>
+                        <input type="text" class="form-control" v-model="conyuge_afiliadoByid.dni" required/>
+                    </div>  
+                    <div class="form-group has-warning">
+                        <label class="control-label">Telefono</label>
+                        <input type="text" class="form-control" v-model="conyuge_afiliadoByid.telefono"/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label">Celular</label>
+                        <input type="text" class="form-control" v-model="conyuge_afiliadoByid.celular"/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label">Email</label>
+                        <input type="text" class="form-control" v-model="conyuge_afiliadoByid.email"/>
+                    </div> 
+                    <div class="form-group has-warning">
+                        <label class="control-label">Fec.Nacimiento </label>
+                        <div>
+                        <masked-input v-model="conyuge_afiliadoByid.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                        </div>
+                    </div>                                    
+                </div>                                
+                <div class="col-md-6">
+                    <div class="form-group has-warning">
+                        <label class="control-label">Lugar de Nacimiento</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.lugar_nacimiento"/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
+                        <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                            <basic-select :options="departamentosBy"
+                            :selected-option="item_dpto"
+                            placeholder="seleccione una opción"
+                            @select="onSelectDpto">
+                            </basic-select>
+                        </div>
+                        <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dpto.text"></span>
+                        <div class="col-md-1 col-sm-1 ml-10" v-if="item_dpto.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDpto"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Provincia</label>
+                        <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                            <basic-select :options="provinciasBy"
+                            :selected-option="item_prov"
+                            placeholder="seleccione una opción"
+                            @select="onSelectProv">
+                            </basic-select>
+                        </div>
+                        <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_prov.text"></span>
+                        <div class="col-md-1 col-sm-1 ml-10" v-if="item_prov.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetProv"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>  
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Distrito</label>
+                        <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                            <basic-select :options="distritosBy"
+                            :selected-option="item_dist"
+                            placeholder="seleccione una opción"
+                            @select="onSelectDist">
+                            </basic-select>
+                        </div>
+                        <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dist.text"></span>
+                        <div class="col-md-1 col-sm-1 ml-10" v-if="item_dist.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDist"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.domicilio"/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
+                        <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                            <basic-select :options="estadosciviles"
+                            :selected-option="item_ec"
+                            placeholder="seleccione una opción"
+                            @select="onSelectEC">
+                            </basic-select>
+                        </div>
+                        <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ec.text"></span>
+                        <div class="col-md-1 col-sm-1 ml-10" v-if="item_ec.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetEC"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Nivel de Instrucción </label>
+                        <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
+                            <basic-select :options="nivelesinstruccion"
+                            :selected-option="item_ni"
+                            placeholder="seleccione una opción"
+                            @select="onSelectNI">
+                            </basic-select>
+                        </div>
+                        <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ni.text"></span>
+                        <div class="col-md-1 col-sm-1 ml-10" v-if="item_ni.text">
+                            <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetNI"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                        </div>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.ocupacion"/>
+                    </div>  
+                    <div class="form-group has-warning">
+                        <label class="control-label">Profesión</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.profesion"/>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label class="control-label">Estudios</label>
+                        <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.estudios"/>
+                    </div>
+                                                    
                 </div>
-                <div class="form-group has-warning">
-                    <label class="control-label">Celular</label>
-                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.celular"/>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label">Email</label>
-                    <input type="text" class="form-control" v-model="conyuge_afiliadoByid.email"/>
-                </div> 
-                <div class="form-group has-warning">
-                    <label class="control-label">Fec.Nacimiento </label>
-                    <div>
-                    <masked-input v-model="conyuge_afiliadoByid.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
-                    </div>
-                </div>                                    
-            </div>                                
-            <div class="col-md-6">
-                <div class="form-group has-warning">
-                    <label class="control-label">Lugar de Nacimiento</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.lugar_nacimiento"/>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0">Departamento</label>
-                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
-                        <basic-select :options="departamentosBy"
-                        :selected-option="item_dpto"
-                        placeholder="seleccione una opción"
-                        @select="onSelectDpto">
-                        </basic-select>
-                    </div>
-                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dpto.text"></span>
-                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_dpto.text">
-                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDpto"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
-                    </div>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Provincia</label>
-                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
-                        <basic-select :options="provinciasBy"
-                        :selected-option="item_prov"
-                        placeholder="seleccione una opción"
-                        @select="onSelectProv">
-                        </basic-select>
-                    </div>
-                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_prov.text"></span>
-                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_prov.text">
-                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetProv"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
-                    </div>
-                </div>  
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Distrito</label>
-                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
-                        <basic-select :options="distritosBy"
-                        :selected-option="item_dist"
-                        placeholder="seleccione una opción"
-                        @select="onSelectDist">
-                        </basic-select>
-                    </div>
-                    <span class="col-md-1 col-sm-1 glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_dist.text"></span>
-                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_dist.text">
-                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetDist"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
-                    </div>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10">Domicilio</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.domicilio"/>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mb-0">Estado Civil </label>
-                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
-                        <basic-select :options="estadosciviles"
-                        :selected-option="item_ec"
-                        placeholder="seleccione una opción"
-                        @select="onSelectEC">
-                        </basic-select>
-                    </div>
-                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ec.text"></span>
-                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_ec.text">
-                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetEC"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Nivel de Instrucción </label>
-                    <div class="col-md-10 col-sm-10 col-xs-10 pl-0">
-                        <basic-select :options="nivelesinstruccion"
-                        :selected-option="item_ni"
-                        placeholder="seleccione una opción"
-                        @select="onSelectNI">
-                        </basic-select>
-                    </div>
-                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_ni.text"></span>
-                    <div class="col-md-1 col-sm-1 ml-10" v-if="item_ni.text">
-                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right mb-10" @click.prevent="resetNI"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
-                    </div>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label col-md-12 col-sm-12 pl-0 mt-10 mb-0">Ocupación</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.ocupacion"/>
-                </div>  
-                <div class="form-group has-warning">
-                    <label class="control-label">Profesión</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.profesion"/>
-                </div>
-                <div class="form-group has-warning">
-                    <label class="control-label">Estudios</label>
-                    <input type="text" class="form-control mayusculas" v-model="conyuge_afiliadoByid.estudios"/>
-                </div>
-                                                   
+                <hr/>
+                <div class="col-md-12 mt-20 pt-10" style="border-top:1px solid #000;">
+                    <div class="form-footer mt-10">
+                        <div class="col-sm-offset-3 pull-right mb-20 pr-10">
+                            <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>-->
+                            <button type="button" @click.prevent="opsee = false" v-if="opbtn" class="btn btn-danger"><i class="fa fa-check-square-o"></i> Cancelar</button>
+                            <button type="button" @click.prevent="createAfiliado" v-if="opbtn" class="btn btn-success"><i class="fa fa-check-square-o"></i> Grabar</button>
+                            <button type="button" @click.prevent="updateAfiliado" v-if="!opbtn" class="btn btn-success"><i class="fa fa-check-square-o"></i> Actualizar</button>
+                        </div>
+                    </div><!-- /.form-footer -->
+                </div>                                                                                
             </div>
-            <hr/>
-            <div class="col-md-12 mt-20 pt-10" style="border-top:1px solid #000;">
-                <div class="form-footer mt-10">
-                    <div class="col-sm-offset-3 pull-right mb-20 pr-10">
-                        <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>-->
-                        <button type="button" @click.prevent="updateAfiliado" class="btn btn-success"><i class="fa fa-check-square-o"></i> Actualizar</button>
-                    </div>
-                </div><!-- /.form-footer -->
-            </div>                                                                                
-        </div>
-        <!-- END FORM VALIDATION STATES --> 
-        <!-- DATA EMPTY CONYUGE -->   
-        <div class="block" v-if="conyuge_afiliadoByid == null">
-            <h4>Datos Familiares</h4> 
-            <div>
-                <h3>Datos del Conyuge</h3>
-            </div>             
-            <div class="text-center">
-                <label for="" class="form-control text-center" >No hay datos para mostrar</label>
-                <button class="btn btn-success">Agregar Conyuge</button>
-            </div>
-        </div>                 
-        <!-- END DATA EMPTY CONYUGE -->     
+            <!-- END FORM VALIDATION STATES --> 
+        </transition>
+        <transition name="fade">        
+            <!-- DATA EMPTY CONYUGE -->   
+            <div class="block" v-if="!opsee">
+                <h4>Datos Familiares</h4> 
+                <div>
+                    <h3>Datos del Conyuge</h3>
+                </div>             
+                <div class="text-center">
+                    <label for="" class="form-control text-center" >No hay datos para mostrar</label>
+                    <button class="btn btn-success" @click.prevent="opsee = true">Agregar Conyuge</button>
+                </div>
+            </div>                 
+            <!-- END DATA EMPTY CONYUGE -->  
+        </transition>   
         <div class="row">
             <div class="col-md-12">
 
@@ -211,25 +217,28 @@ export default {
         console.log("conyuge : ",this.conyuge_afiliadoByid)
       //this.show = typeof this.patientByid === 'undefined' ? true : false 
       // cargamos los datos del paciente
-        if(typeof this.afiliadoByid != 'undefined'){
+        if(typeof this.getConyugeAfiliadoById(this.$route.params.afiliado) != 'undefined'){
+            this.opsee = true
+            this.opbtn = false
             //this.show = false
-            if(this.afiliadoByid.ubigeo_id != null){
-                this.coddep = this.afiliadoByid.ubigeo.coddpto;
-                this.codpro = this.afiliadoByid.ubigeo.codprov;
-                this.coddis = this.afiliadoByid.ubigeo.coddist;          
-                this.item_dpto = this.departamentosBy.find(depa => depa.coddpto == this.afiliadoByid.ubigeo.coddpto)
+            this.conyuge_afiliadoByid = this.getConyugeAfiliadoById(this.$route.params.afiliado)            
+            if(this.conyuge_afiliadoByid.ubigeo_id != null){
+                this.coddep = this.conyuge_afiliadoByid.ubigeo.coddpto;
+                this.codpro = this.conyuge_afiliadoByid.ubigeo.codprov;
+                this.coddis = this.conyuge_afiliadoByid.ubigeo.coddist;          
+                this.item_dpto = this.departamentosBy.find(depa => depa.coddpto == this.conyuge_afiliadoByid.ubigeo.coddpto)
                     if(this.codpro != '00'){
-                        this.item_prov = this.provinciasBy.find(provi => provi.codprov == this.afiliadoByid.ubigeo.codprov)
+                        this.item_prov = this.provinciasBy.find(provi => provi.codprov == this.conyuge_afiliadoByid.ubigeo.codprov)
                     }
                     if(this.coddis != '00'){
-                        this.item_dist = this.distritosBy.find(dist => dist.value == this.afiliadoByid.ubigeo_id)
+                        this.item_dist = this.distritosBy.find(dist => dist.value == this.conyuge_afiliadoByid.ubigeo_id)
                     }
             }
-            if(this.afiliadoByid.estadocivil_id != null){
-                this.item_ec = this.estadosciviles.find(type => type.value == this.afiliadoByid.estadocivil_id)
+            if(this.conyuge_afiliadoByid.estadocivil_id != null){
+                this.item_ec = this.estadosciviles.find(type => type.value == this.conyuge_afiliadoByid.estadocivil_id)
             }
-            if(this.afiliadoByid.nivel_instruccion != null){
-                this.item_ni = this.nivelesinstruccion.find(niv => niv.value == this.afiliadoByid.nivel_instruccion)
+            if(this.conyuge_afiliadoByid.nivel_instruccion != null){
+                this.item_ni = this.nivelesinstruccion.find(niv => niv.value == this.conyuge_afiliadoByid.nivel_instruccion)
             }  
         }      
     },    
@@ -248,6 +257,35 @@ export default {
             id_dep:'0',
             id_pro:'0',
             id_dis:'0', 
+
+            opsee: false,
+            opbtn: true,
+
+            conyuge_afiliadoByid : {
+                credencial:'0',
+                apellido_paterno:'',
+                apellido_materno:'',
+                nombres:'',
+                domicilio: '',
+                dni:'',
+                telefono:'',
+                celular:'',
+                email:'',
+                fecha_nacimiento:'',
+                lugar_nacimiento:'',
+                ubigeo_id:'',
+                ocupacion:'',
+                nivel_instruccion:'',
+                sexo:'H',
+                estadocivil_id:'',
+                profesion:'',
+                foto:'no-image.png',
+                condicion:'',
+                estudios:'',
+                titular_id:'',
+                user_id:'',
+                image: ''       
+            }, 
 
             textpage: 'Registros por pagina',
             textnext:'Sig',
@@ -303,10 +341,10 @@ export default {
     computed: {
         ...mapState(['afiliados','hijos','estadosciviles']),
         ...mapGetters(['getAfiliadoById','getConyugeAfiliadoById','getubigeos']),
-        conyuge_afiliadoByid: function(){
+/*         conyuge_afiliadoByid: function(){
             //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
             return this.getConyugeAfiliadoById(this.$route.params.afiliado);
-        },        
+        },    */     
         departamentosBy: function(){
             return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
         },
@@ -323,18 +361,61 @@ export default {
             console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
         }, 
+        createAfiliado: function(){
+            var url = '/api/afiliados';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            if(this.id_dep != '0'){
+                this.conyuge_afiliadoByid.ubigeo_id = this.id_dep
+                if (this.id_pro != '0') {
+                    this.conyuge_afiliadoByid.ubigeo_id = this.id_pro
+                    if (this.id_dis != '0') {
+                        this.conyuge_afiliadoByid.ubigeo_id = this.id_dis
+                    }
+                }            
+            }
+            this.conyuge_afiliadoByid.titular_id = this.$route.params.afiliado
+
+            axios.post(url, this.conyuge_afiliadoByid).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_AFILIADOS_LIST').then(() => {
+                this.conyuge_afiliadoByid = this.getConyugeAfiliadoById(this.$route.params.afiliado)
+            })  
+
+            //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
+            this.errors = [];
+            //this.$modal.hide('afiliado');
+            this.opbtn = false
+            toastr.success('Conyuge creado con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },         
         updateAfiliado: function(){
             if(this.id_dep != '0'){
-                this.afiliadoByid.ubigeo_id = this.id_dep          
+                this.conyuge_afiliadoByid.ubigeo_id = this.id_dep          
             } 
             if (this.id_pro != '0') {
-                this.afiliadoByid.ubigeo_id = this.id_pro
+                this.conyuge_afiliadoByid.ubigeo_id = this.id_pro
             }  
             if (this.id_dis != '0') {
-                this.afiliadoByid.ubigeo_id = this.id_dis
+                this.conyuge_afiliadoByid.ubigeo_id = this.id_dis
             }                                   
-            var data_completa = this.afiliadoByid
-            var url = '/api/afiliados/'+this.$route.params.afiliado;
+            var data_completa = this.conyuge_afiliadoByid
+            var url = '/api/afiliados/'+this.conyuge_afiliadoByid.id;
 
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
@@ -360,33 +441,33 @@ export default {
             });
         },        
         getImagen: function(imagen){
-            this.afiliadoByid.image = imagen;
+            this.conyuge_afiliadoByid.image = imagen;
         },
         getClear: function(){
             console.log("evento clear");
         },
         getPro: function(){
             this.codpro = "";
-            this.afiliadoByid.ubigeo_id ="";
+            this.conyuge_afiliadoByid.ubigeo_id ="";
         },
         getDis: function(){
-            this.afiliadoByid.ubigeo_id ="";
+            this.conyuge_afiliadoByid.ubigeo_id ="";
         },
         onSelectNI (item_ni) {
             this.item_ni = item_ni
-            this.afiliadoByid.nivelinstruccion = item_ni.value
+            this.conyuge_afiliadoByid.nivelinstruccion = item_ni.value
         },
         resetNI () {
             this.item_ni = {}
-            this.afiliadoByid.nivelinstruccion = ''   
+            this.conyuge_afiliadoByid.nivelinstruccion = ''   
         },
         onSelectEC (item_ec) {
             this.item_ec = item_ec
-            this.afiliadoByid.estadocivil_id = item_ec.value
+            this.conyuge_afiliadoByid.estadocivil_id = item_ec.value
         },
         resetEC () {
             this.item_ec = {}
-            this.afiliadoByid.estadocivil_id = ''
+            this.conyuge_afiliadoByid.estadocivil_id = ''
         },      
         onSelectDpto (item_dpto) {
             this.item_dpto = item_dpto
@@ -427,4 +508,16 @@ export default {
   
 }
 </script>
+<style scoped>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+    input.mayusculas{
+        text-transform:uppercase;
+    }       
+</style>
+
 

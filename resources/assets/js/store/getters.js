@@ -3,7 +3,7 @@ export default {
         return state.afiliados.find(afiliado => afiliado.id == id)
     },  
     getConyugeAfiliadoById: (state, getters) => (id) => {
-        return state.afiliados.find((afiliado) => afiliado.titular_id == id)
+        return state.afiliados.find((afiliado) => afiliado.titular_id == id && afiliado.activo == 1)
     },      
     getubigeos: state => {
         return state.ubigeos

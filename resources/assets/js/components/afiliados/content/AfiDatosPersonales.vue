@@ -346,4 +346,10 @@ export default {
   
 }
 </script>
+<style>
+    input.mayusculas{
+        text-transform:uppercase;
+    }   
+</style>
+
 

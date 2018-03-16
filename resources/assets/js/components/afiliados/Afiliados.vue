@@ -25,7 +25,7 @@
                             <vue-good-table
                             title="Lista General de Afiliados"
                             :columns="columns"
-                            :rows="afiliados"
+                            :rows="afiliadostitulares"
                             :paginate="true"
                             :lineNumbers="true"
                             :onClick="onClickFn"
@@ -350,6 +350,9 @@ export default {
     computed: {
         ...mapState(['afiliados','estadosciviles']),
         ...mapGetters(['getubigeos']),
+        afiliadostitulares: function() {
+            return this.afiliados.filter((afiliado) => afiliado.titular_id == null)
+        },
         departamentosBy: function(){
             return this.getubigeos.filter((ubigeo) => ubigeo.codprov == '00').filter((ubigeo) => ubigeo.coddist == '00');
         },

@@ -25,9 +25,9 @@
                 </div>
             </div>
             <div class="panel-body list-group border-bottom">
-                <a href="#" class="list-group-item active"><span class="fa fa-bar-chart-o"></span> Datos Personales</a>
+                <router-link class="list-group-item" :to="{ name: 'AfiDatosPersonales' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-bar-chart-o"></span> Datos Personales</router-link>
+<!--                 <a href="#" class="list-group-item active"><span class="fa fa-bar-chart-o"></span> Datos Personales</a> -->
                 <router-link class="list-group-item" :to="{ name: 'AfiDatosFamiliares' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-coffee"></span> Datos Familiares</router-link>
-                <a href="#" class="list-group-item"><span class="fa fa-coffee"></span> Datos Familiares </a>                                
                 <a href="#" class="list-group-item"><span class="fa fa-users"></span> Compras </a>
                 <a href="#" class="list-group-item"><span class="fa fa-folder"></span> Pagos Extraordinarios</a>
                 <a href="#" class="list-group-item"><span class="fa fa-cog"></span> Documentos</a>
