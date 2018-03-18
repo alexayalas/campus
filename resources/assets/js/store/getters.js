@@ -4,7 +4,10 @@ export default {
     },  
     getConyugeAfiliadoById: (state, getters) => (id) => {
         return state.afiliados.find((afiliado) => afiliado.titular_id == id && afiliado.activo == 1)
-    },      
+    },
+    getHijoAfiliadoById: (state, getters) => (id) => {
+        return state.hijos.filter(hijo => hijo.afiliado_id == id)
+    },           
     getubigeos: state => {
         return state.ubigeos
     },  

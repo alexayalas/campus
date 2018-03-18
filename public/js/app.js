@@ -44371,8 +44371,15 @@ var index = function(options, storage, key) {
         state.afiliados = list;
         //state.patients_paginate = list.pagination
     },
-    SET_DATA_INIT_LIST: function SET_DATA_INIT_LIST(state, _ref2) {
+    SET_HIJOS_AFILIADO_LIST: function SET_HIJOS_AFILIADO_LIST(state, _ref2) {
         var list = _ref2.list;
+        // AFILIADOS
+        state.hijos = list;
+        console.log("hijosss", list);
+        //state.patients_paginate = list.pagination
+    },
+    SET_DATA_INIT_LIST: function SET_DATA_INIT_LIST(state, _ref3) {
+        var list = _ref3.list;
 
         state.estadosciviles = list.estadosciviles;
         state.ubigeos = list.ubigeos;
@@ -44423,8 +44430,19 @@ var index = function(options, storage, key) {
             console.log(err);
         });
     },
-    LOAD_DATA_INIT_LIST: function LOAD_DATA_INIT_LIST(_ref5) {
+    LOAD_HIJOS_AFILIADO_LIST: function LOAD_HIJOS_AFILIADO_LIST(_ref5) {
         var commit = _ref5.commit;
+
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlHijos = '/api/hijos';
+        return axios.get(urlHijos).then(function (response) {
+            commit('SET_HIJOS_AFILIADO_LIST', { list: response.data });
+        }, function (err) {
+            console.log(err);
+        });
+    },
+    LOAD_DATA_INIT_LIST: function LOAD_DATA_INIT_LIST(_ref6) {
+        var commit = _ref6.commit;
 
         var urlType = '/api/afiliados/create';
         return axios.get(urlType).then(function (response) {
@@ -44452,6 +44470,13 @@ var index = function(options, storage, key) {
         return function (id) {
             return state.afiliados.find(function (afiliado) {
                 return afiliado.titular_id == id && afiliado.activo == 1;
+            });
+        };
+    },
+    getHijoAfiliadoById: function getHijoAfiliadoById(state, getters) {
+        return function (id) {
+            return state.hijos.filter(function (hijo) {
+                return hijo.afiliado_id == id;
             });
         };
     },
@@ -50643,7 +50668,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active[data-v-281c6310], .fade-leave-active[data-v-281c6310] {\n    transition: opacity .5s;\n}\n.fade-enter[data-v-281c6310], .fade-leave-to[data-v-281c6310] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\ninput.mayusculas[data-v-281c6310]{\n    text-transform:uppercase;\n}       \n", ""]);
+exports.push([module.i, "\n.fade-enter-active[data-v-281c6310], .fade-leave-active[data-v-281c6310] {\n    transition: opacity .5s;\n}\n.fade-enter[data-v-281c6310], .fade-leave-to[data-v-281c6310] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.title-form[data-v-281c6310] {\n    background-color: #347c7c;\n    color: white;\n    margin:0;\n    padding:0\n}\n.h3-title[data-v-281c6310] {\n    margin:10px 0 10px 20px;\n    color: white;\n}\n.close-form[data-v-281c6310] {\n    margin:15px;\n    border-radius: 50%;\n    cursor: pointer;\n}\n.img-thumbs[data-v-281c6310] {\n    max-width: 35px;\n}\n.separator[data-v-281c6310] {\n    border-top: 1px solid #CCC7B8;\n}\ninput.mayusculas[data-v-281c6310]{\n    text-transform:uppercase;\n}   \n \n", ""]);
 
 // exports
 
@@ -50868,6 +50893,73 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -50878,9 +50970,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     mounted: function mounted() {
         var _this = this;
 
-        console.log("conyuge : ", this.conyuge_afiliadoByid);
-        //this.show = typeof this.patientByid === 'undefined' ? true : false 
-        // cargamos los datos del paciente
+        this.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(function () {
+            _this.hijosafiliado = _this.getHijoAfiliadoById(_this.$route.params.afiliado);
+        });
+
         if (typeof this.getConyugeAfiliadoById(this.$route.params.afiliado) != 'undefined') {
             this.opsee = true;
             this.opbtn = false;
@@ -50961,36 +51054,44 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 image: ''
             },
 
+            dataHijo: {
+                apellidos: '',
+                nombres: '',
+                fecha_nacimiento: '',
+                sexo: 'H',
+                estudios: '',
+                centro_trabajo: '',
+                afiliado_id: '',
+                user_id: '1'
+            },
+            hijosafiliado: [],
+
             textpage: 'Registros por pagina',
             textnext: 'Sig',
             textprev: 'Ant',
             textof: 'de',
             columns: [{
-                label: 'Credencial',
-                field: 'credencial',
+                label: 'Apellidos',
+                field: 'apellidos',
                 filterable: true,
-                width: '10%'
+                width: '25%'
             }, {
-                label: 'Afiliado',
-                field: 'nombre_completo',
+                label: 'Nombres',
+                field: 'nombres',
                 filterable: true,
-                width: '30%'
+                width: '25%'
             }, {
-                label: 'DNI',
-                field: 'dni',
-                width: '10%'
+                label: 'fecha_nac.',
+                field: 'fecha_nacimiento',
+                width: '15%'
             }, {
-                label: 'Telefono',
-                field: 'telefono',
-                width: '10%'
+                label: 'Estudios',
+                field: 'estudios',
+                width: '15%'
             }, {
-                label: 'Celular',
-                field: 'celular',
-                width: '10%'
-            }, {
-                label: 'Email',
-                field: 'email',
-                width: '30%'
+                label: 'Centro Trab.',
+                field: 'centro_trabajo',
+                width: '20%'
             }],
 
             nivelesinstruccion: [{ value: 1, text: 'Primaria' }, { value: 2, text: 'Secundaria' }, { value: 3, text: 'Tecnico' }, { value: 4, text: 'Universitario' }]
@@ -51001,7 +51102,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         MaskedInput: __WEBPACK_IMPORTED_MODULE_1_vue_masked_input__["a" /* default */],
         BasicSelect: __WEBPACK_IMPORTED_MODULE_0_vue_search_select__["BasicSelect"]
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['afiliados', 'hijos', 'estadosciviles']), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['getAfiliadoById', 'getConyugeAfiliadoById', 'getubigeos']), {
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['afiliados', 'hijos', 'estadosciviles']), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['getAfiliadoById', 'getConyugeAfiliadoById', 'getHijoAfiliadoById', 'getubigeos']), {
         /*         conyuge_afiliadoByid: function(){
                     //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
                     return this.getConyugeAfiliadoById(this.$route.params.afiliado);
@@ -51122,6 +51223,42 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }).catch(function (error) {
                 _this5.errors = error.response.data.status;
                 toastr.error("Hubo un error en el proceso: " + _this5.errors);
+                console.log(error.response.status);
+            });
+        },
+        createHijo: function createHijo() {
+            var _this6 = this;
+
+            var url = '/api/hijos';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            this.dataHijo.afiliado_id = this.$route.params.afiliado;
+
+            axios.post(url, this.dataHijo).then(function (response) {
+                if (typeof response.data.errors != "undefined") {
+                    _this6.errors = response.data.errors;
+                    var resultado = "";
+                    for (var i in _this6.errors) {
+                        if (_this6.errors.hasOwnProperty(i)) {
+                            resultado += "error -> " + i + " = " + _this6.errors[i] + "\n";
+                        }
+                    }
+                    toastr.error(resultado);
+                    return;
+                }
+                _this6.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(function () {
+                    //this.hijos = this.getConyugeAfiliadoById(this.$route.params.afiliado)
+                });
+
+                //this.getAfiliado(this.pagination.current_page,this.patientSearch);   
+                _this6.errors = [];
+                //this.$modal.hide('afiliado');
+                _this6.opbtn = false;
+                toastr.success('Hijo creado con exito');
+            }).catch(function (error) {
+                _this6.errors = error.response.data.status;
+                toastr.error("Hubo un error en el proceso: " + _this6.errors);
                 console.log(error.response.status);
             });
         },
@@ -52124,64 +52261,438 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-heading" }, [
-              _c("ul", { staticClass: "panel-controls" }, [
-                _c("li", [
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "panel panel-default" }, [
+              _c("div", { staticClass: "panel-heading" }, [
+                _c("ul", { staticClass: "panel-controls" }, [
+                  _c("li", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.$modal.show("hijo")
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "i",
+                          {
+                            staticClass: "material-icons bootstro-prev-btn mr-5"
+                          },
+                          [_vm._v("account_circle")]
+                        ),
+                        _vm._v(" Agregar Hijo")
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "panel-body" },
+                [
+                  _c("vue-good-table", {
+                    attrs: {
+                      title: "Hijos del Afiliado",
+                      columns: _vm.columns,
+                      rows: _vm.hijosafiliado,
+                      paginate: true,
+                      lineNumbers: true,
+                      onClick: _vm.onClickFn,
+                      rowsPerPageText: _vm.textpage,
+                      nextText: _vm.textnext,
+                      prevText: _vm.textprev,
+                      ofText: _vm.textof,
+                      styleClass: "table condensed table-bordered table-striped"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "modal",
+            {
+              attrs: {
+                name: "hijo",
+                width: "50%",
+                height: "auto",
+                scrollable: true,
+                clickToClose: false
+              }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "row title-form" }, [
+                  _c("h3", { staticClass: "pull-left h3-title" }, [
+                    _vm._v("Registro de Hijos")
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "button",
+                    "div",
                     {
-                      staticClass: "btn btn-info",
-                      attrs: { type: "button" },
+                      staticClass: "pull-right close-form",
                       on: {
                         click: function($event) {
-                          $event.preventDefault()
-                          _vm.LoadForm($event)
+                          _vm.$modal.hide("hijo")
                         }
                       }
                     },
-                    [
-                      _c(
-                        "i",
-                        {
-                          staticClass: "material-icons bootstro-prev-btn mr-5"
-                        },
-                        [_vm._v("account_circle")]
-                      ),
-                      _vm._v(" Agregar Hijo")
-                    ]
+                    [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal form-bordered",
+                    attrs: {
+                      "data-sample-validation-1": "",
+                      role: "form",
+                      method: "POST"
+                    },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.createHijo($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-body" }, [
+                      _c("div", { staticClass: "col-md-12 pt-20" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-4 control-label" },
+                            [
+                              _vm._v("Apellidos "),
+                              _c("span", { staticClass: "asterisk" }, [
+                                _vm._v("*")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-7" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataHijo.apellidos,
+                                  expression: "dataHijo.apellidos"
+                                }
+                              ],
+                              staticClass: "form-control input-sm mayusculas",
+                              attrs: {
+                                type: "text",
+                                name: "afiliado_name",
+                                required: ""
+                              },
+                              domProps: { value: _vm.dataHijo.apellidos },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataHijo,
+                                    "apellidos",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-4 control-label" },
+                            [
+                              _vm._v("Nombres "),
+                              _c("span", { staticClass: "asterisk" }, [
+                                _vm._v("*")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-7" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataHijo.nombres,
+                                  expression: "dataHijo.nombres"
+                                }
+                              ],
+                              staticClass: "form-control input-sm mayusculas",
+                              attrs: {
+                                type: "text",
+                                name: "apellido_paterno",
+                                required: ""
+                              },
+                              domProps: { value: _vm.dataHijo.nombres },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataHijo,
+                                    "nombres",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-4 control-label" },
+                            [
+                              _vm._v("Sexo "),
+                              _c("span", { staticClass: "asterisk" }, [
+                                _vm._v("*")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-7 pt-5" }, [
+                            _c("p", { staticClass: "mb-0" }, [
+                              _vm._v(
+                                "\n                                Masculino: "
+                              ),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.dataHijo.sexo,
+                                    expression: "dataHijo.sexo"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "radio",
+                                  name: "gender",
+                                  id: "genderM",
+                                  value: "H",
+                                  required: ""
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.dataHijo.sexo, "H")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.$set(_vm.dataHijo, "sexo", "H")
+                                  }
+                                }
+                              }),
+                              _vm._v(
+                                "\n                                Femenino: "
+                              ),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.dataHijo.sexo,
+                                    expression: "dataHijo.sexo"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "radio",
+                                  name: "gender",
+                                  id: "genderF",
+                                  value: "M"
+                                },
+                                domProps: {
+                                  checked: _vm._q(_vm.dataHijo.sexo, "M")
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.$set(_vm.dataHijo, "sexo", "M")
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "control-label col-md-4 col-sm-4 col-xs-4"
+                            },
+                            [_vm._v("Fec.Nacimiento ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-md-7 col-sm-7 col-xs-7" },
+                            [
+                              _c("masked-input", {
+                                attrs: {
+                                  mask: "11/11/1111",
+                                  placeholder: "DD/MM/YYYY"
+                                },
+                                model: {
+                                  value: _vm.dataHijo.fecha_nacimiento,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.dataHijo,
+                                      "fecha_nacimiento",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "dataHijo.fecha_nacimiento"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-4 control-label" },
+                            [_vm._v("Estudios ")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-7" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataHijo.estudios,
+                                  expression: "dataHijo.estudios"
+                                }
+                              ],
+                              staticClass: "form-control input-sm",
+                              attrs: { type: "text", name: "domicilio" },
+                              domProps: { value: _vm.dataHijo.estudios },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataHijo,
+                                    "estudios",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-4 control-label" },
+                            [_vm._v("Centro de Trabajo ")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-7" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.dataHijo.centro_trabajo,
+                                  expression: "dataHijo.centro_trabajo"
+                                }
+                              ],
+                              staticClass: "form-control input-sm",
+                              attrs: { type: "text", name: "ocupacion" },
+                              domProps: { value: _vm.dataHijo.centro_trabajo },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.dataHijo,
+                                    "centro_trabajo",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-md-12 pt-20 mb-10 mt-20 pr-20 separator"
+                      },
+                      [
+                        _c("div", { staticClass: "pull-right pr-10" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger active",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  _vm.$modal.hide("hijo")
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-reply-all" }),
+                              _vm._v(" Cancelar")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success active",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-cloud-upload" }),
+                              _vm._v(" Grabar")
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]
+                )
               ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "panel-body" },
-              [
-                _c("vue-good-table", {
-                  attrs: {
-                    title: "Hijos del Afiliado",
-                    columns: _vm.columns,
-                    rows: _vm.hijos,
-                    paginate: true,
-                    lineNumbers: true,
-                    onClick: _vm.onClickFn,
-                    rowsPerPageText: _vm.textpage,
-                    nextText: _vm.textnext,
-                    prevText: _vm.textprev,
-                    ofText: _vm.textof,
-                    styleClass: "table condensed table-bordered table-striped"
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        ])
-      ])
+            ]
+          )
+        ],
+        1
+      )
     ],
     1
   )

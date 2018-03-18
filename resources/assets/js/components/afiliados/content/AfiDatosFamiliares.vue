@@ -182,14 +182,14 @@
                     <div class="panel-heading">                                
 <!--                         <h3 class="panel-title">JR</h3>  --> 
                         <ul class="panel-controls">
-                            <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Agregar Hijo</button></li>
+                            <li><button type="button" class="btn btn-info" @click.prevent="$modal.show('hijo')"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Agregar Hijo</button></li>
                         </ul>                                                        
                     </div>
                     <div class="panel-body">
                         <vue-good-table
                         title="Hijos del Afiliado"
                         :columns="columns"
-                        :rows="hijos"
+                        :rows="hijosafiliado"
                         :paginate="true"
                         :lineNumbers="true"
                         :onClick="onClickFn"
@@ -203,6 +203,73 @@
                 <!-- END DEFAULT DATATABLE -->
 
             </div>
+            <!-- MODAL DE HIJOS -->
+            <modal name="hijo" :width="'50%'" :height="'auto'" :scrollable="true" :clickToClose="false">
+            <!-- form de registro de afiliados -->
+            <div class="row">
+                <div class="row title-form">
+                    <h3 class="pull-left h3-title">Registro de Hijos</h3>
+                    <div class="pull-right close-form" @click="$modal.hide('hijo')"><i class="glyphicon glyphicon-remove"></i></div>                
+                </div>
+                <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createHijo">
+                    <div class="form-body">
+                    <div class="col-md-12 pt-20">                  
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Apellidos <span class="asterisk">*</span></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control input-sm mayusculas" name="afiliado_name" v-model="dataHijo.apellidos" required>
+                            </div>
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Nombres <span class="asterisk">*</span></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control input-sm mayusculas" name="apellido_paterno" v-model="dataHijo.nombres" required>
+                            </div>
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Sexo <span class="asterisk">*</span></label>
+                            <div class="col-sm-7 pt-5">
+                            <p class="mb-0">
+                                Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataHijo.sexo" required />
+                                Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataHijo.sexo" />
+                            </p>
+                            </div>
+                        </div>                                                           
+  
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-4">Fec.Nacimiento </label>
+                            <div class="col-md-7 col-sm-7 col-xs-7">
+                            <masked-input v-model="dataHijo.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Estudios </label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control input-sm" name="domicilio" v-model="dataHijo.estudios">
+                            </div>
+                        </div><!-- /.form-group -->                       
+                    
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Centro de Trabajo </label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control input-sm" name="ocupacion" v-model="dataHijo.centro_trabajo">
+                            </div>
+                        </div><!-- /.form-group -->                           
+                                                                                                                                                                                    
+                    </div>                   
+                    </div><!-- /.form-body -->
+                    <div class="col-md-12 pt-20 mb-10 mt-20 pr-20 separator">
+                        <div class="pull-right pr-10">
+                            <button type="button" class="btn btn-danger active" @click="$modal.hide('hijo')"><i class="fa fa-reply-all"></i> Cancelar</button>
+                            <button type="submit" class="btn btn-success active"><i class="fa fa-cloud-upload"></i> Grabar</button>
+                        </div>
+                    </div><!-- /.form-footer -->
+                </form>
+            </div>
+            <!-- /. form de registro de pacientes -->
+            </modal> 
+            <!-- FINAL MODAL DE HIJOS -->
+
         </div>        
     </div>    
 </template>
@@ -214,9 +281,10 @@ import { mapState, mapGetters } from 'vuex'
 export default {
     name:'afidatospersonales',
     mounted() {
-        console.log("conyuge : ",this.conyuge_afiliadoByid)
-      //this.show = typeof this.patientByid === 'undefined' ? true : false 
-      // cargamos los datos del paciente
+        this.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(() => {
+            this.hijosafiliado = this.getHijoAfiliadoById(this.$route.params.afiliado)
+        })        
+
         if(typeof this.getConyugeAfiliadoById(this.$route.params.afiliado) != 'undefined'){
             this.opsee = true
             this.opbtn = false
@@ -287,43 +355,50 @@ export default {
                 image: ''       
             }, 
 
+            dataHijo: {
+                apellidos:'',
+                nombres:'',
+                fecha_nacimiento:'',
+                sexo:'H',
+                estudios:'',
+                centro_trabajo:'',
+                afiliado_id:'',
+                user_id:'1',
+            },
+            hijosafiliado:[],
+
             textpage: 'Registros por pagina',
             textnext:'Sig',
             textprev:'Ant',
             textof:'de',
             columns: [
                 {
-                label: 'Credencial',
-                field: 'credencial',
+                label: 'Apellidos',
+                field: 'apellidos',
                 filterable: true,
-                width:'10%',
+                width:'25%',
                 },
                 {
-                label: 'Afiliado',
-                field: 'nombre_completo',
+                label: 'Nombres',
+                field: 'nombres',
                 filterable: true,
-                width:'30%',                
+                width:'25%',                
                 },
                 {
-                label: 'DNI',
-                field: 'dni',
-                width:'10%',                
+                label: 'fecha_nac.',
+                field: 'fecha_nacimiento',
+                width:'15%',                
                 },
                 {
-                label: 'Telefono',
-                field: 'telefono',
-                width:'10%',                
+                label: 'Estudios',
+                field: 'estudios',
+                width:'15%',                
                 },
                 {
-                label: 'Celular',
-                field: 'celular',
-                width:'10%',                
-                }, 
-                {
-                label: 'Email',
-                field: 'email',
-                width:'30%',                
-                },                               
+                label: 'Centro Trab.',
+                field: 'centro_trabajo',
+                width:'20%',                
+                },                              
             ],
 
             nivelesinstruccion :[
@@ -340,7 +415,7 @@ export default {
     },
     computed: {
         ...mapState(['afiliados','hijos','estadosciviles']),
-        ...mapGetters(['getAfiliadoById','getConyugeAfiliadoById','getubigeos']),
+        ...mapGetters(['getAfiliadoById','getConyugeAfiliadoById','getHijoAfiliadoById','getubigeos']),
 /*         conyuge_afiliadoByid: function(){
             //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
             return this.getConyugeAfiliadoById(this.$route.params.afiliado);
@@ -439,7 +514,41 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors);
             console.log(error.response.status);
             });
-        },        
+        }, 
+        createHijo: function(){
+            var url = '/api/hijos';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            this.dataHijo.afiliado_id = this.$route.params.afiliado
+
+            axios.post(url, this.dataHijo).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(() => {
+                //this.hijos = this.getConyugeAfiliadoById(this.$route.params.afiliado)
+            })  
+
+            //this.getAfiliado(this.pagination.current_page,this.patientSearch);   
+            this.errors = [];
+            //this.$modal.hide('afiliado');
+            this.opbtn = false
+            toastr.success('Hijo creado con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },                        
         getImagen: function(imagen){
             this.conyuge_afiliadoByid.image = imagen;
         },
@@ -515,9 +624,36 @@ export default {
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }
+    .title-form {
+        background-color: #347c7c;
+        color: white;
+        margin:0;
+        padding:0
+    }
+
+    .h3-title {
+        margin:10px 0 10px 20px;
+        color: white;
+    }
+
+    .close-form {
+        margin:15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .img-thumbs {
+        max-width: 35px;
+    }
+
+    .separator {
+        border-top: 1px solid #CCC7B8;
+    }
+
     input.mayusculas{
         text-transform:uppercase;
-    }       
+    }   
+     
 </style>
 
 

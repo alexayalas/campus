@@ -27,7 +27,12 @@ class Afiliado extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
-    }     
+    }   
+
+    public function hijos()
+    {
+        return $this->hasMany('App\Hijo');
+    }          
 
 }
 
