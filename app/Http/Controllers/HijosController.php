@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;        // facade para saber el usuario autentificado Auth::user() -- Auth::id() -- Auth::check()
 use Exception;
 use Validator;
-
 use App\Hijo;
 
 class HijosController extends Controller
