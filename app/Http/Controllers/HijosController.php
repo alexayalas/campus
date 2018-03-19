@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;        // facade para saber el usuario autentificado Auth::user() -- Auth::id() -- Auth::check()
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Hijo;
 
 class HijosController extends Controller
@@ -60,7 +61,9 @@ class HijosController extends Controller
           }
   
           $hijo = new Hijo($request->all());
-          $hijo->fecha_nacimiento = empty($hijo->fecha_nacimiento) ? null : date("Y-m-d", strtotime($hijo->fecha_nacimiento));
+          $formfec = explode("/", $hijo->fecha_nacimiento);
+          //$hijo->fecha_nacimiento = empty($hijo->fecha_nacimiento) ? null : date("Y-m-d", strtotime($hijo->fecha_nacimiento));
+          $hijo->fecha_nacimiento = empty($hijo->fecha_nacimiento) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
           $hijo->nombres = Str::upper($hijo->nombres);
           $hijo->apellidos = Str::upper($hijo->apellidos);
           $hijo->save();

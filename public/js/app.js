@@ -50960,6 +50960,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -51083,6 +51084,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, {
                 label: 'fecha_nac.',
                 field: 'fecha_nacimiento',
+                type: 'date',
+                inputFormat: 'YYYY-MM-DD',
+                outputFormat: 'DD/MM/YYYY',
                 width: '15%'
             }, {
                 label: 'Estudios',
@@ -51092,6 +51096,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 label: 'Centro Trab.',
                 field: 'centro_trabajo',
                 width: '20%'
+            }, {
+                label: 'Action',
+                field: 'btn',
+                html: true
             }],
 
             nivelesinstruccion: [{ value: 1, text: 'Primaria' }, { value: 2, text: 'Secundaria' }, { value: 3, text: 'Tecnico' }, { value: 4, text: 'Universitario' }]
@@ -51248,13 +51256,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     return;
                 }
                 _this6.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(function () {
-                    //this.hijos = this.getConyugeAfiliadoById(this.$route.params.afiliado)
+                    _this6.hijosafiliado = _this6.getHijoAfiliadoById(_this6.$route.params.afiliado);
                 });
 
                 //this.getAfiliado(this.pagination.current_page,this.patientSearch);   
                 _this6.errors = [];
-                //this.$modal.hide('afiliado');
-                _this6.opbtn = false;
+                _this6.$modal.hide('hijo');
+                //this.opbtn = false
                 toastr.success('Hijo creado con exito');
             }).catch(function (error) {
                 _this6.errors = error.response.data.status;

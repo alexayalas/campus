@@ -189,7 +189,7 @@
                         <vue-good-table
                         title="Hijos del Afiliado"
                         :columns="columns"
-                        :rows="hijosafiliado"
+                        :rows="hijosafiliado"                        
                         :paginate="true"
                         :lineNumbers="true"
                         :onClick="onClickFn"
@@ -198,6 +198,7 @@
                         :prevText="textprev"
                         :ofText="textof"
                         styleClass="table condensed table-bordered table-striped"/>
+                      
                     </div>
                 </div>
                 <!-- END DEFAULT DATATABLE -->
@@ -387,6 +388,9 @@ export default {
                 {
                 label: 'fecha_nac.',
                 field: 'fecha_nacimiento',
+                type: 'date',
+                inputFormat : 'YYYY-MM-DD',
+                outputFormat: 'DD/MM/YYYY',
                 width:'15%',                
                 },
                 {
@@ -398,7 +402,12 @@ export default {
                 label: 'Centro Trab.',
                 field: 'centro_trabajo',
                 width:'20%',                
-                },                              
+                },
+                { 
+                label: 'Action',
+                field: 'btn',
+                html: true,                                             
+                },
             ],
 
             nivelesinstruccion :[
@@ -535,13 +544,13 @@ export default {
                 return;
             }
             this.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(() => {
-                //this.hijos = this.getConyugeAfiliadoById(this.$route.params.afiliado)
-            })  
+                this.hijosafiliado = this.getHijoAfiliadoById(this.$route.params.afiliado)
+            }) 
 
             //this.getAfiliado(this.pagination.current_page,this.patientSearch);   
             this.errors = [];
-            //this.$modal.hide('afiliado');
-            this.opbtn = false
+            this.$modal.hide('hijo');
+            //this.opbtn = false
             toastr.success('Hijo creado con exito');
             }).catch(error => {
             this.errors = error.response.data.status;

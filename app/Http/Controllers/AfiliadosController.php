@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;        // facade para saber el usuario aute
 use Exception;
 use Validator;
 use Image;
+use Carbon\Carbon;
 use App\Ubigeo;
 use App\EstadoCivil;
 use App\User;
@@ -103,7 +104,8 @@ class AfiliadosController extends Controller
           if(isset($fileName)){
             $afiliado->foto = $fileName;
           }
-          $afiliado->fecha_nacimiento = empty($afiliado->fecha_nacimiento) ? null : date("Y-m-d", strtotime($afiliado->fecha_nacimiento));
+          $formfec = explode("/", $afiliado->fecha_nacimiento);          
+          $afiliado->fecha_nacimiento = empty($afiliado->fecha_nacimiento) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
           $afiliado->nombres = Str::upper($afiliado->nombres);
           $afiliado->apellido_paterno = Str::upper($afiliado->apellido_paterno);
           $afiliado->apellido_materno = Str::upper($afiliado->apellido_materno);          
@@ -155,7 +157,7 @@ class AfiliadosController extends Controller
     public function update(Request $request, $id)
     {
         DB::beginTransaction(); 
-        $afe_pac = $request->get('afecciones');
+
         try {
             $rules = ['nombres'     => 'required',
                       'apellido_paterno' => 'required',
@@ -180,7 +182,8 @@ class AfiliadosController extends Controller
 
             $afiliado = Afiliado::find($id);
             $afiliado->fill($request->all());
-            $afiliado->fecha_nacimiento = empty($afiliado->fecha_nacimiento) ? null : date("Y-m-d", strtotime($afiliado->fecha_nacimiento));
+            $formfec = explode("/", $afiliado->fecha_nacimiento); 
+            $afiliado->fecha_nacimiento = empty($afiliado->fecha_nacimiento) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
             $afiliado->nombres = Str::upper($afiliado->nombres);
             $afiliado->apellido_paterno = Str::upper($afiliado->apellido_paterno);
             $afiliado->apellido_materno = Str::upper($afiliado->apellido_materno);          
