@@ -50961,6 +50961,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -51098,7 +51102,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 width: '20%'
             }, {
                 label: 'Action',
-                field: 'btn',
                 html: true
             }],
 
@@ -52316,13 +52319,38 @@ var render = function() {
                       rows: _vm.hijosafiliado,
                       paginate: true,
                       lineNumbers: true,
-                      onClick: _vm.onClickFn,
                       rowsPerPageText: _vm.textpage,
                       nextText: _vm.textnext,
                       prevText: _vm.textprev,
                       ofText: _vm.textof,
                       styleClass: "table condensed table-bordered table-striped"
-                    }
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "table-row-after",
+                        fn: function(props) {
+                          return [
+                            _c("th", [
+                              _c(
+                                "button",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      _vm.alert(props.row.nombres)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "material-icons" }, [
+                                    _vm._v("delete_forever")
+                                  ])
+                                ]
+                              )
+                            ])
+                          ]
+                        }
+                      }
+                    ])
                   })
                 ],
                 1

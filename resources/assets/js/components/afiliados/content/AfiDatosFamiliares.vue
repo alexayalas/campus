@@ -192,12 +192,13 @@
                         :rows="hijosafiliado"                        
                         :paginate="true"
                         :lineNumbers="true"
-                        :onClick="onClickFn"
                         :rowsPerPageText="textpage"
                         :nextText="textnext"
                         :prevText="textprev"
                         :ofText="textof"
-                        styleClass="table condensed table-bordered table-striped"/>
+                        styleClass="table condensed table-bordered table-striped">
+                         
+                        </vue-good-table>                       
                       
                     </div>
                 </div>
@@ -405,7 +406,6 @@ export default {
                 },
                 { 
                 label: 'Action',
-                field: 'btn',
                 html: true,                                             
                 },
             ],
