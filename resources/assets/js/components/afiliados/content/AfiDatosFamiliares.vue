@@ -197,7 +197,7 @@
                         :prevText="textprev"
                         :ofText="textof"
                         styleClass="table condensed table-bordered table-striped">
-                         
+                        
                         </vue-good-table>                       
                       
                     </div>
