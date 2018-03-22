@@ -50965,6 +50965,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -51076,6 +51081,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             textprev: 'Ant',
             textof: 'de',
             columns: [{
+                label: 'id',
+                field: 'id',
+                hidden: true
+            }, {
                 label: 'Apellidos',
                 field: 'apellidos',
                 filterable: true,
@@ -51149,6 +51158,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         }
     }),
     methods: {
+        alerta: function alerta(id) {
+            alert(id);
+        },
         onClickFn: function onClickFn(row, index) {
             console.log(row); //the object for the row that was clicked on
             console.log(index); // index of the row that was clicked on
@@ -52327,24 +52339,38 @@ var render = function() {
                     },
                     scopedSlots: _vm._u([
                       {
-                        key: "table-row-after",
+                        key: "table-row",
                         fn: function(props) {
                           return [
-                            _c("th", [
+                            _c("td", [_vm._v(_vm._s(props.row.nombres))]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "fancy" }, [
+                              _vm._v(_vm._s(props.row.apellidos))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(props.formattedRow.fecha_nacimiento)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(props.row.estudios))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(props.row.centro_trabajo))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
                               _c(
                                 "button",
                                 {
                                   on: {
                                     click: function($event) {
-                                      _vm.alert(props.row.nombres)
+                                      _vm.alerta(props.row.id)
                                     }
                                   }
                                 },
-                                [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("delete_forever")
-                                  ])
-                                ]
+                                [_vm._v("Eliminar")]
                               )
                             ])
                           ]

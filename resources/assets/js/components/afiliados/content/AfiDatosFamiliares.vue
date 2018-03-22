@@ -197,7 +197,15 @@
                         :prevText="textprev"
                         :ofText="textof"
                         styleClass="table condensed table-bordered table-striped">
-                        
+                            <template slot="table-row" slot-scope="props">
+                                <td>{{ props.row.nombres }}</td>
+                                <td class="fancy">{{ props.row.apellidos}}</td>
+                                <td>{{ props.formattedRow.fecha_nacimiento }}</td>
+                                <td>{{ props.row.estudios }}</td>
+                                <td>{{ props.row.centro_trabajo }}</td>
+                                <td><button @click="alerta(props.row.id)">Eliminar</button></td>
+
+                            </template>                        
                         </vue-good-table>                       
                       
                     </div>
@@ -375,6 +383,11 @@ export default {
             textof:'de',
             columns: [
                 {
+                label: 'id',
+                field: 'id',
+                hidden:true,
+                },
+                {
                 label: 'Apellidos',
                 field: 'apellidos',
                 filterable: true,
@@ -439,7 +452,10 @@ export default {
             return this.getubigeos.filter((ubigeo) => ubigeo.coddpto == this.coddep).filter((ubigeo) => ubigeo.codprov == this.codpro).filter((ubigeo) => ubigeo.coddist != '00');
         }
     }, 
-    methods: {          
+    methods: {  
+        alerta: function(id){
+            alert(id)
+        } ,     
         onClickFn: function(row, index){
             console.log(row); //the object for the row that was clicked on
             console.log(index); // index of the row that was clicked on
