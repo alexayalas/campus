@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 import VueRouter from 'vue-router'
 import VModal from 'vue-js-modal'
+import VuejsDialog from 'vuejs-dialog';
 import './interceptors'
 import VueGoodTable from 'vue-good-table';
 
@@ -36,3 +37,4 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 Vue.use(VueRouter)
 Vue.use(VueGoodTable)
 Vue.use(VModal)
+Vue.use(VuejsDialog);

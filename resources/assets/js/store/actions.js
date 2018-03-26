@@ -27,6 +27,15 @@ export default {
             console.log(err)
         });
     }, 
+    LOAD_ASOCIACIONES_LIST: function ({ commit }) {
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlAsociaciones = '/api/asociaciones';
+        return axios.get(urlAfiliados).then((response) => {
+            commit('SET_ASOCIACIONES_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },     
     LOAD_HIJOS_AFILIADO_LIST: function ({ commit }) {
         //commit('SET_BLANK_PATIENTS_LIST')
         var urlHijos = '/api/hijos';

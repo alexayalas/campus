@@ -26,7 +26,7 @@ class AfiliadosController extends Controller
      */
     public function index()
     {
-        $afiliados = Afiliado::with('ubigeo')->orderBy('id','ASC')->get();          
+        $afiliados = Afiliado::with('ubigeo')->orderBy('id','ASC')->where('activo',1)->get();          
         return $afiliados;
     }
 
@@ -210,6 +210,16 @@ class AfiliadosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $afiliado = Afiliado::findOrFail($id);
+            //$patient->delete();
+            $afiliado->activo = 0;
+            $afiliado->save();            
+        } catch (Exception $e) {
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
+        }
+
     }
 }

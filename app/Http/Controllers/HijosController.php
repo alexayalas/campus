@@ -21,7 +21,7 @@ class HijosController extends Controller
      */
     public function index()
     {
-        $hijos = Hijo::with('afiliado')->orderBy('id','ASC')->get();          
+        $hijos = Hijo::with('afiliado')->orderBy('id','ASC')->where('activo',1)->get();          
         return $hijos;
     }
 
@@ -121,6 +121,15 @@ class HijosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $hijo = Hijo::findOrFail($id);
+            $hijo->activo = 0;
+            $hijo->save();            
+        } catch (Exception $e) {
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
+        }
+
     }
 }

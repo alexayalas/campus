@@ -28,12 +28,21 @@
                             :rows="afiliadostitulares"
                             :paginate="true"
                             :lineNumbers="true"
-                            :onClick="onClickFn"
                             :rowsPerPageText="textpage"
                             :nextText="textnext"
                             :prevText="textprev"
                             :ofText="textof"
-                            styleClass="table condensed table-bordered table-striped"/>
+                            styleClass="table condensed table-bordered table-striped">
+                                <template slot="table-row" slot-scope="props">
+                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.credencial }}</td>
+                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.nombre_completo}}</td>
+                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.dni }}</td>
+                                    <td>{{ props.row.telefono }}</td>
+                                    <td>{{ props.row.celular }}</td>
+                                    <td>{{ props.row.email }}</td>
+                                    <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
+                                </template>                              
+                            </vue-good-table>
                         </div>
                     </div>
                     <!-- END DEFAULT DATATABLE -->
@@ -307,7 +316,11 @@ export default {
                 label: 'Email',
                 field: 'email',
                 width:'30%',                
-                },                               
+                },
+                {
+                label: 'Acción',
+                html: true    
+                }                               
             ],
             dataAfiliado : {
                 credencial:'',
@@ -441,7 +454,33 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors);
             console.log(error.response.status);
             });
-        },              
+        }, 
+        processDelete(row){
+            this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar este Afiliado: " + row.nombre_completo + " ?</strong></span>", {
+                html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
+                loader: true, // set to true if you want the dailog to show a loader after click on "proceed"
+                reverse: false, // switch the button positions (left to right, and vise versa)
+                okText: 'Aceptar',
+                cancelText: 'Cancelar',
+                animation: 'fade', // Available: "zoom", "bounce", "fade"
+                type: 'basic',
+            })
+                .then((dialog) => {
+                var url = '/api/afiliados/' + row.id;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                axios.delete(url).then(response=> {
+                this.$store.dispatch('LOAD_AFILIADOS_LIST')                    
+                //this.getPatient(this.pagination.current_page,this.patientSearch); 
+                //this.$store.dispatch('LOAD_PATIENTS_LIST', { page: this.$route.params.page, search:this.patientSearch });     
+                toastr.success('Afiliado Eliminado correctamente');
+                dialog.close();
+                });
+                })
+            .catch(() => {
+                console.log('Delete aborted');
+            });
+        },                     
         onClickFn: function(row, index){
             console.log(row); //the object for the row that was clicked on
             console.log(index); // index of the row that was clicked on
@@ -545,7 +584,11 @@ export default {
 
   input.mayusculas{
     text-transform:uppercase;
-  }   
+  }  
+
+  .enlace:hover {
+    cursor:pointer; cursor: hand	      
+  } 
 
 </style>
 

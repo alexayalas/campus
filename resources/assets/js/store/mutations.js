@@ -14,8 +14,12 @@ export default {
     SET_AFILIADOS_LIST: (state, { list }) => {      // AFILIADOS
         state.afiliados = list
         //state.patients_paginate = list.pagination
-    },   
-    SET_HIJOS_AFILIADO_LIST: (state, { list }) => {      // AFILIADOS
+    },  
+    SET_ASOCIACIONES_LIST: (state, { list }) => {      // ASOCIACIONES
+        state.asociaciones = list
+        //state.patients_paginate = list.pagination
+    },      
+    SET_HIJOS_AFILIADO_LIST: (state, { list }) => {      // HIJOS
         state.hijos = list
         console.log("hijosss",list)
         //state.patients_paginate = list.pagination

@@ -198,13 +198,12 @@
                         :ofText="textof"
                         styleClass="table condensed table-bordered table-striped">
                             <template slot="table-row" slot-scope="props">
-                                <td>{{ props.row.nombres }}</td>
-                                <td class="fancy">{{ props.row.apellidos}}</td>
+                                <td>{{ props.row.apellidos }}</td>
+                                <td>{{ props.row.nombres}}</td>
                                 <td>{{ props.formattedRow.fecha_nacimiento }}</td>
                                 <td>{{ props.row.estudios }}</td>
                                 <td>{{ props.row.centro_trabajo }}</td>
-                                <td><button @click="alerta(props.row.id)">Eliminar</button></td>
-
+                                <td><button @click.prevent="processDelete(props.row.id)"><i class="material-icons">delete_forever</i></button></td>
                             </template>                        
                         </vue-good-table>                       
                       
@@ -383,11 +382,6 @@ export default {
             textof:'de',
             columns: [
                 {
-                label: 'id',
-                field: 'id',
-                hidden:true,
-                },
-                {
                 label: 'Apellidos',
                 field: 'apellidos',
                 filterable: true,
@@ -418,7 +412,7 @@ export default {
                 width:'20%',                
                 },
                 { 
-                label: 'Action',
+                label: 'Acción',
                 html: true,                                             
                 },
             ],
@@ -573,7 +567,35 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors);
             console.log(error.response.status);
             });
-        },                        
+        },  
+        processDelete(id){
+            this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar este Registro ?</strong></span>", {
+                html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
+                loader: true, // set to true if you want the dailog to show a loader after click on "proceed"
+                reverse: false, // switch the button positions (left to right, and vise versa)
+                okText: 'Aceptar',
+                cancelText: 'Cancelar',
+                animation: 'fade', // Available: "zoom", "bounce", "fade"
+                type: 'basic',
+            })
+                .then((dialog) => {
+                var url = '/api/hijos/' + id;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                axios.delete(url).then(response=> {
+                this.$store.dispatch('LOAD_HIJOS_AFILIADO_LIST').then(() => {
+                    this.hijosafiliado = this.getHijoAfiliadoById(this.$route.params.afiliado)
+                })                    
+                //this.getPatient(this.pagination.current_page,this.patientSearch); 
+                //this.$store.dispatch('LOAD_PATIENTS_LIST', { page: this.$route.params.page, search:this.patientSearch });     
+                toastr.success('Hijo Eliminado correctamente');
+                dialog.close();
+                });
+                })
+            .catch(() => {
+                console.log('Delete aborted');
+            });
+        },                              
         getImagen: function(imagen){
             this.conyuge_afiliadoByid.image = imagen;
         },
