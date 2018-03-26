@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asociacion extends Model
 {
-    //
+    protected $table = "asociaciones";
+
+    protected $fillable = ['id', 'nombre', 'ruc','nombre_comercial', 'user_id',
+                         'fecha_inicio_labores','descripcion', 'activo'];
 }
