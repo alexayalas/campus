@@ -53241,6 +53241,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -53281,7 +53285,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 width: '15%'
             }, {
                 label: 'Acción',
-                html: true
+                html: true,
+                width: '15%'
             }],
             dataAsociacion: {
                 nombre: '',
@@ -53477,6 +53482,40 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.processDelete(props.row)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "material-icons" }, [
+                                    _vm._v("mode_edit")
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.processDelete(props.row)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "material-icons" }, [
+                                    _vm._v("location_on")
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
                               _c(
                                 "button",
                                 {
