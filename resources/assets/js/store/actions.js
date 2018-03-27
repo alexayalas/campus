@@ -30,7 +30,7 @@ export default {
     LOAD_ASOCIACIONES_LIST: function ({ commit }) {
         //commit('SET_BLANK_PATIENTS_LIST')
         var urlAsociaciones = '/api/asociaciones';
-        return axios.get(urlAfiliados).then((response) => {
+        return axios.get(urlAsociaciones).then((response) => {
             commit('SET_ASOCIACIONES_LIST', { list: response.data })
         }, (err) => {
             console.log(err)

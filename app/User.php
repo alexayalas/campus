@@ -32,9 +32,13 @@ class User extends Authenticatable
         return $this->hasMany('App\Afiliado');
     }  
     
-
     public function hijos()
     {
         return $this->hasMany('App\Hijo');
-    }     
+    }  
+    
+    public function asociaciones()
+    {
+        return $this->hasMany('App\Asociacion');
+    }      
 }

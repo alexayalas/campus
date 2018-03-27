@@ -3,6 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;        // facade para saber el usuario autentificado Auth::user() -- Auth::id() -- Auth::check()
+use Exception;
+use Validator;
+use Image;
+use Carbon\Carbon;
+use App\Asociacion;
 
 class AsociacionesController extends Controller
 {
@@ -13,7 +22,8 @@ class AsociacionesController extends Controller
      */
     public function index()
     {
-        //
+        $asociaciones = Asociacion::orderBy('id','ASC')->where('activo',1)->get();          
+        return $asociaciones;
     }
 
     /**
@@ -34,7 +44,56 @@ class AsociacionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();    
+  
+        try {
+          $rules = ['nombre'     => 'required',
+                    'ruc' => 'required',
+                    'nombre_comercial' => 'required'
+                  ];
+  
+          if($request->has('fecha_inicio_labores')){
+            $rules = array_add($rules, 'fecha_inicio_labores', 'date_format:d/m/Y');
+          }
+
+          $messages = ['fecha_inicio_labores.date_format' => 'Formato de fecha invalido'];
+  
+          $validator = Validator::make($request->all(), $rules , $messages);
+          if ($validator->fails()) {
+              return response()->json(['errors'=>$validator->errors()]);
+          }
+  
+          /*-- validacion por nombres --*/
+          $var_aso = Str::upper($request->get('nombre'));
+          $asociacion = Asociacion::where('nombre',$var_aso)->count();          
+          if($asociacion > 0){
+              return response()->json(['errors'=>['ASOCIACION ' => 'Ya existe una asociacion con estos datos : '.$request->get('nombres').' '.$request->get('apellido_paterno').' '.$request->get('apellido_materno')]]);
+          }  
+          /*-- validacion por ruc --*/
+          $var_aso_r = Str::upper($request->get('ruc'));
+          $asociacion = Asociacion::where('ruc',$var_aso_r)->count();          
+          if($asociacion > 0){
+              return response()->json(['errors'=>['ASOCIACION ' => 'Ya existe una asociacion con estos datos : '.$request->get('nombres').' '.$request->get('apellido_paterno').' '.$request->get('apellido_materno')]]);
+          }                 
+  
+          $asociacion = new Asociacion($request->all());
+
+          $formfec = explode("/", $asociacion->fecha_inicio_labores);          
+          $asociacion->fecha_inicio_labores = empty($asociacion->fecha_inicio_labores) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
+          $asociacion->nombre = Str::upper($asociacion->nombre);
+          $asociacion->nombre_comercial = Str::upper($asociacion->nombre_comercial);          
+          $asociacion->save();
+  
+          DB::commit();        
+          return;
+        }
+        catch(Exception $e){
+          DB::rollback();
+          return response()->json(
+              ['status' => $e->getMessage()], 422
+          );
+        }
+  
     }
 
     /**
@@ -79,6 +138,15 @@ class AsociacionesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $asociacion = Asociacion::findOrFail($id);
+            //$patient->delete();
+            $asociacion->activo = 0;
+            $asociacion->save();            
+        } catch (Exception $e) {
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
+        }
     }
 }

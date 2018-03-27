@@ -18,7 +18,7 @@
                         <div class="panel-heading">                                
                             <h3 class="panel-title">JR</h3>  
                             <ul class="panel-controls">
-                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Afiliado</button></li>
+                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nueva Asociacion</button></li>
                             </ul>                                                        
                         </div>
                         <div class="panel-body">
@@ -58,9 +58,9 @@
                 <h3 class="pull-left h3-title">Registro de Asociaciones</h3>
                 <div class="pull-right close-form" @click="$modal.hide('asociacion')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
-            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createAfiliado">
+            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createAsociacion">
                 <div class="form-body">
-                <div class="col-md-12 pt-20">
+                <div class="col-md-11 pt-20">
                    
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nombres <span class="asterisk">*</span></label>
@@ -86,13 +86,20 @@
                         <masked-input v-model="dataAsociacion.fecha_inicio_labores" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Descripcion </label>
+                        <div class="col-sm-8">
+<!--                             <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataAsociacion.nombre_comercial" required> -->
+                            <textarea name="descripcion" rows="4" cols="78" v-model="dataAsociacion.descripcion"></textarea>
+                        </div>
+                    </div><!-- /.form-group -->                    
                                                                                                                                                                                   
                 </div>
                 </div><!-- /.form-body -->
-                <div class="col-md-12 pt-20 mb-10 mt-0 pr-20 separator">
+                <div class="col-md-12 pt-20 mb-10 mt-20 pr-20 separator">
                     <div class="pull-right pr-10">
                         <button type="button" class="btn btn-danger active" @click="$modal.hide('asociacion')"><i class="fa fa-reply-all"></i> Cancelar</button>
-                        <button type="submit" class="btn btn-primary active"><i class="fa fa-cloud-upload"></i> Grabar</button>
+                        <button type="submit" class="btn btn-success active"><i class="fa fa-cloud-upload"></i> Grabar</button>
                     </div>
                 </div><!-- /.form-footer -->
             </form>
@@ -103,6 +110,9 @@
     </div>
 </template>
 <script>
+import MaskedInput from 'vue-masked-input'
+import { mapState, mapGetters } from 'vuex'
+
 export default {
     name:'asociaciones',
     mounted() {
@@ -121,18 +131,18 @@ export default {
                 label: 'Nombre',
                 field: 'nombre',
                 filterable: true,
-                width:'10%',
+                width:'30%',
                 },
                 {
                 label: 'RUC',
                 field: 'ruc',
                 filterable: true,
-                width:'30%',                
+                width:'15',                
                 },
                 {
                 label: 'Nombre Comercial',
                 field: 'nombre_comercial',
-                width:'10%',                
+                width:'25%',                
                 },
                 {
                 label: 'fecha inicio',
@@ -158,5 +168,112 @@ export default {
             errors:[]
         }
     },
+    components: {
+      MaskedInput 
+    },     
+    computed: {
+        ...mapState(['asociaciones'])
+    }, 
+    methods: {
+        LoadForm: function(){
+            this.dataAsociacion = {
+                nombre:'',
+                ruc:'',
+                nombre_completo:'',
+                user_id: 1,
+                fecha_inicio_labores: '',
+                descripcion:''
+            }, 
+            //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
+            this.$modal.show('asociacion')            
+        },
+        createAsociacion: function(){
+            var url = '/api/asociaciones';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            axios.post(url, this.dataAsociacion).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+            //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
+            this.errors = [];
+            this.$modal.hide('asociacion');
+            toastr.success('Nueva Asociacion creada con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        }, 
+        processDelete(row){
+            this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar esta Asociacion: " + row.nombre + " ?</strong></span>", {
+                html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
+                loader: true, // set to true if you want the dailog to show a loader after click on "proceed"
+                reverse: false, // switch the button positions (left to right, and vise versa)
+                okText: 'Aceptar',
+                cancelText: 'Cancelar',
+                animation: 'fade', // Available: "zoom", "bounce", "fade"
+                type: 'basic',
+            })
+                .then((dialog) => {
+                var url = '/api/asociaciones/' + row.id;
+                toastr.options.closeButton = true;
+                toastr.options.progressBar = true;
+                axios.delete(url).then(response=> {
+                this.$store.dispatch('LOAD_ASOCIACIONES_LIST')                    
+                toastr.success('Asociacion Eliminada correctamente');
+                dialog.close();
+                });
+                })
+            .catch(() => {
+                console.log('Delete aborted');
+            });
+        },                
+    }    
 }
 </script>
+<style scoped>
+    .title-form {
+        background-color: #347c7c;
+        color: white;
+        margin:0;
+        padding:0
+    }
+
+    .h3-title {
+        margin:10px 0 10px 20px;
+        color: white;
+    }
+
+    .close-form {
+        margin:15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .img-thumbs {
+        max-width: 35px;
+    }
+
+    .separator {
+        border-top: 1px solid #CCC7B8;
+    }
+
+    input.mayusculas{
+        text-transform:uppercase;
+    }  
+
+    .enlace:hover {
+        cursor:pointer; cursor: hand	      
+    } 
+</style>
