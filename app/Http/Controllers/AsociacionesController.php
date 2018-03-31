@@ -65,13 +65,13 @@ class AsociacionesController extends Controller
   
           /*-- validacion por nombres --*/
           $var_aso = Str::upper($request->get('nombre'));
-          $asociacion = Asociacion::where('nombre',$var_aso)->count();          
+          $asociacion = Asociacion::where('nombre',$var_aso)->where('activo',1)->count();          
           if($asociacion > 0){
               return response()->json(['errors'=>['ASOCIACION ' => 'Ya existe una asociacion con estos datos : '.$request->get('nombres').' '.$request->get('apellido_paterno').' '.$request->get('apellido_materno')]]);
           }  
           /*-- validacion por ruc --*/
           $var_aso_r = Str::upper($request->get('ruc'));
-          $asociacion = Asociacion::where('ruc',$var_aso_r)->count();          
+          $asociacion = Asociacion::where('ruc',$var_aso_r)->where('activo',1)->count();          
           if($asociacion > 0){
               return response()->json(['errors'=>['ASOCIACION ' => 'Ya existe una asociacion con estos datos : '.$request->get('nombres').' '.$request->get('apellido_paterno').' '.$request->get('apellido_materno')]]);
           }                 

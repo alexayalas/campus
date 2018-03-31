@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function() {
   Route::resource('users','UsersController', ['except' => ['edit']]); 
   Route::resource('afiliados','AfiliadosController', ['except' => ['edit']]);  
   Route::resource('hijos','HijosController', ['except' => ['edit']]);  
-  Route::resource('asociaciones','AsociacionesController', ['except' => ['edit']]);       
+  Route::resource('asociaciones','AsociacionesController', ['except' => ['edit']]);    
+  Route::resource('ubicaciones','UbicacionesController', ['except' => ['edit']]);        
 });
 

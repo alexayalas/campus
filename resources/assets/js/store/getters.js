@@ -13,5 +13,8 @@ export default {
     },  
     getUbigeoById: state => id => {
         return state.ubigeos.find(ubigeo => ubigeo.id == id)
-    },      
+    },
+    getUbicacionAsociacionById: (state, getters) => (id) => {
+        return state.ubicaciones.filter(ubicacion => ubicacion.asociacion_id == id)
+    },           
 }

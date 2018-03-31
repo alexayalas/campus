@@ -4,31 +4,31 @@
         <div class="login-box animated fadeInDown">
             <div class="login-logo"></div>
             <div class="login-body">
-                <div class="login-title"><strong>Welcome</strong>, Please login</div>
+                <div class="login-title"><strong>Bienvenido</strong>, Por favor ingrese sus datos</div>
                 <form action="index.html" class="form-horizontal" method="post">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <input type="text" class="form-control" v-model="dataLogin.name" placeholder="Username"/>
+                        <input type="text" class="form-control" v-model="dataLogin.name" placeholder="Usuario"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <input type="password" class="form-control" v-model="dataLogin.password" placeholder="Password"/>
+                        <input type="password" class="form-control" v-model="dataLogin.password" placeholder="Contraseña"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        <a href="#" class="btn btn-link btn-block">Forgot your password?</a>
+                        <a href="#" class="btn btn-link btn-block">Olvido su contraseña?</a>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-info btn-block" @click.prevent="login">Log In</button>
+                        <button class="btn btn-info btn-block" @click.prevent="login">INGRESAR</button>
                     </div>
                 </div>
                 </form>
             </div>
             <div class="login-footer">
                 <div class="pull-left">
-                    &copy; 2014 AppName
+                    &copy; 2014 JR
                 </div>
                 <div class="pull-right">
                     <a href="#">About</a> |

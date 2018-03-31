@@ -11,6 +11,7 @@ import AfiPagosExtraordinarios from './components/afiliados/content/AfiPagosExtr
 import AfiVentas from './components/afiliados/content/AfiVentas.vue'
 
 import Asociaciones from './components/asociaciones/Asociaciones.vue'
+import Ubicaciones from './components/asociaciones/Ubicaciones.vue'
 import Modulos from './components/seguridad/Modulos.vue'
 import Perfiles from './components/seguridad/Perfiles.vue'
 import Usuarios from './components/usuarios/Usuarios.vue'
@@ -84,6 +85,14 @@ export default [
                 component: Asociaciones,
                 meta: { requiresAuth: true }
             },
+            /*<!-- Menu Ubicaciones -->*/
+            {
+                path: '/ubicaciones/:asociacion',
+                name: 'Ubicaciones',
+                component: Ubicaciones,
+                props: true,
+                meta: { requiresAuth: true }
+            },            
             /*<!-- Menu Ventas -->*/
             {
                 path: '/ventas/ventas',

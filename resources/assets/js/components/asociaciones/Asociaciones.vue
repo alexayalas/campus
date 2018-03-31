@@ -52,10 +52,10 @@
         </div>        
         <!-- PAGE CONTENT WRAPPER -->  
         <modal name="asociacion" :width="'60%'" :height="'auto'" :scrollable="true" :clickToClose="false">
-        <!-- form de registro de afiliados -->
+        <!-- form de registro de ubicaciones -->
         <div class="row">
             <div class="row title-form">
-                <h3 class="pull-left h3-title">Registro de Asociaciones</h3>
+                <h3 class="pull-left h3-title">Registro de Estructura de Asociaciones</h3>
                 <div class="pull-right close-form" @click="$modal.hide('asociacion')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
             <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createAsociacion">
@@ -89,7 +89,6 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Descripcion </label>
                         <div class="col-sm-8">
-<!--                             <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataAsociacion.nombre_comercial" required> -->
                             <textarea name="descripcion" rows="4" cols="78" v-model="dataAsociacion.descripcion"></textarea>
                         </div>
                     </div><!-- /.form-group -->                    
@@ -238,7 +237,12 @@ export default {
             .catch(() => {
                 console.log('Delete aborted');
             });
-        },                
+        },
+        onClickFn: function(row, index){
+            console.log(row); //the object for the row that was clicked on
+            console.log(index); // index of the row that was clicked on
+            this.$router.push({ name: 'Ubicaciones',  params: { asociacion : row.id } })
+        },                               
     }    
 }
 </script>

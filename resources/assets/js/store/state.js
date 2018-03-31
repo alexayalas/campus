@@ -5,5 +5,7 @@ export default {
     hijos: [],
     ubigeos: [],
     estadosciviles: [],
+    ubicaciones:[],
+    lotizaciones:[],
     authenticated: false,
 }

@@ -52,5 +52,14 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },           
+    }, 
+    LOAD_UBICACIONES_LIST: function ({ commit }) {
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlAsociaciones = '/api/ubicaciones';
+        return axios.get(urlAsociaciones).then((response) => {
+            commit('SET_UBICACIONES_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },               
 }
