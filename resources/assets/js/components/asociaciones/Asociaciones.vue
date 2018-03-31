@@ -38,7 +38,11 @@
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.ruc }}</td>
                                     <td>{{ props.row.nombre_comercial }}</td>
                                     <td>{{ props.row.fecha_inicio_labores }}</td>
-                                    <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
+                                    <td>
+                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">mode_edit</i></button>
+                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">location_on</i></button>
+                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button>                                    
+                                    </td>
                                 </template>                              
                             </vue-good-table>
                         </div>
@@ -153,7 +157,8 @@ export default {
                 },
                 {
                 label: 'Acción',
-                html: true    
+                html: true  ,
+                width:'15%',  
                 }                               
             ],
             dataAsociacion : {
