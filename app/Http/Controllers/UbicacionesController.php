@@ -25,9 +25,9 @@ class UbicacionesController extends Controller
     {
         //$ubicaciones = Ubicacion::orderBy('id','ASC')->where('activo',1)->get();          
         //return $ubicaciones;
-        $ubicaciones = Lotizacion::select('id','sector','grupo','manzana',DB::raw("select count(*) from lotizaciones where estado_lote='disponible' AS disponible"));
-        return $ubicaciones;
-        //dd($ubicaciones);
+        $ubicaciones = DB::table('lotizaciones')->select('id','ubicacion_id',DB::raw("(select count(*) from lotizaciones where estado_lote='disponible') as disponible"))->groupBy('ubicacion_id')->get();
+        //return $ubicaciones;
+        dd($ubicaciones);
         
     }
 
