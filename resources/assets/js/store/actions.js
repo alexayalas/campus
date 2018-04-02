@@ -55,11 +55,20 @@ export default {
     }, 
     LOAD_UBICACIONES_LIST: function ({ commit }) {
         //commit('SET_BLANK_PATIENTS_LIST')
-        var urlAsociaciones = '/api/ubicaciones';
-        return axios.get(urlAsociaciones).then((response) => {
+        var urlUbicaciones = '/api/ubicaciones';
+        return axios.get(urlUbicaciones).then((response) => {
             commit('SET_UBICACIONES_LIST', { list: response.data })
         }, (err) => {
             console.log(err)
         });
-    },               
+    }, 
+    LOAD_LOTIZACIONES_LIST: function ({ commit }) {
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlLotizaciones = '/api/lotizaciones';
+        return axios.get(urlLotizaciones).then((response) => {
+            commit('SET_LOTIZACIONES_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                   
 }

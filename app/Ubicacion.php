@@ -8,8 +8,8 @@ class Ubicacion extends Model
 {
     protected $table = "ubicaciones";
 
-    protected $fillable = ['id', 'asociacion_id', 'sector','grupo', 'manzana',
-                         'user_id', 'activo'];
+    protected $fillable = ['id', 'asociacion_id', 'sector','grupo', 'manzana','lotes_disponibles','lotes_prevendidos',
+                         'lotes_vendidos','lotes_total','user_id', 'activo'];
 
 
     public function user()

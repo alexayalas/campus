@@ -28,5 +28,8 @@ export default {
     }, 
     SET_UBICACIONES_LIST: (state, { list }) => {      // UBICACIONES
         state.ubicaciones = list
-    },             
+    }, 
+    SET_LOTIZACIONES_LIST: (state, { list }) => {      // LOTES
+        state.lotizaciones = list
+    },                   
 }

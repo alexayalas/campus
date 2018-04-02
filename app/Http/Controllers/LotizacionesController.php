@@ -23,8 +23,8 @@ class LotizacionesController extends Controller
      */
     public function index()
     {
-        $ubicaciones = Ubicacion::orderBy('id','ASC')->where('activo',1)->get();          
-        return $ubicaciones;
+        $lotizaciones = Lotizacion::with('ubicacion')->orderBy('id','ASC')->where('activo',1)->get();          
+        return $lotizaciones;
     }
 
     /**

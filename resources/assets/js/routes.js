@@ -12,6 +12,7 @@ import AfiVentas from './components/afiliados/content/AfiVentas.vue'
 
 import Asociaciones from './components/asociaciones/Asociaciones.vue'
 import Ubicaciones from './components/asociaciones/Ubicaciones.vue'
+import Lotizaciones from './components/asociaciones/Lotizaciones.vue'
 import Modulos from './components/seguridad/Modulos.vue'
 import Perfiles from './components/seguridad/Perfiles.vue'
 import Usuarios from './components/usuarios/Usuarios.vue'
@@ -92,7 +93,15 @@ export default [
                 component: Ubicaciones,
                 props: true,
                 meta: { requiresAuth: true }
-            },            
+            }, 
+            /*<!-- Menu Lotizaciones -->*/    
+            {
+                path: '/lotizaciones/:ubicacion',
+                name: 'Lotizaciones',
+                component: Lotizaciones,
+                props: true,
+                meta: { requiresAuth: true }
+            },                      
             /*<!-- Menu Ventas -->*/
             {
                 path: '/ventas/ventas',

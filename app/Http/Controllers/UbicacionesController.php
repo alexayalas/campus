@@ -25,9 +25,9 @@ class UbicacionesController extends Controller
     {
         //$ubicaciones = Ubicacion::orderBy('id','ASC')->where('activo',1)->get();          
         //return $ubicaciones;
-        $ubicaciones = DB::table('lotizaciones')->select('id','ubicacion_id',DB::raw("(select count(*) from lotizaciones where estado_lote='disponible') as disponible"))->groupBy('ubicacion_id')->get();
-        //return $ubicaciones;
-        dd($ubicaciones);
+        $ubicaciones = Ubicacion::orderBy('id','ASC')->where('activo',1)->get();
+        return $ubicaciones;
+        //dd($ubicaciones);
         
     }
 
@@ -70,10 +70,13 @@ class UbicacionesController extends Controller
            
             /*-- Grabamos la Ubicacion ---*/
             $ubic = new Ubicacion($request->all());
+            $ubic->sector = Str::upper($request->get('sector'));
+            $ubic->grupo = Str::upper($request->get('grupo'));
+            $ubic->manzana = Str::upper($request->get('manzana'));              
             $ubic->save();
          
             /* ---- Guardamos los lotes de la ubicacion ---*/
-            $tot = $request->get('lotes');
+            $tot = $request->get('lotes_total');
             for ($i = 1; $i <= $tot ; $i++) {
                 $lotes = new Lotizacion();
                 $lotes->ubicacion_id = $ubic->id;

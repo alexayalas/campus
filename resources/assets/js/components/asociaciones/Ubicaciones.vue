@@ -36,8 +36,11 @@
                                 <template slot="table-row" slot-scope="props">
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.sector}}</td>
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.grupo }}</td>
-                                    <td>{{ props.row.manzana }}</td>
-                                    <td>{{ props.row.disponible }}</td>
+                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.manzana }}</td>
+                                    <td>{{ props.row.lotes_disponibles }}</td>
+                                    <td>{{ props.row.lotes_prevendidos }}</td>
+                                    <td>{{ props.row.lotes_vendidos }}</td>
+                                    <td>{{ props.row.lotes_total }}</td>                                    
                                     <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
                                 </template>                              
                             </vue-good-table>
@@ -76,7 +79,7 @@
                         </div><!-- /.form-group -->    
                         <div class="form-group col-md-3 pl-15">
                             <label class="control-label">Numero Lotes <span class="asterisk">*</span></label>
-                            <input type="number" class="form-control input-sm" name="lotes" v-model="dataUbicacion.lotes" required>
+                            <input type="number" class="form-control input-sm" name="lotes" v-model="dataUbicacion.lotes_total" required>
                         </div><!-- /.form-group -->
                         <div class="pull-right mr-20 pr-10">
                             <label><input type="checkbox" v-model="noclose"> Grabar sin cerrar formulario </label>
@@ -130,22 +133,28 @@ export default {
                 {
                 label: 'Manzana',
                 field: 'manzana',
+                filterable: true,                
                 width:'15%',                
                 },
                 {
-                label: 'lotes Disponibles',
-                field: 'disponible',
+                label: 'Disponibles',
+                field: 'lotes_disponibles',
                 width:'10%',                
                 },
                 {
-                label: 'lotes Vendidos',
-                field: 'vendido',
+                label: 'Vendidos',
+                field: 'lotes_vendidos',
                 width:'10%',                
                 },
                 {
-                label: 'Total lotes',
+                label: 'PreVendidos',
+                field: 'lotes_prevendidos',
+                width:'10%',                
+                },                
+                {
+                label: 'Total',
                 field: 'lotes_total',
-                width:'15%',                
+                width:'10%',                
                 },                                
                 {
                 label: 'Acción',
@@ -156,7 +165,10 @@ export default {
                 sector:'',
                 grupo:'',
                 manzana:'',
-                lotes:0,
+                lotes_disponibles:'',
+                lotes_prevendidos:0,
+                lotes_vendidos:0,
+                lotes_total:'',
                 user_id: 1,
                 asociacion:''
             }, 
@@ -177,7 +189,10 @@ export default {
                 sector:'',
                 grupo:'',
                 manzana:'',
-                lotes:0,
+                lotes_disponibles:'',
+                lotes_prevendidos:0,
+                lotes_vendidos:0,
+                lotes_total:'',                
                 user_id: 1,
                 asociacion_id:''
             },       
@@ -188,6 +203,7 @@ export default {
             toastr.options.closeButton = true
             toastr.options.progressBar = true
             this.dataUbicacion.asociacion_id = this.$route.params.asociacion
+            this.dataUbicacion.lotes_disponibles = this.dataUbicacion.lotes_total
 
             axios.post(url, this.dataUbicacion).then(response => {
             if(typeof(response.data.errors) != "undefined"){
@@ -205,7 +221,7 @@ export default {
             //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
             this.errors = []
             if(!this.noclose) {
-                this.$modal.hide('asociacion')
+                this.$modal.hide('ubicacion')
             }
 
             toastr.success('Nueva Estructura creada con exito')
@@ -214,7 +230,12 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors)
             console.log(error.response.status)
             });
-        },               
+        },
+        onClickFn: function(row, index){
+            console.log(row); //the object for the row that was clicked on
+            console.log(index); // index of the row that was clicked on
+            this.$router.push({ name: 'Lotizaciones',  params: { ubicacion : row.id } })
+        },                        
     }      
 }
 </script>
