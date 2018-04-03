@@ -222,4 +222,11 @@ class AfiliadosController extends Controller
         }
 
     }
+
+    public function buscaAfiliado(Request $request)
+    {
+        //dd($request->dato);
+        $afiliado = Afiliado::search($request->dato,$request->opcion)->get();
+        return $afiliado;
+    }
 }
