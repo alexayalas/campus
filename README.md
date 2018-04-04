@@ -1,2 +1,0 @@
-# campus
-terrenos jr
