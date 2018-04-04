@@ -25,34 +25,21 @@
                     </div>
                 </div>                                                                        
             </li>
-            <!--<li class="xn-title">Navigation</li>-->
-<!--             <li class="active"> -->
-                <router-link :to="{ name: 'Dashboard' }" tag="li"><a href="#"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a></router-link>
-<!--                 <a href="index.html"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a>-->
-                <!-- <router-link :to="{ name: 'Dashboard' }"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></router-link> -->                        
-            <!-- </li> -->                    
-            <!-- <li> -->
-                <router-link :to="{ name: 'Afiliados' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Afiliados</span></a></router-link>
-                <!-- <a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Afiliados</span></a> -->
-                <!-- <router-link :to="{ name: 'Afiliados' }"><span class="fa fa-files-o"></span> <span class="xn-text">Afiliados</span></router-link> -->
-            <!-- </li> -->
-            <!-- <li> -->
-                <!-- <a href="#"><span class="fa fa-file-text-o"></span> <span class="xn-text">Asociaciones</span></a> -->
-                <router-link :to="{ name: 'Asociaciones' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Asociaciones</span></a></router-link>
-            <!-- </li> -->
+            <router-link :to="{ name: 'Dashboard' }" tag="li"><a href="#"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a></router-link>
+            <router-link :to="{ name: 'Afiliados' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Afiliados</span></a></router-link>
+            <router-link :to="{ name: 'Asociaciones' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Asociaciones</span></a></router-link>
             <li class="xn-openable">
                 <a href="#"><span class="fa fa-cogs"></span> <span class="xn-text">Ventas</span></a>                        
                 <ul>
                     <router-link :to="{ name: 'Preventas' }" tag="li"><a href="#"><span class="fa fa-heart"></span>PreVentas</a></router-link>
                     <router-link :to="{ name: 'Ventas' }" tag="li"><a href="#"><span class="fa fa-cogs"></span>Ventas</a></router-link>
-
-                    <!-- <li><a href="ui-widgets.html"><span class="fa fa-heart"></span> PreVentas</a></li> -->                            
-                    <!-- <li><a href="ui-elements.html"><span class="fa fa-cogs"></span> Ventas</a></li> -->
                 </ul>
             </li>                    
+            <router-link :to="{ name: 'Vendedores' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Vendedores</span></a></router-link>
+<!-- /* 
             <li>
                 <a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Vendedores</span></a>
-            </li>
+            </li> */ -->
             <li>
                 <a href="tables.html"><span class="fa fa-table"></span> <span class="xn-text">Usuarios</span></a>
             </li>
