@@ -75,62 +75,62 @@
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" name="dni" v-model="dataVenta.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
-                                <span class="input-group-addon" @click.prevent="buscaAfiliado"><i class="fa fa-search"></i></span>
+                                <span class="input-group-addon" @click.prevent="buscaAfiliado(dataVenta.dni,0)"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
                         <label class="col-sm-2 control-label">Credencial <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" name="credencial" v-model="dataVenta.credencial" required>
-                                <span class="input-group-addon" @click.prevent="buscaAfiliado"><i class="fa fa-search"></i></span>
+                                <span class="input-group-addon" @click.prevent="buscaAfiliado(dataVenta.credencial,1)"><i class="fa fa-search"></i></span>
                             </div>
                         </div>                        
                     </div><!-- /.form-group -->
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Afiliado <span class="asterisk">*</span></label>
+                        <label class="col-sm-4 control-label">Afiliado </label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm mayusculas" name="asociacion_name" v-model="dataVenta.nombre_completo" required>
+                            <label class="form-control conborde" for="">{{ afiliado }}</label>
                         </div>
                     </div><!-- /.form-group -->
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Kardex <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm " name="ruc" v-model="dataVenta.kardex" maxlength="11" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Nº Folio <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-2 control-label">Nº Folio <span class="asterisk">*</span></label>
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataVenta.folio" required>
-                        </div>
-                    </div><!-- /.form-group -->                                                           
+                        </div>                        
+                    </div><!-- /.form-group -->                                                       
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Costo Total <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataVenta.costo_total" required>
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Tipo de Venta <span class="asterisk">*</span></label>
-                        <div class="col-sm-8 pt-5">
-                        <p class="mb-0">
-                            Contado: <input type="radio" name="contado" id="contado" value="0" v-model="dataVenta.tipo_venta" required />
-                            Credito: <input type="radio" name="credito" id="credito" value="1" v-model="dataVenta.tipo_venta" />
-                        </p>
-                        </div>
-                    </div>                                            
+                        <label class="col-sm-2 control-label">Tipo de Venta <span class="asterisk">*</span></label>
+                        <div class="col-sm-3 pt-5">
+                            <p class="mb-0">
+                                Contado: <input type="radio" name="contado" id="contado" value="0" v-model="dataVenta.tipo_venta" required />
+                                Credito: <input type="radio" name="credito" id="credito" value="1" v-model="dataVenta.tipo_venta" />
+                            </p>
+                        </div>                        
+                    </div><!-- /.form-group -->                                           
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Num. Cuotas (Mensuales)<span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-3">
                             <input type="number" class="form-control input-sm" name="numero_cuotas" v-model="dataVenta.numero_cuotas" required>
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Valor de Cuotas <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-2 control-label">Valor de Cuotas <span class="asterisk">*</span></label>
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm" name="valor_cuotas" v-model="dataVenta.valor_cuotas" required>
+                        </div>                        
+                    </div><!-- /.form-group --> 
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-4">Fecha 1er Pago </label>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <masked-input v-model="dataVenta.fecha_inicial" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>
-                    </div><!-- /.form-group -->                    
+                    </div>                                       
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Observaciones </label>
                         <div class="col-sm-8">
@@ -215,33 +215,23 @@ export default {
                 lotizacion_id:'',
                 fecha_venta:("0" + (new Date().getDate())).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear() ,
                 costo_total:'',
-                tipo_venta:'',
+                tipo_venta:'1',
                 numero_cuotas:'',
                 valor_cuotas:'',
+                fecha_inicial:'',
                 estado_venta:'',
                 observaciones:'',
                 vendedor_id:'',
-                user_id:'',
+                user_id:'1',
                 estado_lote:''  // Tabla de lotizacion
-            }, 
-            dataPago: {
-                venta_id:'',
-                numero_cuota:'',
-                fecha_programada:'',
-                fecha_pago:'',
-                numero_documento:'',
-                importe:'',
-                pagado_por:'',
-                estado_pago:'',
-                user_id:''
-            },                
+            },     
+            afiliado:'',            
             errors:[]
         }
     },    
     computed: {
         ...mapGetters({ getlotizacion_ubicacion: 'getLotizacionUbicacionById'}),
         lotizacion_ubicacionByid: function(){
-            //console.log("ubicacion:",this.getubicacion_asociacion(this.$route.params.asociacion))
             return this.getlotizacion_ubicacion(this.$route.params.ubicacion);
         }
     },
@@ -250,11 +240,86 @@ export default {
     },      
     methods: {
         processVenta: function(row){
-            this.$modal.show('venta');
+            this.dataVenta = {
+                afiliado_id:'',
+                kardex:'',
+                folio:'',
+                lotizacion_id:'',
+                fecha_venta:("0" + (new Date().getDate())).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear() ,
+                costo_total:'',
+                tipo_venta:'1',
+                numero_cuotas:'',
+                valor_cuotas:'',
+                fecha_inicial:'',
+                estado_venta:'',
+                observaciones:'',
+                vendedor_id:'',
+                user_id:'1',
+                estado_lote:''  // Tabla de lotizacion
+            }     
+            this.afiliado = null                 
+            this.$modal.show('venta')
         }, 
-        buscaAfiliado: function() {
-            console.log("buscando .....")
-        }       
+        buscaAfiliado: function(dato,option) {
+            var url ="/api/buscaAfiliado"
+            axios.get(url,{
+            params:{
+                dato: dato,
+                opcion: option
+            }
+            }).then(response => {
+
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                return;
+            }
+            if(response.data.length >0 ){
+                this.afiliado = response.data[0].nombre_completo
+                this.dataVenta.afiliado_id = response.data[0].id
+            }else{
+                this.afiliado = "NO HUBO RESULTADOS EN LA BUSQUEDA "
+                this.dataVenta.afiliado_id = null
+            }
+
+            }).catch(error => {
+            console.log("error en el componente: ",error.response);
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            });
+        },
+        createVenta: function(){
+            var url = '/api/ventas';
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            axios.post(url, this.dataVenta).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_LOTIZACIONES_LIST')       
+            this.errors = [];
+            this.$modal.hide('venta');
+            toastr.success('Nueva Venta creada con exito');
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },                
     }      
 }
 </script>
@@ -292,5 +357,9 @@ export default {
     .enlace:hover {
         cursor:pointer; cursor: hand	      
     } 
+
+    .conborde {
+        border:1px solid black;
+    }
 </style>
 

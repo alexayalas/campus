@@ -223,15 +223,10 @@ class AfiliadosController extends Controller
 
     }
 
-    public function SearchAfiliado($dato,$opcion)
+    public function buscaAfiliado(Request $request)
     {
-        if($opcion == 0)
-        {
-            $afiliado = Afiliado::where('dni',$dato)->where('activo',1)->get();
-        }else{
-            $afiliado = Afiliado::where('credencial',$dato)->where('activo',1)->get();
-        }
-
+        //dd($request->dato);
+        $afiliado = Afiliado::search($request->dato,$request->opcion)->get();
         return $afiliado;
     }
 }

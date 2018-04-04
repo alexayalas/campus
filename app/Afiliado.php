@@ -32,7 +32,16 @@ class Afiliado extends Model
     public function hijos()
     {
         return $this->hasMany('App\Hijo');
-    }          
+    }
+    
+    public function scopeSearch($query,$dato,$option)
+    {
+        if($option == 0){   // dni
+            return $query->where('dni',$dato)->where('activo',1);
+        }else{              // credencial
+            return $query->where('credencial',$dato)->where('activo',1);
+        }
+    }       
 
 }
 
