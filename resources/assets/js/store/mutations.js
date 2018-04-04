@@ -31,5 +31,8 @@ export default {
     }, 
     SET_LOTIZACIONES_LIST: (state, { list }) => {      // LOTES
         state.lotizaciones = list
-    },                   
+    }, 
+    SET_VENDEDORES_LIST: (state, { list }) => {      // VENDEDORES
+        state.vendedores = list
+    },                       
 }

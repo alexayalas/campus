@@ -70,5 +70,14 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },                   
+    }, 
+    LOAD_VENDEDORES_LIST: function ({ commit }) {
+        //commit('SET_BLANK_PATIENTS_LIST')
+        var urlVendedores = '/api/vendedores';
+        return axios.get(urlVendedores).then((response) => {
+            commit('SET_VENDEDORES_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                       
 }
