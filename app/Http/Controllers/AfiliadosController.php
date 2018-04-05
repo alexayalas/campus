@@ -26,7 +26,10 @@ class AfiliadosController extends Controller
      */
     public function index()
     {
-        $afiliados = Afiliado::with('ubigeo')->orderBy('id','ASC')->where('activo',1)->get();          
+        $afiliados = Afiliado::with('ubigeo')->orderBy('id','ASC')->where('activo',1)->get(); 
+        $afiliados->each(function($afiliados){
+            $afiliados->fecha_nacimiento = ($afiliados->fecha_nacimiento == null ? null : date("d-m-Y", strtotime($afiliados->fecha_nacimiento)));
+        });                   
         return $afiliados;
     }
 

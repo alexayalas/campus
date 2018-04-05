@@ -23,6 +23,10 @@ class VendedoresController extends Controller
     public function index()
     {
         $vendedores = Vendedor::where('activo',1)->orderBy('id','ASC')->get();
+        $vendedores->each(function($vendedores){
+            $vendedores->fecha_nacimiento = ($vendedores->fecha_nacimiento == null ? null : date("d-m-Y", strtotime($vendedores->fecha_nacimiento)));
+            $vendedores->fecha_ingreso = ($vendedores->fecha_ingreso == null ? null : date("d-m-Y", strtotime($vendedores->fecha_ingreso)));
+        });        
         return $vendedores;
     }
 
@@ -96,9 +100,9 @@ class VendedoresController extends Controller
           if(isset($fileName)){
             $vendedor->foto = $fileName;
           }
-          $formfec = explode("/", $vendedor->fecha_nacimiento);          
-          $formfec2 = explode("/", $vendedor->fecha_ingreso);          
+          $formfec = explode("/", $vendedor->fecha_nacimiento);                  
           $vendedor->fecha_nacimiento = empty($vendedor->fecha_nacimiento) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
+          $formfec2 = explode("/", $vendedor->fecha_ingreso);            
           $vendedor->fecha_ingreso = empty($vendedor->fecha_ingreso) ? null : Carbon::create($formfec2[2],$formfec2[1],$formfec2[0]);
           $vendedor->nombres = Str::upper($vendedor->nombres);
           $vendedor->apellidos = Str::upper($vendedor->apellidos);     
@@ -147,7 +151,53 @@ class VendedoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction(); 
+
+        try {
+            $rules = ['nombres'     => 'required',
+                      'apellidos' => 'required',
+                      'codigo' => 'required',
+                      'dni' => 'required'
+                    ];
+  
+            if($request->has('fecha_nacimiento')){
+                $rules = array_add($rules, 'fecha_nacimiento', 'date_format:d/m/Y');
+            }
+            if($request->has('fecha_ingreso')){
+                $rules = array_add($rules, 'fecha_ingreso', 'date_format:d/m/Y');
+            }            
+            if($request->get('image')){
+                $rules = array_add($rules, 'image', 'image64:jpeg,jpg,png');
+            }
+            $messages = ['fecha_nacimiento.date_format' => 'Formato de fecha invalido',
+                        'fecha_ingreso.date_format' => 'Formato de fecha invalido',
+                        'image.image64' => 'formato de imagen invalido'];
+    
+            $validator = Validator::make($request->all(), $rules , $messages);
+            if ($validator->fails()) {
+                return response()->json(['errors'=>$validator->errors()]);
+            }
+
+            $vendedor = Vendedor::find($id);
+            $vendedor->fill($request->all());
+            $formfec = explode("/", $vendedor->fecha_nacimiento); 
+            $vendedor->fecha_nacimiento = empty($vendedor->fecha_nacimiento) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
+            $formfec2 = explode("/", $vendedor->fecha_ingreso); 
+            $vendedor->fecha_ingreso = empty($vendedor->fecha_ingreso) ? null : Carbon::create($formfec2[2],$formfec2[1],$formfec2[0]);
+            $vendedor->nombres = Str::upper($vendedor->nombres);
+            $vendedor->apellidos = Str::upper($vendedor->apellidos);
+            $vendedor->nombre_completo = Str::upper($vendedor->nombres).' '.Str::upper($vendedor->apellidos);
+  
+            $vendedor->save();
+  
+          DB::commit();           
+          return;
+        } catch (Exception $e) {
+          DB::rollback();          
+          return response()->json(
+              ['status' => $e->getMessage()], 422
+          );
+        }
     }
 
     /**

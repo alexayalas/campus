@@ -19,5 +19,8 @@ export default {
     },  
     getLotizacionUbicacionById: (state, getters) => (id) => {
         return state.lotizaciones.filter(lotes => lotes.ubicacion_id == id)
-    },               
+    }, 
+    getVendedorById: (state, getters) => (id) => {
+        return state.vendedores.find(vendedor => vendedor.id == id)
+    }                    
 }

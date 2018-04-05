@@ -9,6 +9,12 @@ import AfiDatosFamiliares from './components/afiliados/content/AfiDatosFamiliare
 import AfiDocumentos from './components/afiliados/content/AfiDocumentos.vue'
 import AfiPagosExtraordinarios from './components/afiliados/content/AfiPagosExtraordinarios.vue'
 import AfiVentas from './components/afiliados/content/AfiVentas.vue'
+/*<!-- Opciones del Menu Vendedores -->*/
+import Vendedores from './components/vendedores/Vendedores.vue'
+import VendedoresMain from './components/vendedores/VendedoresMain.vue'
+import VenDatos from './components/vendedores/content/VenDatos.vue'
+import VenVentas from './components/vendedores/content/VenVentas.vue'
+import VenEstadisticas from './components/vendedores/content/VenEstadisticas.vue'
 
 import Asociaciones from './components/asociaciones/Asociaciones.vue'
 import Ubicaciones from './components/asociaciones/Ubicaciones.vue'
@@ -16,7 +22,6 @@ import Lotizaciones from './components/asociaciones/Lotizaciones.vue'
 import Modulos from './components/seguridad/Modulos.vue'
 import Perfiles from './components/seguridad/Perfiles.vue'
 import Usuarios from './components/usuarios/Usuarios.vue'
-import Vendedores from './components/vendedores/Vendedores.vue'
 import Ventas from './components/ventas/Ventas.vue'
 import Preventas from './components/ventas/Preventas.vue'
 
@@ -79,6 +84,39 @@ export default [
                     },
                     ]
             },
+            /*<!-- Menu Principal Vendedores -->*/
+            {
+                path: '/vendedores',
+                name: 'Vendedores',
+                component: Vendedores,
+                meta: { requiresAuth: true }
+            },            
+            /*<!-- Menu Vendedores -->*/
+            {
+                path: '/detalle-vendedores',
+                name: 'DetalleVendedores',
+                component: VendedoresMain,
+                children: [
+                    {
+                        path: 'datos/:vendedor',
+                        name: 'VenDatos',
+                        component: VenDatos,
+                        props: true
+                    },
+                    {
+                        path: 'ventas/:vendedor',
+                        name: 'VenVentas',
+                        component: VenVentas,
+                        props: true
+                    },                    
+                    {
+                        path: 'estadisticas/:vendedor',
+                        name: 'VenEstadisticas',
+                        component: VenEstadisticas,
+                        props: true
+                    },
+                    ]
+            },            
             /*<!-- Menu Asociaciones -->*/
             {
                 path: '/asociaciones',
@@ -113,13 +151,6 @@ export default [
                 path: '/ventas/preventas',
                 name: 'Preventas',
                 component: Preventas,
-                meta: { requiresAuth: true }
-            },
-            /*<!-- Menu Vendedores -->*/
-            {
-                path: '/vendedores',
-                name: 'Vendedores',
-                component: Vendedores,
                 meta: { requiresAuth: true }
             },
             {
