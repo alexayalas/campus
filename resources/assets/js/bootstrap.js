@@ -13,6 +13,7 @@ import VModal from 'vue-js-modal'
 import VuejsDialog from 'vuejs-dialog';
 import './interceptors'
 import VueGoodTable from 'vue-good-table';
+import ToggleButton from 'vue-js-toggle-button';
 
 
 /**
@@ -38,3 +39,4 @@ Vue.use(VueRouter)
 Vue.use(VueGoodTable)
 Vue.use(VModal)
 Vue.use(VuejsDialog);
+Vue.use(ToggleButton);

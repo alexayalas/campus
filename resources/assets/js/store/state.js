@@ -7,6 +7,7 @@ export default {
     estadosciviles: [],
     ubicaciones:[],
     lotizaciones:[],
-    vendedores:[],
+    empleados:[],
+    perfiles:[],
     authenticated: false,
 }

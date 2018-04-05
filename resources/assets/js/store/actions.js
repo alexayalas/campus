@@ -71,13 +71,29 @@ export default {
             console.log(err)
         });
     }, 
-    LOAD_VENDEDORES_LIST: function ({ commit }) {
+    LOAD_EMPLEADOS_LIST: function ({ commit }) {
         //commit('SET_BLANK_PATIENTS_LIST')
-        var urlVendedores = '/api/vendedores';
-        return axios.get(urlVendedores).then((response) => {
-            commit('SET_VENDEDORES_LIST', { list: response.data })
+        var urlEmpleados = '/api/empleados';
+        return axios.get(urlEmpleados).then((response) => {
+            commit('SET_EMPLEADOS_LIST', { list: response.data })
         }, (err) => {
             console.log(err)
         });
-    },                       
+    },
+    LOAD_PERFILES_LIST: function ({ commit }) {
+        var urlPerfiles = '/api/perfiles';
+        return axios.get(urlPerfiles).then((response) => {
+            commit('SET_PERFILES_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },
+    LOAD_DATA_INIT_EMPLEADOS_LIST: function ({ commit }) {
+        var urlType = '/api/empleados/create';
+        return axios.get(urlType).then((response) => {
+            commit('SET_DATA_INIT_EMPLEADOS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                               
 }

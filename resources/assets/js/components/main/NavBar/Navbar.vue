@@ -35,6 +35,7 @@
                     <router-link :to="{ name: 'Ventas' }" tag="li"><a href="#"><span class="fa fa-cogs"></span>Ventas</a></router-link>
                 </ul>
             </li>                    
+            <router-link :to="{ name: 'Empleados' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Empleados</span></a></router-link>            
             <router-link :to="{ name: 'Vendedores' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Vendedores</span></a></router-link>
 <!-- /* 
             <li>

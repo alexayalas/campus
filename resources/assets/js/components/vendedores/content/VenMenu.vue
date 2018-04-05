@@ -43,7 +43,7 @@ export default {
         }
     },
     computed: {
-      ...mapGetters({ getvendedor: 'getVendedorById'}),
+      ...mapGetters({ getvendedor: 'getEmpleadoById'}),
       vendedorByid: function(){
         return this.getvendedor(this.$route.params.vendedor);
       }

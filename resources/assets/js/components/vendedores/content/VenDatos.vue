@@ -90,9 +90,9 @@ export default {
     },
     computed: {
         ...mapState(['vendedores']),
-        ...mapGetters(['getVendedorById']),
+        ...mapGetters(['getEmpleadoById']),
         vendedorByid: function(){
-            return this.getVendedorById(this.$route.params.vendedor);
+            return this.getEmpleadoById(this.$route.params.vendedor);
         }
     }, 
     methods: {          
@@ -102,7 +102,7 @@ export default {
             this.$router.push({ name: 'VenDatos',  params: { vendedor : row.id } })
         }, 
         updateVendedor: function(){
-            var url = '/api/vendedores/'+this.$route.params.vendedor;
+            var url = '/api/empleados/'+this.$route.params.vendedor;
 
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;

@@ -3,7 +3,7 @@
         <!-- PAGE TITLE -->
         <div class="page-title">  
             <i class="material-icons md-36 bootstro-prev-btn">people</i>                  
-            <h2 class="mb-0 mt-5 ml-10">Lista de Vendedores</h2>
+            <h2 class="mb-0 mt-5 ml-10">Lista de Empleados</h2>
         </div>
         <!-- END PAGE TITLE -->                
 
@@ -18,14 +18,14 @@
                         <div class="panel-heading">                                
                             <h3 class="panel-title">JR</h3>  
                             <ul class="panel-controls">
-                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Vendedor</button></li>
+                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Empleado</button></li>
                             </ul>                                                        
                         </div>
                         <div class="panel-body">
                             <vue-good-table
-                            title="Lista General de Vendedores"
+                            title="Lista General de Empleados"
                             :columns="columns"
-                            :rows="getVendedores"
+                            :rows="empleados"
                             :paginate="true"
                             :lineNumbers="true"
                             :rowsPerPageText="textpage"
@@ -53,12 +53,12 @@
             
         </div>        
         <!-- PAGE CONTENT WRAPPER -->  
-        <modal name="vendedor" :width="'70%'" :height="'auto'" :scrollable="true" :clickToClose="false">
+        <modal name="empleado" :width="'70%'" :height="'auto'" :scrollable="true" :clickToClose="false">
         <!-- form de registro de afiliados -->
         <div class="row">
             <div class="row title-form">
-                <h3 class="pull-left h3-title">Registro de Vendedor</h3>
-                <div class="pull-right close-form" @click="$modal.hide('vendedor')"><i class="glyphicon glyphicon-remove"></i></div>                
+                <h3 class="pull-left h3-title">Registro de Empleado</h3>
+                <div class="pull-right close-form" @click="$modal.hide('empleado')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
             <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createVendedor">
                 <div class="form-body">
@@ -66,62 +66,93 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Codigo <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="credencial" v-model="dataVendedor.codigo" required>
+                            <input type="text" class="form-control input-sm" name="credencial" v-model="dataEmpleado.codigo" required>
                         </div>
                         <label class="col-sm-2 control-label">Numero DNI</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataVendedor.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataEmpleado.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                         </div>                         
                     </div><!-- /.form-group -->                    
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nombres <span class="asterisk">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm mayusculas" name="afiliado_name" v-model="dataVendedor.nombres" required>
+                            <input type="text" class="form-control input-sm mayusculas" name="afiliado_name" v-model="dataEmpleado.nombres" required>
                         </div>
                     </div><!-- /.form-group -->
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Apellidos <span class="asterisk">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm mayusculas" name="apellidos" v-model="dataVendedor.apellidos" required>
+                            <input type="text" class="form-control input-sm mayusculas" name="apellidos" v-model="dataEmpleado.apellidos" required>
                         </div>
                     </div><!-- /.form-group -->
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Sexo <span class="asterisk">*</span></label>
                         <div class="col-sm-8 pt-5">
                         <p class="mb-0">
-                            Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataVendedor.sexo" required />
-                            Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataVendedor.sexo" />
+                            Masculino: <input type="radio" name="gender" id="genderM" value="H" v-model="dataEmpleado.sexo" required />
+                            Femenino: <input type="radio" name="gender" id="genderF" value="M" v-model="dataEmpleado.sexo" />
                         </p>
                         </div>
                     </div>                                       
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Telefono </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="telefono" v-model="dataVendedor.telefono" maxlength="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input-sm" name="telefono" v-model="dataEmpleado.telefono" maxlength="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Celular </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm" name="celular" v-model="dataVendedor.celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                        </div>
+                        <label class="col-sm-2 control-label">Celular </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control input-sm" name="celular" v-model="dataEmpleado.celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                        </div>                        
                     </div><!-- /.form-group -->
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Email </label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control input-sm" name="email" v-model="dataVendedor.email">
+                            <input type="email" class="form-control input-sm" name="email" v-model="dataEmpleado.email">
                         </div>
-                    </div><!-- /.form-group -->    
+                    </div><!-- /.form-group -->                          
                     <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-4">Fec.Nacimiento </label>
                         <div class="col-md-2 col-sm-2 col-xs-2">
-                            <masked-input v-model="dataVendedor.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                            <masked-input v-model="dataEmpleado.fecha_nacimiento" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Fec.de Ingreso </label>
                         <div class="col-md-3 col-sm-3 col-xs-3">
-                            <masked-input v-model="dataVendedor.fecha_ingreso" mask="11/11/1111" placeholder="DD/MM/YYYY" />
+                            <masked-input v-model="dataEmpleado.fecha_ingreso" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>                        
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:right">
+                        <button id="btn-access" v-show="false" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...</button>
+                        <label class="control-label">Acceso al Sistema </label>
+                        <toggle-button :value="dataEmpleado.acceso" v-model="dataEmpleado.acceso" :color="{checked: '#337ab7', unchecked: '#FF0000'}" :sync="true" :labels="{checked: 'SI', unchecked: 'NO'}" @change="cambioAcceso"/>                            
+                        </div>
+                        <div class="clearfix"></div>
+                        
+                        <div :class="[collapse]" id="collapseExample">
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-4">Perfil </label>
+                                <div class="col-md-7 col-sm-7 col-xs-7">
+                                <basic-select :options="perfiles"
+                                    :selected-option="item_per"
+                                    placeholder="seleccione una opción"
+                                    @select="onSelectPer">
+                                </basic-select>
+                                </div>
+                                <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_per.text"></span>
+                                <div class="col-md-1 col-sm-1" v-if="item_per.text">
+                                    <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetPer"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Nombre de Usuario </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm minusculas" name="empleado_username" v-model="dataEmpleado.username" />
+                                </div>
+                            </div>                                
+                        </div>
+                        </div>
+                    </div>                    
                                                                                                                                                                                                  
                 </div>
                 <div class="col-md-2 pt-20">
@@ -133,7 +164,7 @@
                 </div><!-- /.form-body -->
                 <div class="col-md-12 pt-20 mt-20 mb-10 mt-0 pr-20 separator">
                     <div class="pull-right pr-10">
-                        <button type="button" class="btn btn-danger active" @click="$modal.hide('vendedor')"><i class="fa fa-reply-all"></i> Cancelar</button>
+                        <button type="button" class="btn btn-danger active" @click="$modal.hide('empleado')"><i class="fa fa-reply-all"></i> Cancelar</button>
                         <button type="submit" class="btn btn-primary active"><i class="fa fa-cloud-upload"></i> Grabar</button>
                     </div>
                 </div><!-- /.form-footer -->
@@ -145,17 +176,21 @@
     </div>
 </template>
 <script>
+import { BasicSelect } from 'vue-search-select'
 import MaskedInput from 'vue-masked-input'
 import { mapState, mapGetters } from 'vuex'
 export default {
-    name: 'vendedores',
+    name: 'empleados',
     mounted() {
         this.$store.dispatch('LOAD_EMPLEADOS_LIST').then(() => {
 
         })  
     },
     data() {
-        return {          
+        return {  
+            searchText: '', // If value is falsy, reset searchText & searchItem
+            item_per: { value: '', text: ''},  
+
             textpage: 'Registros por pagina',
             textnext:'Sig',
             textprev:'Ant',
@@ -198,7 +233,7 @@ export default {
                 html: true    
                 }                               
             ],
-            dataVendedor : {
+            dataEmpleado : {
                 codigo:'',
                 apellidos:'',
                 nombres:'',
@@ -210,24 +245,26 @@ export default {
                 fecha_ingreso:("0" + (new Date().getDate())).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear() ,
                 sexo:'H',
                 foto:'no-image.png',
-                perfil_id:2,
+                perfil_id:'',
                 habilitado:1,
-                acceso:1,
+                acceso: false,
+                username:'',
                 image: ''       
             },                       
-            errors:[]
+            errors:[],
+            collapse : 'collapse'            
         }
     },
     components: {
-      MaskedInput
+        MaskedInput ,
+        BasicSelect
     },
     computed: {
-        ...mapState(['vendedores']),
-        ...mapGetters(['getVendedores']),        
+        ...mapState(['empleados','perfiles'])
     }, 
     methods: {
         LoadForm: function(){        
-            this.dataVendedor = {
+            this.dataEmpleado = {
                 codigo:'',
                 apellidos:'',
                 nombres:'',
@@ -241,19 +278,19 @@ export default {
                 foto:'no-image.png',
                 perfil_id:2,
                 habilitado:1,
-                acceso:1,                
+                acceso:false,                
                 image: ''           
             }
             this.$emit('getClear')
-            //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
-            this.$modal.show('vendedor')
+            this.$store.dispatch('LOAD_DATA_INIT_EMPLEADOS_LIST')                  
+            this.$modal.show('empleado')
         },  
         createVendedor: function(){
-            var url = '/api/vendedores';
+            var url = '/api/empleados';
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
-            axios.post(url, this.dataVendedor).then(response => {
+            axios.post(url, this.dataEmpleado).then(response => {
             if(typeof(response.data.errors) != "undefined"){
                 this.errors = response.data.errors;
                 var resultado = "";
@@ -268,8 +305,8 @@ export default {
             this.$store.dispatch('LOAD_EMPLEADOS_LIST')
             //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
             this.errors = [];
-            this.$modal.hide('vendedor');
-            toastr.success('Nuevo Vendedor creado con exito');
+            this.$modal.hide('empleado');
+            toastr.success('Nuevo Empleado creado con exito');
             }).catch(error => {
             this.errors = error.response.data.status;
             toastr.error("Hubo un error en el proceso: "+this.errors);
@@ -277,7 +314,7 @@ export default {
             });
         }, 
         processDelete(row){
-            this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar este Afiliado: " + row.nombre_completo + " ?</strong></span>", {
+            this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar este Empleado: " + row.nombre_completo + " ?</strong></span>", {
                 html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
                 loader: true, // set to true if you want the dailog to show a loader after click on "proceed"
                 reverse: false, // switch the button positions (left to right, and vise versa)
@@ -308,11 +345,26 @@ export default {
             this.$router.push({ name: 'VenDatos',  params: { vendedor : row.id } })
         }, 
         getImagen: function(imagen){
-            this.dataVendedor.image = imagen;
+            this.dataEmpleado.image = imagen;
         },
         getClear: function(){
             console.log("evento clear");
         },
+        onSelectPer (item_per) {
+            this.item_per = item_per
+            this.dataEmpleado.perfil_id = item_per.value
+        },
+        resetPer () {
+            this.item_per = {}
+            this.dataEmpleado.perfil_id = ''
+        },   
+        cambioAcceso() {
+            $('#btn-access').click()
+            if(!this.checkAccess){
+                this.resetPer()  
+                this.dataEmpleado.username =''
+            }      
+        }              
  
     }               
 }

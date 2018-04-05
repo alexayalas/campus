@@ -16,6 +16,7 @@ import VenDatos from './components/vendedores/content/VenDatos.vue'
 import VenVentas from './components/vendedores/content/VenVentas.vue'
 import VenEstadisticas from './components/vendedores/content/VenEstadisticas.vue'
 
+import Empleados from './components/empleados/Empleados.vue'
 import Asociaciones from './components/asociaciones/Asociaciones.vue'
 import Ubicaciones from './components/asociaciones/Ubicaciones.vue'
 import Lotizaciones from './components/asociaciones/Lotizaciones.vue'
@@ -84,6 +85,13 @@ export default [
                     },
                     ]
             },
+            /*<!-- Menu Empleados -->*/            
+            {
+                path: '/empleados',
+                name: 'Empleados',
+                component: Empleados,
+                meta: { requiresAuth: true }
+            },            
             /*<!-- Menu Principal Vendedores -->*/
             {
                 path: '/vendedores',

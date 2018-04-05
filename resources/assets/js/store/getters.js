@@ -20,7 +20,10 @@ export default {
     getLotizacionUbicacionById: (state, getters) => (id) => {
         return state.lotizaciones.filter(lotes => lotes.ubicacion_id == id)
     }, 
-    getVendedorById: (state, getters) => (id) => {
-        return state.vendedores.find(vendedor => vendedor.id == id)
+    getVendedores: (state, getters) => {
+        return state.empleados.filter(empleados => empleados.perfil_id == 2)
+    },     
+    getEmpleadoById: (state, getters) => (id) => {
+        return state.empleados.find(empleado => empleado.id == id)
     }                    
 }

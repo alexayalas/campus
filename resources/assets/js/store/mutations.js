@@ -32,7 +32,13 @@ export default {
     SET_LOTIZACIONES_LIST: (state, { list }) => {      // LOTES
         state.lotizaciones = list
     }, 
-    SET_VENDEDORES_LIST: (state, { list }) => {      // VENDEDORES
-        state.vendedores = list
-    },                       
+    SET_EMPLEADOS_LIST: (state, { list }) => {      // EMPLEADOS
+        state.empleados = list
+    },  
+    SET_PERFILES_LIST: (state, { list }) => {      // PERFILES
+        state.perfiles = list
+    }, 
+    SET_DATA_INIT_EMPLEADOS_LIST: (state, { list }) => {
+        state.perfiles = list
+    },                         
 }
