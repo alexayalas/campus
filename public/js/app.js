@@ -44628,6 +44628,11 @@ var index = function(options, storage, key) {
                 return empleado.id == id;
             });
         };
+    },
+    getPerfilesEmpleados: function getPerfilesEmpleados(state, getters) {
+        return state.perfiles.filter(function (perfiles) {
+            return perfiles.value != 2;
+        });
     }
 });
 
@@ -53450,8 +53455,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
 
 
 
@@ -53511,7 +53514,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 perfil_id: 2,
                 habilitado: 1,
                 acceso: 1,
-                image: ''
+                image: '',
+                username: ''
             },
             errors: []
         };
@@ -53538,7 +53542,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 perfil_id: 2,
                 habilitado: 1,
                 acceso: 1,
-                image: ''
+                image: '',
+                username: ''
             };
             this.$emit('getClear');
             //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
@@ -53547,9 +53552,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         createVendedor: function createVendedor() {
             var _this = this;
 
-            var url = '/api/vendedores';
+            var url = '/api/empleados';
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
+
+            this.dataVendedor.username = this.dataVendedor.dni; // nombre de usuario por defecto de vendedores
 
             axios.post(url, this.dataVendedor).then(function (response) {
                 if (typeof response.data.errors != "undefined") {
@@ -53586,11 +53593,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 animation: 'fade', // Available: "zoom", "bounce", "fade"
                 type: 'basic'
             }).then(function (dialog) {
-                var url = '/api/vendedores/' + row.id;
+                var url = '/api/empleados/' + row.id;
                 toastr.options.closeButton = true;
                 toastr.options.progressBar = true;
                 axios.delete(url).then(function (response) {
-                    _this2.$store.dispatch('LOAD_VENDEDORES_LIST');
+                    _this2.$store.dispatch('LOAD_EMPLEADOS_LIST');
                     //this.getPatient(this.pagination.current_page,this.patientSearch); 
                     //this.$store.dispatch('LOAD_PATIENTS_LIST', { page: this.$route.params.page, search:this.patientSearch });     
                     toastr.success('Vendedor Eliminado correctamente');
@@ -53856,7 +53863,8 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("label", { staticClass: "col-sm-2 control-label" }, [
-                        _vm._v("Numero DNI")
+                        _vm._v("Numero DNI "),
+                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-3" }, [
@@ -53875,7 +53883,8 @@ var render = function() {
                             name: "numero_dni",
                             maxlength: "8",
                             onkeyup:
-                              "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')"
+                              "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')",
+                            required: ""
                           },
                           domProps: { value: _vm.dataVendedor.dni },
                           on: {
@@ -54040,7 +54049,7 @@ var render = function() {
                         _vm._v("Telefono ")
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
+                      _c("div", { staticClass: "col-sm-3" }, [
                         _c("input", {
                           directives: [
                             {
@@ -54072,15 +54081,13 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-sm-4 control-label" }, [
+                      ]),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "col-sm-2 control-label" }, [
                         _vm._v("Celular ")
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
+                      _c("div", { staticClass: "col-sm-3" }, [
                         _c("input", {
                           directives: [
                             {
@@ -55621,6 +55628,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -55645,13 +55653,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 filterable: true,
                 width: '10%'
             }, {
-                label: 'Vendedor',
+                label: 'Empleado',
                 field: 'nombre_completo',
                 filterable: true,
                 width: '30%'
             }, {
                 label: 'DNI',
                 field: 'dni',
+                width: '10%'
+            }, {
+                label: 'Perfil',
+                field: 'perfil',
                 width: '10%'
             }, {
                 label: 'Telefono',
@@ -55696,7 +55708,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         MaskedInput: __WEBPACK_IMPORTED_MODULE_1_vue_masked_input__["a" /* default */],
         BasicSelect: __WEBPACK_IMPORTED_MODULE_0_vue_search_select__["BasicSelect"]
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['empleados', 'perfiles'])),
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])(['empleados', 'perfiles']), Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(['getPerfilesEmpleados'])),
     methods: {
         LoadForm: function LoadForm() {
             this.dataEmpleado = {
@@ -55919,6 +55931,8 @@ var render = function() {
                               [_vm._v(_vm._s(props.row.dni))]
                             ),
                             _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(props.row.perfil.nombre))]),
+                            _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(props.row.telefono))]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(props.row.celular))]),
@@ -56009,44 +56023,8 @@ var render = function() {
                   _c("div", { staticClass: "col-md-9 pt-20" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("Codigo "),
+                        _vm._v("Numero DNI "),
                         _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-3" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataEmpleado.codigo,
-                              expression: "dataEmpleado.codigo"
-                            }
-                          ],
-                          staticClass: "form-control input-sm",
-                          attrs: {
-                            type: "text",
-                            name: "credencial",
-                            required: ""
-                          },
-                          domProps: { value: _vm.dataEmpleado.codigo },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.dataEmpleado,
-                                "codigo",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "col-sm-2 control-label" }, [
-                        _vm._v("Numero DNI")
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-3" }, [
@@ -56065,7 +56043,8 @@ var render = function() {
                             name: "numero_dni",
                             maxlength: "8",
                             onkeyup:
-                              "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')"
+                              "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')",
+                            required: ""
                           },
                           domProps: { value: _vm.dataEmpleado.dni },
                           on: {
@@ -56170,7 +56149,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-8 pt-5" }, [
                         _c("p", { staticClass: "mb-0" }, [
-                          _vm._v("\n                        Masculino: "),
+                          _vm._v("\n                            Masculino: "),
                           _c("input", {
                             directives: [
                               {
@@ -56196,7 +56175,7 @@ var render = function() {
                               }
                             }
                           }),
-                          _vm._v("\n                        Femenino: "),
+                          _vm._v("\n                            Femenino: "),
                           _c("input", {
                             directives: [
                               {
@@ -56466,6 +56445,7 @@ var render = function() {
                       _c(
                         "div",
                         {
+                          staticClass: "col-md-11 mt-10 pull-right",
                           class: [_vm.collapse],
                           attrs: { id: "collapseExample" }
                         },
@@ -56487,7 +56467,7 @@ var render = function() {
                                 [
                                   _c("basic-select", {
                                     attrs: {
-                                      options: _vm.perfiles,
+                                      options: _vm.getPerfilesEmpleados,
                                       "selected-option": _vm.item_per,
                                       placeholder: "seleccione una opción"
                                     },

@@ -37,6 +37,7 @@
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.codigo }}</td>
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.nombre_completo}}</td>
                                     <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.dni }}</td>
+                                    <td>{{ props.row.perfil.nombre }}</td>
                                     <td>{{ props.row.telefono }}</td>
                                     <td>{{ props.row.celular }}</td>
                                     <td>{{ props.row.email }}</td>
@@ -64,13 +65,9 @@
                 <div class="form-body">
                 <div class="col-md-9 pt-20">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Codigo <span class="asterisk">*</span></label>
+                        <label class="col-sm-4 control-label">Numero DNI <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="credencial" v-model="dataEmpleado.codigo" required>
-                        </div>
-                        <label class="col-sm-2 control-label">Numero DNI</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataEmpleado.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataEmpleado.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                         </div>                         
                     </div><!-- /.form-group -->                    
                     <div class="form-group">
@@ -122,18 +119,18 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:right">
-                        <button id="btn-access" v-show="false" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...</button>
-                        <label class="control-label">Acceso al Sistema </label>
-                        <toggle-button :value="dataEmpleado.acceso" v-model="dataEmpleado.acceso" :color="{checked: '#337ab7', unchecked: '#FF0000'}" :sync="true" :labels="{checked: 'SI', unchecked: 'NO'}" @change="cambioAcceso"/>                            
+                            <button id="btn-access" v-show="false" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...</button>
+                            <label class="control-label">Acceso al Sistema </label>
+                            <toggle-button :value="dataEmpleado.acceso" v-model="dataEmpleado.acceso" :color="{checked: '#337ab7', unchecked: '#FF0000'}" :sync="true" :labels="{checked: 'SI', unchecked: 'NO'}" @change="cambioAcceso"/>                            
                         </div>
                         <div class="clearfix"></div>
                         
-                        <div :class="[collapse]" id="collapseExample">
+                        <div :class="[collapse]" id="collapseExample" class="col-md-11 mt-10 pull-right">
                         <div class="well">
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-4">Perfil </label>
                                 <div class="col-md-7 col-sm-7 col-xs-7">
-                                <basic-select :options="perfiles"
+                                <basic-select :options="getPerfilesEmpleados"
                                     :selected-option="item_per"
                                     placeholder="seleccione una opción"
                                     @select="onSelectPer">
@@ -203,7 +200,7 @@ export default {
                 width:'10%',
                 },
                 {
-                label: 'Vendedor',
+                label: 'Empleado',
                 field: 'nombre_completo',
                 filterable: true,
                 width:'30%',                
@@ -213,6 +210,11 @@ export default {
                 field: 'dni',
                 width:'10%',                
                 },
+                {
+                label: 'Perfil',
+                field: 'perfil',
+                width:'10%',                
+                },                
                 {
                 label: 'Telefono',
                 field: 'telefono',
@@ -260,7 +262,8 @@ export default {
         BasicSelect
     },
     computed: {
-        ...mapState(['empleados','perfiles'])
+        ...mapState(['empleados','perfiles']),
+        ...mapGetters(['getPerfilesEmpleados'])
     }, 
     methods: {
         LoadForm: function(){        

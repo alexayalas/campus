@@ -13,6 +13,7 @@ use Image;
 use Carbon\Carbon;
 use App\Empleado;
 use App\Perfil;
+use App\User;
 
 class EmpleadosController extends Controller
 {
@@ -23,7 +24,7 @@ class EmpleadosController extends Controller
      */
     public function index()
     {
-        $empleados = Empleado::where('activo',1)->orderBy('id','ASC')->get();
+        $empleados = Empleado::with('perfil')->where('activo',1)->orderBy('id','ASC')->get();
         $empleados->each(function($empleados){
             $empleados->fecha_nacimiento = ($empleados->fecha_nacimiento == null ? null : date("d-m-Y", strtotime($empleados->fecha_nacimiento)));
             $empleados->fecha_ingreso = ($empleados->fecha_ingreso == null ? null : date("d-m-Y", strtotime($empleados->fecha_ingreso)));
@@ -55,7 +56,6 @@ class EmpleadosController extends Controller
         try {
           $rules = ['nombres'     => 'required',
                     'apellidos' => 'required',
-                    'codigo' => 'required',
                     'dni' => 'required'
                   ];
   
@@ -110,6 +110,13 @@ class EmpleadosController extends Controller
           $Empleado->apellidos = Str::upper($Empleado->apellidos);     
           $Empleado->nombre_completo = Str::upper($Empleado->nombres).' '.Str::upper($Empleado->apellidos);
           $Empleado->save();
+
+          $user = new User();
+          $user->name = ($request->has('username')) ? Str::lower($request->username) : null;
+          $user->email = ($request->has('email')) ? Str::lower($request->email) : null;
+          $user->password = bcrypt('secreto');
+          $user->empleado_id = $Empleado->id;
+          $user->save();          
   
           DB::commit();        
           return;

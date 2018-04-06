@@ -68,9 +68,9 @@
                         <div class="col-sm-3">
                             <input type="text" class="form-control input-sm" name="credencial" v-model="dataVendedor.codigo" required>
                         </div>
-                        <label class="col-sm-2 control-label">Numero DNI</label>
+                        <label class="col-sm-2 control-label">Numero DNI <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataVendedor.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                            <input type="text" class="form-control input-sm" name="numero_dni" v-model="dataVendedor.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                         </div>                         
                     </div><!-- /.form-group -->                    
                     <div class="form-group">
@@ -96,15 +96,13 @@
                     </div>                                       
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Telefono </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm" name="telefono" v-model="dataVendedor.telefono" maxlength="7" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Celular </label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-2 control-label">Celular </label>
+                        <div class="col-sm-3">
                             <input type="text" class="form-control input-sm" name="celular" v-model="dataVendedor.celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                        </div>
+                        </div> 
                     </div><!-- /.form-group -->
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Email </label>
@@ -213,7 +211,8 @@ export default {
                 perfil_id:2,
                 habilitado:1,
                 acceso:1,
-                image: ''       
+                image: '',
+                username:''       
             },                       
             errors:[]
         }
@@ -242,16 +241,19 @@ export default {
                 perfil_id:2,
                 habilitado:1,
                 acceso:1,                
-                image: ''           
+                image: '',
+                username:''          
             }
             this.$emit('getClear')
             //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
             this.$modal.show('vendedor')
         },  
         createVendedor: function(){
-            var url = '/api/vendedores';
+            var url = '/api/empleados';
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
+
+            this.dataVendedor.username = this.dataVendedor.dni  // nombre de usuario por defecto de vendedores
 
             axios.post(url, this.dataVendedor).then(response => {
             if(typeof(response.data.errors) != "undefined"){
@@ -287,11 +289,11 @@ export default {
                 type: 'basic',
             })
                 .then((dialog) => {
-                var url = '/api/vendedores/' + row.id;
+                var url = '/api/empleados/' + row.id;
                 toastr.options.closeButton = true;
                 toastr.options.progressBar = true;
                 axios.delete(url).then(response=> {
-                this.$store.dispatch('LOAD_VENDEDORES_LIST')                    
+                this.$store.dispatch('LOAD_EMPLEADOS_LIST')                    
                 //this.getPatient(this.pagination.current_page,this.patientSearch); 
                 //this.$store.dispatch('LOAD_PATIENTS_LIST', { page: this.$route.params.page, search:this.patientSearch });     
                 toastr.success('Vendedor Eliminado correctamente');
