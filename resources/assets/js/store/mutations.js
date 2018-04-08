@@ -34,7 +34,10 @@ export default {
     }, 
     SET_EMPLEADOS_LIST: (state, { list }) => {      // EMPLEADOS
         state.empleados = list
-    },  
+    },
+    SET_MODULOS_LIST: (state, { list }) => {      // MODULOS
+        state.modulos = list
+    },      
     SET_PERFILES_LIST: (state, { list }) => {      // PERFILES
         state.perfiles = list
     }, 

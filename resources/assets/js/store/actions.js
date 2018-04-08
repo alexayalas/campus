@@ -80,6 +80,14 @@ export default {
             console.log(err)
         });
     },
+    LOAD_MODULOS_LIST: function ({ commit }) {
+        var urlModulos = '/api/modulos';
+        return axios.get(urlModulos).then((response) => {
+            commit('SET_MODULOS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },    
     LOAD_PERFILES_LIST: function ({ commit }) {
         var urlPerfiles = '/api/perfiles';
         return axios.get(urlPerfiles).then((response) => {

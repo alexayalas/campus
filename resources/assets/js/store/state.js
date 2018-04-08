@@ -9,5 +9,6 @@ export default {
     lotizaciones:[],
     empleados:[],
     perfiles:[],
+    modulos:[],
     authenticated: false,
 }

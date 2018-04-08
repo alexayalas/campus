@@ -22,7 +22,7 @@ class PerfilesController extends Controller
      */
     public function index()
     {
-        $perfiles = Perfil::where('activo',1)->orderBy('nombre','ASC')->get();
+        $perfiles = Perfil::with('modulos')->get();          
         return $perfiles;
     }
 

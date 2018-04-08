@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function() {
   Route::resource('lotizaciones','LotizacionesController', ['except' => ['edit']]);
   Route::resource('ventas','VentasController', ['except' => ['edit']]); 
   Route::resource('empleados','EmpleadosController', ['except' => ['edit']]);  
-  Route::resource('perfiles','PerfilesController', ['except' => ['edit']]);                         
+  Route::resource('perfiles','PerfilesController', ['except' => ['edit']]);  
+  Route::resource('modulos','ModulosController', ['except' => ['edit']]);                            
 });
 

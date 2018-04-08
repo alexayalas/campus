@@ -28,5 +28,8 @@ export default {
     },
     getPerfilesEmpleados: (state, getters) => {
         return state.perfiles.filter(perfiles => perfiles.value != 2)
-    },                        
+    }, 
+    getPerfilById: (state, getters) => (id) => {
+        return state.perfiles.find(perfil => perfil.id == id)
+    },                             
 }

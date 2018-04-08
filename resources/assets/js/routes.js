@@ -8,7 +8,7 @@ import AfiDatosPersonales from './components/afiliados/content/AfiDatosPersonale
 import AfiDatosFamiliares from './components/afiliados/content/AfiDatosFamiliares.vue'
 import AfiDocumentos from './components/afiliados/content/AfiDocumentos.vue'
 import AfiPagosExtraordinarios from './components/afiliados/content/AfiPagosExtraordinarios.vue'
-import AfiVentas from './components/afiliados/content/AfiVentas.vue'
+import AfiCompras from './components/afiliados/content/AfiCompras.vue'
 /*<!-- Opciones del Menu Vendedores -->*/
 import Vendedores from './components/vendedores/Vendedores.vue'
 import VendedoresMain from './components/vendedores/VendedoresMain.vue'
@@ -72,9 +72,9 @@ export default [
                         props: true
                     },
                     {
-                        path: 'ventas/:afiliado',
-                        name: 'AfiVentas',
-                        component: AfiVentas,
+                        path: 'compras/:afiliado',
+                        name: 'AfiCompras',
+                        component: AfiCompras,
                         props: true
                     },
                     {

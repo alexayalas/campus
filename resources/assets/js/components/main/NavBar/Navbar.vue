@@ -47,7 +47,9 @@
             <li class="xn-openable">
                 <a href="#"><span class="fa fa-bar-chart-o"></span> <span class="xn-text">Seguridad</span></a>
                 <ul>
-                    <li><a href="charts-morris.html"><span class="xn-text">Perfiles</span></a></li>
+<!--                     <li><a href="charts-morris.html"><span class="xn-text">Perfiles</span></a></li>
+ -->                    <router-link :to="{ name: 'Perfiles' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Perfiles</span></a></router-link>            
+                    
                     <li><a href="charts-nvd3.html"><span class="xn-text">Modulos</span></a></li>
                 </ul>
             </li>                    

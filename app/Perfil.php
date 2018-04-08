@@ -14,4 +14,9 @@ class Perfil extends Model
     {
         return $this->hasMany('App\Empleado');        
     }
+
+    public function modulos()
+    {
+        return $this->belongsToMany('App\Modulo')->withPivot('state')->withTimestamps();
+    }
 }
