@@ -61769,14 +61769,14 @@ var render = function() {
         {
           attrs: {
             name: "perfiles",
-            width: "70%",
+            width: "80%",
             height: "auto",
             scrollable: true,
             clickToClose: false
           }
         },
         [
-          _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "row title-form" }, [
               _c("h3", { staticClass: "pull-left h3-title" }, [
                 _vm._v("Configuración de Perfil " + _vm._s(_vm.nombre))
@@ -61802,7 +61802,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "row ml-10 mr-10",
+                      staticClass: "row col-md-11 ml-10 mr-10",
                       staticStyle: { display: "flex", "flex-wrap": "wrap" }
                     },
                     _vm._l(_vm.modulos, function(modulo) {
@@ -61810,7 +61810,7 @@ var render = function() {
                         "div",
                         {
                           key: modulo.id,
-                          staticClass: "col-md-6 pl-20 pr-20 pb-10",
+                          staticClass: "col-md-6 pl-20 pr-20 pb-10 pt-10",
                           staticStyle: {
                             display: "flex",
                             "flex-direction": "column"
