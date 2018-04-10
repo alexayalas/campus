@@ -18,7 +18,7 @@
                         <div class="panel-heading">                                
                             <h3 class="panel-title">JR</h3>  
                             <ul class="panel-controls">
-                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Perfil</button></li>
+                                <li><button type="button" class="btn btn-info" @click.prevent="loadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Perfil</button></li>
                             </ul>                                                        
                         </div>
                         <div class="panel-body">
@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Nombre <span class="asterisk">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm mayusculas" name="nombre" v-model="dataPerfil.nombre" required>
+                                <input type="text" class="form-control input-sm mayusculas" name="nombre" v-model="dataNuevoPerfil.nombre" required>
                             </div>
                         </div><!-- /.form-group -->                                                                                                                                                                                                             
                     </div>                  
@@ -82,8 +82,7 @@
             <div class="row">
                 <div class="row title-form">
                     <h3 class="pull-left h3-title">Configuración de Perfil {{ nombre }}</h3>
-                    <div class="pull-right close-form" @click="$modal.hide('perfiles')"><i class="fa fa-close"></i></div>                
-                </div>
+                    <div class="pull-right close-form" @click="$modal.hide('perfiles')"><i class="glyphicon glyphicon-remove"></i></div>                                </div>
                 <div>
                     <div class="form-body">
                         <div class="container">
@@ -212,7 +211,7 @@ export default {
         this.$modal.show('perfiles')
       },
       cargaPerfiles(){
-        console.log("perfiles cargando..",this.perfilByid)
+        //console.log("perfiles cargando..",this.perfilByid)
         var list=[];
         this.perfilByid.modulos.map(function(value, key) {
             if(value.pivot.state === 1){

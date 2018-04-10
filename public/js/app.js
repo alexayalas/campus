@@ -59768,7 +59768,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
 
 
 
@@ -59829,7 +59828,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.$modal.show('perfiles');
     },
     cargaPerfiles: function cargaPerfiles() {
-      console.log("perfiles cargando..", this.perfilByid);
+      //console.log("perfiles cargando..",this.perfilByid)
       var list = [];
       this.perfilByid.modulos.map(function (value, key) {
         if (value.pivot.state === 1) {
@@ -61545,7 +61544,7 @@ var render = function() {
                         on: {
                           click: function($event) {
                             $event.preventDefault()
-                            _vm.LoadForm($event)
+                            _vm.loadForm($event)
                           }
                         }
                       },
@@ -61694,20 +61693,20 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.dataPerfil.nombre,
-                              expression: "dataPerfil.nombre"
+                              value: _vm.dataNuevoPerfil.nombre,
+                              expression: "dataNuevoPerfil.nombre"
                             }
                           ],
                           staticClass: "form-control input-sm mayusculas",
                           attrs: { type: "text", name: "nombre", required: "" },
-                          domProps: { value: _vm.dataPerfil.nombre },
+                          domProps: { value: _vm.dataNuevoPerfil.nombre },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.dataPerfil,
+                                _vm.dataNuevoPerfil,
                                 "nombre",
                                 $event.target.value
                               )
@@ -61792,7 +61791,7 @@ var render = function() {
                     }
                   }
                 },
-                [_c("i", { staticClass: "fa fa-close" })]
+                [_c("i", { staticClass: "glyphicon glyphicon-remove" })]
               )
             ]),
             _vm._v(" "),
