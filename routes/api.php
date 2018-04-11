@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function() {
   Route::resource('ventas','VentasController', ['except' => ['edit']]); 
   Route::resource('empleados','EmpleadosController', ['except' => ['edit']]);  
   Route::resource('perfiles','PerfilesController', ['except' => ['edit']]);  
-  Route::resource('modulos','ModulosController', ['except' => ['edit']]);                            
+  Route::resource('modulos','ModulosController', ['except' => ['edit']]); 
+  Route::put('/empleados/updateattribute/{id}','EmpleadosController@updateAttribute');                               
 });
 

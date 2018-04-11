@@ -10,5 +10,8 @@ export default {
     empleados:[],
     perfiles:[],
     modulos:[],
+    usuarios:[],
+    user_system: null,   
+    perfil_user: [],     
     authenticated: false,
 }

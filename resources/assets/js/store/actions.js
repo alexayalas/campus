@@ -12,8 +12,8 @@ export default {
                 });
         }, error => console.log(error))
     },
-    SAVE_TOKEN({ commit }) {
-        commit('SAVE_TOKEN')
+    SAVE_TOKEN({ commit }, payload) {
+        commit('SAVE_TOKEN', { datos: payload })
     },
     CLOSE_SESSION({ commit }) {
         commit('LOGOUT')
@@ -103,5 +103,24 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },                               
+    }, 
+    LOAD_USUARIOS_LIST: function ({ commit }, payload) {
+        var urlUsers = '/api/users';
+        return axios.get(urlUsers).then((response) => {
+            commit('SET_USUARIOS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },
+    LOAD_PERFIL_USER: function ({ commit, state }) {
+        if (state.user_system != null) {
+            var url = "/api/perfiles/" + state.user_system.user.empleado.perfil_id
+            return axios.get(url).then((response) => {
+                commit('SET_PERFIL_USER', { list: response.data })
+            }, (err) => {
+                console.log(err)
+            });
+        }
+        commit('SET_PERFIL_USER', { list: null })
+    },                                        
 }

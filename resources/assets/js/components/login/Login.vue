@@ -68,7 +68,11 @@ export default {
                     return;
                 }
                 console.log("loggin :",response.data)
-                this.$store.dispatch('SAVE_TOKEN');
+                this.$store.dispatch('SAVE_TOKEN', { user : response.data.user[0] } ).then(response => {
+                    this.$store.dispatch('LOAD_PERFIL_USER')
+                }, error => {
+                    console.error("Fallo no definido")
+                });
                 //console.log('usuario login:', response.data.user[0])
                 this.$router.push({ name: 'Dashboard' })
                 toastr.success('Ingreso exitoso')

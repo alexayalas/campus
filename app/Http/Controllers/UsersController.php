@@ -3,6 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;        // facade para saber el usuario autentificado Auth::user() -- Auth::id() -- Auth::check()
+use Exception;
+use Validator;
+use Image;
+use Carbon\Carbon;
 use App\User;
 
 class UsersController extends Controller
@@ -14,8 +22,14 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return $users;
+        $usuarios = User::with('empleado','empleado.perfil')->where('activo',1)->orderBy('id','DESC')->get();
+        //dd($usuarios);
+        $usuarios->each(function($usuarios){
+            $usuarios->acceso = ($usuarios->empleado->habilitado == 1 ? true : false);
+        });
+
+        return $usuarios;
+
     }
 
     /**

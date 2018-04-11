@@ -127,7 +127,7 @@ class PerfilesController extends Controller
         }
         // consulto 1 a 1 si los hijos tiene mas desendientes
         foreach ($options as $subope) {
-            foreach ($modules as $mod) {
+            foreach ($modulos as $mod) {
                 if($subope['options']->id == $mod->idparent){
                     $sub = array(
                         'nombre'        => $subope['nombre'] ,

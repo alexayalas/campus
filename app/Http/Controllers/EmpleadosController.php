@@ -220,4 +220,24 @@ class EmpleadosController extends Controller
     {
         //
     }
+
+    public function updateAttribute(Request $request, $id)
+    {
+        try{
+            $empleado = Empleado::find($id);
+            if($request->has('perfil_id')){
+                $empleado->perfil_id = $request->perfil_id;                
+            }
+            if($request->has('habilitado')){
+                $empleado->habilitado = $request->habilitado; 
+            }
+
+            $empleado->save();
+            return;
+        }catch (Exception $e) {         
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
+        }
+    }     
 }

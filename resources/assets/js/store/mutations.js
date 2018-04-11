@@ -5,11 +5,11 @@ export default {
         localStorage.removeItem('autentificado')
         //localStorage.removeItem('user')
     },
-    SAVE_TOKEN(state) {
+    SAVE_TOKEN(state, { datos }) {
         state.authenticated = true
-        //state.user_system = datos    // aca estan los datos del usuario loggeado        
+        state.user_system = datos    // aca estan los datos del usuario loggeado        
         localStorage.setItem('autentificado', true)
-        //localStorage.setItem('user', JSON.stringify(datos))
+        localStorage.setItem('user', JSON.stringify(datos))
     },
     SET_AFILIADOS_LIST: (state, { list }) => {      // AFILIADOS
         state.afiliados = list
@@ -43,5 +43,11 @@ export default {
     }, 
     SET_DATA_INIT_EMPLEADOS_LIST: (state, { list }) => {
         state.perfiles = list
-    },                         
+    },  
+    SET_USUARIOS_LIST: (state, { list }) => {      // USUARIOS
+        state.usuarios = list
+    }, 
+    SET_PERFIL_USER: (state, { list }) => {      // PERFIL DE USUARIO
+        state.perfil_user = list
+    },                                
 }

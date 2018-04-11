@@ -25,16 +25,16 @@ class AuthenticateController extends Controller
             return response()->json(['errors'=>$validator->errors()]);
         }    
 
-        if (Auth::attempt(['name' => $request->name, 'password' => $request->password])) {
+        if (Auth::attempt(['name' => $request->name, 'password' => $request->password , 'activo' => 1])) {
             $request->session()->regenerate();
-/*             $id = Auth::id();
-            $user = User::with('employee','employee.charge')->where('id',$id)->get();
+            $id = Auth::id();
+            $user = User::with('empleado')->where('id',$id)->get();
 
-            if($user[0]->employee->enabled == 0){
+            if($user[0]->empleado->habilitado == 0){
                 Auth::logout();
                 return response()->json(['logging' => 0 , 'error' => 'El Usuario esta deshabilitado ... consulte con el Area de sistemas !!!'], 401);
-            } */
-            return response()->json(["logging" => 1]);    
+            }
+            return response()->json(["logging" => 1 , "user" => $user]);     
         }
 
         return response()->json(['logging' => 0 , 'error' => 'Usuario y/o Password son incorrectos !!!'], 401);
