@@ -26,7 +26,7 @@
                 </div>                                                                        
             </li>
             <!-- Menu del Sistema -->
-<!--             <router-link :to="{ name: 'Dashboard' }" tag="li"><a href="#"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a></router-link>
+            <router-link :to="{ name: 'Dashboard' }" tag="li"><a href="#"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a></router-link>
             <router-link :to="{ name: 'Afiliados' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Afiliados</span></a></router-link>
             <router-link :to="{ name: 'Asociaciones' }" tag="li"><a href="#"><span class="fa fa-files-o"></span> <span class="xn-text">Asociaciones</span></a></router-link>
             <li class="xn-openable">
@@ -43,21 +43,30 @@
                 <a href="#"><span class="fa fa-bar-chart-o"></span> <span class="xn-text">Seguridad</span></a>
                 <ul>
                     <router-link :to="{ name: 'Perfiles' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Perfiles</span></a></router-link>                                
-                    <li><a href="charts-nvd3.html"><span class="xn-text">Modulos</span></a></li>
+                    <router-link :to="{ name: 'Modulos' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Modulos</span></a></router-link>                                
                 </ul>
-            </li> -->  
+            </li>
             <!-- Fin del Menu del Sistema-->   
-            <router-link v-for="route in listMenu" v-if="route.options.length == 0 || route.menu_interno == 1" tag="li" :to="{ name: route.nombre_ruta}" :key="route.id">
+<!--             <router-link v-for="route in listMenu" v-if="route.options.length == 0 || route.menu_interno == 1" tag="li" :to="{ name: route.nombre_ruta}" :key="route.id">
                 <a href="#"><span :class="[route.icono]"></span> <span class="xn-text">{{ route.nombre_plantilla }}</span></a>
             </router-link>
-            <li v-for="route in listMenu" v-if="route.options.length > 0 && route.menu_interno == 0" :key="route.id" class="xn-openable">
-                <a href="#"><span :class="[route.icono]"></span> <span class="xn-text">{{ route.nombre_plantilla }}</span></a>
+            <li class="xn-openable">
+                <a href="#"><span class="fa fa-bar-chart-o"></span> <span class="xn-text">Seguridad</span></a>
                 <ul>
-                    <router-link v-for="subroute in route.options" v-if="subroute.suboptions.length == 0" tag="li" :to="{ name: subroute.nombre_ruta}" :key="subroute.id">
-                        <a href="#"><span :class="[subroute.icono]"></span><span class="xn-text">{{ subroute.nombre_plantilla }}</span></a>
-                    </router-link>              
+                    <router-link :to="{ name: 'Perfiles' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Perfiles</span></a></router-link>                                
+                    <router-link :to="{ name: 'Modulos' }" tag="li"><a href="#"><span class="fa fa-pencil"></span> <span class="xn-text">Modulos</span></a></router-link>                                
                 </ul>
-            </li>                           
+            </li> 
+            <template v-for="route in listMenu" v-if="route.options.length > 0 && route.menu_interno == 0">
+                <li class="xn-openable" :key="route.id">
+                    <a href="#"><span :class="[route.icono]"></span> <span class="xn-text">{{ route.nombre_plantilla }}</span></a>
+                    <ul>
+                        <router-link v-for="subroute in route.options" v-if="subroute.suboptions.length == 0" tag="li" :to="{ name: subroute.nombre_ruta}" :key="subroute.id">
+                            <a href="#"><span :class="[subroute.icono]"></span><span class="xn-text">{{ subroute.nombre_plantilla }}</span></a>
+                        </router-link> 
+                    </ul>
+                </li> 
+            </template>       -->                 
             
         </ul>
         <!-- END X-NAVIGATION -->
@@ -99,4 +108,6 @@ export default {
 
 }
 </script>
+
+
 

@@ -27,6 +27,7 @@ import Ventas from './components/ventas/Ventas.vue'
 import Preventas from './components/ventas/Preventas.vue'
 
 import NotFound from './components/errors/NotFound.vue'
+import Reportes from './components/reportes/Reportes.vue'
 
 export default [
     {
@@ -186,6 +187,12 @@ export default [
                 component: Login,
                 meta: { redirectIfLogged: true }
             },
+            {
+                path: '/reportes',
+                name: 'Reportes',
+                component: Reportes,
+                meta: { requiresAuth: true }
+            },            
         ]
     },
     {
