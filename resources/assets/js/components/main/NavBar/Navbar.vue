@@ -54,7 +54,7 @@
                 <a href="#"><span :class="[route.icono]"></span> <span class="xn-text">{{ route.nombre_plantilla }}</span></a>
                 <ul>
                     <router-link v-for="subroute in route.options" v-if="subroute.suboptions.length == 0" tag="li" :to="{ name: subroute.nombre_ruta}" :key="subroute.id">
-                        <a><span class="xn-text">{{ subroute.nombre_plantilla }}</span></a>
+                        <a href="#"><span :class="[subroute.icono]"></span><span class="xn-text">{{ subroute.nombre_plantilla }}</span></a>
                     </router-link>              
                 </ul>
             </li>                           

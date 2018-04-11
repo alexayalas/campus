@@ -79076,7 +79076,8 @@ var render = function() {
                                 }
                               },
                               [
-                                _c("a", [
+                                _c("a", { attrs: { href: "#" } }, [
+                                  _c("span", { class: [subroute.icono] }),
                                   _c("span", { staticClass: "xn-text" }, [
                                     _vm._v(_vm._s(subroute.nombre_plantilla))
                                   ])
