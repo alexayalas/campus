@@ -25,13 +25,15 @@
                 </div>
             </div>
             <div class="panel-body list-group border-bottom">
-                <router-link class="list-group-item" :to="{ name: 'AfiDatosPersonales' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-bar-chart-o"></span> Datos Personales</router-link>
+                <router-link v-for="men in menuPerfil.options" v-if="men.bloque == 1" tag="li" :to="{ name: men.nombre_ruta , params : { afiliado: afiliadoByid.id }}" :key="men.id" class="list-group-item" exact><i class="fa fa-angle-double-right pull-left"></i>{{ men.nombre_plantilla }}</router-link>                                              
+<!--                 <router-link class="list-group-item" :to="{ name: 'AfiDatosPersonales' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-bar-chart-o"></span> Datos Personales</router-link>
+ -->
 <!--                 <a href="#" class="list-group-item active"><span class="fa fa-bar-chart-o"></span> Datos Personales</a> -->
-                <router-link class="list-group-item" :to="{ name: 'AfiDatosFamiliares' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-coffee"></span> Datos Familiares</router-link>
+<!--                 <router-link class="list-group-item" :to="{ name: 'AfiDatosFamiliares' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-coffee"></span> Datos Familiares</router-link>
                 <a href="#" class="list-group-item"><span class="fa fa-users"></span> Compras </a>
                 <a href="#" class="list-group-item"><span class="fa fa-folder"></span> Pagos Extraordinarios</a>
                 <a href="#" class="list-group-item"><span class="fa fa-cog"></span> Documentos</a>
-            </div>
+ -->            </div>
         </div>                            
         
     </div>  
@@ -46,10 +48,14 @@ export default {
         }
     },
     computed: {
+      ...mapState(['perfil_user']),         
       ...mapGetters({ getafiliado: 'getAfiliadoById'}),
       afiliadoByid: function(){
         return this.getafiliado(this.$route.params.afiliado);
-      }
+      },
+      menuPerfil: function(){
+        return this.perfil_user.find((menpac) => menpac.idmenu == 2)  
+      }      
     } 
   
 }

@@ -142,13 +142,13 @@ export default {
                 width:'10%',                
                 },
                 {
-                label: 'Vendidos',
-                field: 'lotes_vendidos',
-                width:'10%',                
-                },
-                {
                 label: 'PreVendidos',
                 field: 'lotes_prevendidos',
+                width:'10%',                
+                },                
+                {
+                label: 'Vendidos',
+                field: 'lotes_vendidos',
                 width:'10%',                
                 },                
                 {

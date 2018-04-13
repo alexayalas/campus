@@ -49499,17 +49499,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'afimenu',
   data: function data() {
-    return {};
+    return {
+      nombre: ''
+    };
   },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({ getafiliado: 'getAfiliadoById' }), {
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['perfil_user']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])({ getafiliado: 'getAfiliadoById' }), {
     afiliadoByid: function afiliadoByid() {
       return this.getafiliado(this.$route.params.afiliado);
+    },
+    menuPerfil: function menuPerfil() {
+      return this.perfil_user.find(function (menpac) {
+        return menpac.idmenu == 2;
+      });
     }
   })
 
@@ -49549,50 +49558,31 @@ var render = function() {
       _c(
         "div",
         { staticClass: "panel-body list-group border-bottom" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "list-group-item",
-              attrs: {
-                to: {
-                  name: "AfiDatosPersonales",
-                  params: { afiliado: _vm.afiliadoByid.id }
+        _vm._l(_vm.menuPerfil.options, function(men) {
+          return men.bloque == 1
+            ? _c(
+                "router-link",
+                {
+                  key: men.id,
+                  staticClass: "list-group-item",
+                  attrs: {
+                    tag: "li",
+                    to: {
+                      name: men.nombre_ruta,
+                      params: { afiliado: _vm.afiliadoByid.id }
+                    },
+                    exact: ""
+                  }
                 },
-                exact: ""
-              }
-            },
-            [
-              _c("span", { staticClass: "fa fa-bar-chart-o" }),
-              _vm._v(" Datos Personales")
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass: "list-group-item",
-              attrs: {
-                to: {
-                  name: "AfiDatosFamiliares",
-                  params: { afiliado: _vm.afiliadoByid.id }
-                },
-                exact: ""
-              }
-            },
-            [
-              _c("span", { staticClass: "fa fa-coffee" }),
-              _vm._v(" Datos Familiares")
-            ]
-          ),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5)
-        ],
-        1
+                [
+                  _c("i", {
+                    staticClass: "fa fa-angle-double-right pull-left"
+                  }),
+                  _vm._v(_vm._s(men.nombre_plantilla))
+                ]
+              )
+            : _vm._e()
+        })
       )
     ])
   ])
@@ -49653,33 +49643,6 @@ var staticRenderFns = [
           )
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "list-group-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "fa fa-users" }),
-      _vm._v(" Compras ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "list-group-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "fa fa-folder" }),
-      _vm._v(" Pagos Extraordinarios")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "list-group-item", attrs: { href: "#" } }, [
-      _c("span", { staticClass: "fa fa-cog" }),
-      _vm._v(" Documentos")
     ])
   }
 ]
@@ -57808,12 +57771,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 field: 'lotes_disponibles',
                 width: '10%'
             }, {
-                label: 'Vendidos',
-                field: 'lotes_vendidos',
-                width: '10%'
-            }, {
                 label: 'PreVendidos',
                 field: 'lotes_prevendidos',
+                width: '10%'
+            }, {
+                label: 'Vendidos',
+                field: 'lotes_vendidos',
                 width: '10%'
             }, {
                 label: 'Total',
@@ -58671,24 +58634,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 kardex: '',
                 folio: '',
                 lotizacion_id: '',
+                ubicacion_id: '',
                 fecha_venta: ("0" + new Date().getDate()).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear(),
                 costo_total: '',
                 tipo_venta: '1',
                 numero_cuotas: '',
                 valor_cuotas: '',
                 fecha_inicial: '',
-                estado_venta: '',
+                estado_venta: '0',
                 observaciones: '',
                 vendedor_id: '',
                 user_id: '1',
                 estado_lote: '' // Tabla de lotizacion
             },
             afiliado: '',
+            credito: false,
             errors: []
         };
     },
 
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])({ getlotizacion_ubicacion: 'getLotizacionUbicacionById' }), {
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])(['user_system']), Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])({ getlotizacion_ubicacion: 'getLotizacionUbicacionById' }), {
         lotizacion_ubicacionByid: function lotizacion_ubicacionByid() {
             return this.getlotizacion_ubicacion(this.$route.params.ubicacion);
         }
@@ -58702,18 +58667,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 afiliado_id: '',
                 kardex: '',
                 folio: '',
-                lotizacion_id: '',
+                lotizacion_id: row.id,
+                ubicacion_id: '',
                 fecha_venta: ("0" + new Date().getDate()).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear(),
                 costo_total: '',
                 tipo_venta: '1',
                 numero_cuotas: '',
                 valor_cuotas: '',
-                fecha_inicial: '',
-                estado_venta: '',
+                fecha_inicial: '', // fecha de inicio para generar los pagos --- PAGOS
+                estado_venta: '0',
                 observaciones: '',
                 vendedor_id: '',
                 user_id: '1',
-                estado_lote: '' // Tabla de lotizacion
+                estado_lote: 'vendido' // Tabla de lotizacion
             };
             this.afiliado = null;
             this.$modal.show('venta');
@@ -58759,6 +58725,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
+            this.dataVenta.vendedor_id = this.user_system.user.empleado.id;
+            this.dataVenta.ubicacion_id = this.$route.params.ubicacion;
+
             axios.post(url, this.dataVenta).then(function (response) {
                 if (typeof response.data.errors != "undefined") {
                     _this2.errors = response.data.errors;
@@ -58780,6 +58749,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 toastr.error("Hubo un error en el proceso: " + _this2.errors);
                 console.log(error.response.status);
             });
+        },
+        BloqueoNumCuota: function BloqueoNumCuota(value) {
+            if (value == 0) {
+                this.credito = true;
+                this.dataVenta.numero_cuotas = '1';
+            } else {
+                this.credito = false;
+            }
         }
     }
 });
@@ -59021,8 +58998,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("DNI "),
-                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
+                        _vm._v("DNI ")
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-3" }, [
@@ -59042,8 +59018,7 @@ var render = function() {
                               name: "dni",
                               maxlength: "8",
                               onkeyup:
-                                "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')",
-                              required: ""
+                                "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')"
                             },
                             domProps: { value: _vm.dataVenta.dni },
                             on: {
@@ -59077,8 +59052,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("label", { staticClass: "col-sm-2 control-label" }, [
-                        _vm._v("Credencial "),
-                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
+                        _vm._v("Credencial ")
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-sm-3" }, [
@@ -59093,11 +59067,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control input-sm",
-                            attrs: {
-                              type: "text",
-                              name: "credencial",
-                              required: ""
-                            },
+                            attrs: { type: "text", name: "credencial" },
                             domProps: { value: _vm.dataVenta.credencial },
                             on: {
                               input: function($event) {
@@ -59285,16 +59255,20 @@ var render = function() {
                               type: "radio",
                               name: "contado",
                               id: "contado",
-                              value: "0",
-                              required: ""
+                              value: "0"
                             },
                             domProps: {
                               checked: _vm._q(_vm.dataVenta.tipo_venta, "0")
                             },
                             on: {
-                              change: function($event) {
-                                _vm.$set(_vm.dataVenta, "tipo_venta", "0")
-                              }
+                              change: [
+                                function($event) {
+                                  _vm.$set(_vm.dataVenta, "tipo_venta", "0")
+                                },
+                                function($event) {
+                                  _vm.BloqueoNumCuota(0)
+                                }
+                              ]
                             }
                           }),
                           _vm._v("\n                            Credito: "),
@@ -59317,9 +59291,14 @@ var render = function() {
                               checked: _vm._q(_vm.dataVenta.tipo_venta, "1")
                             },
                             on: {
-                              change: function($event) {
-                                _vm.$set(_vm.dataVenta, "tipo_venta", "1")
-                              }
+                              change: [
+                                function($event) {
+                                  _vm.$set(_vm.dataVenta, "tipo_venta", "1")
+                                },
+                                function($event) {
+                                  _vm.BloqueoNumCuota(1)
+                                }
+                              ]
                             }
                           })
                         ])
@@ -59346,6 +59325,7 @@ var render = function() {
                           attrs: {
                             type: "number",
                             name: "numero_cuotas",
+                            disabled: _vm.credito,
                             required: ""
                           },
                           domProps: { value: _vm.dataVenta.numero_cuotas },

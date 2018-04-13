@@ -71,17 +71,17 @@
                         </div>
                     </div>                   
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">DNI <span class="asterisk">*</span></label>
+                        <label class="col-sm-4 control-label">DNI </label>
                         <div class="col-sm-3">
                             <div class="input-group">
-                                <input type="text" class="form-control input-sm" name="dni" v-model="dataVenta.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                <input type="text" class="form-control input-sm" name="dni" v-model="dataVenta.dni" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" />
                                 <span class="input-group-addon" @click.prevent="buscaAfiliado(dataVenta.dni,0)"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
-                        <label class="col-sm-2 control-label">Credencial <span class="asterisk">*</span></label>
+                        <label class="col-sm-2 control-label">Credencial </label>
                         <div class="col-sm-3">
                             <div class="input-group">
-                                <input type="text" class="form-control input-sm" name="credencial" v-model="dataVenta.credencial" required>
+                                <input type="text" class="form-control input-sm" name="credencial" v-model="dataVenta.credencial">
                                 <span class="input-group-addon" @click.prevent="buscaAfiliado(dataVenta.credencial,1)"><i class="fa fa-search"></i></span>
                             </div>
                         </div>                        
@@ -110,15 +110,15 @@
                         <label class="col-sm-2 control-label">Tipo de Venta <span class="asterisk">*</span></label>
                         <div class="col-sm-3 pt-5">
                             <p class="mb-0">
-                                Contado: <input type="radio" name="contado" id="contado" value="0" v-model="dataVenta.tipo_venta" required />
-                                Credito: <input type="radio" name="credito" id="credito" value="1" v-model="dataVenta.tipo_venta" />
+                                Contado: <input type="radio" name="contado" id="contado" value="0" v-model="dataVenta.tipo_venta" @change="BloqueoNumCuota(0)" />
+                                Credito: <input type="radio" name="credito" id="credito" value="1" v-model="dataVenta.tipo_venta" @change="BloqueoNumCuota(1)" />
                             </p>
                         </div>                        
                     </div><!-- /.form-group -->                                           
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Num. Cuotas (Mensuales)<span class="asterisk">*</span></label>
                         <div class="col-sm-3">
-                            <input type="number" class="form-control input-sm" name="numero_cuotas" v-model="dataVenta.numero_cuotas" required>
+                            <input type="number" class="form-control input-sm" name="numero_cuotas" v-model="dataVenta.numero_cuotas" :disabled="credito" required>
                         </div>
                         <label class="col-sm-2 control-label">Valor de Cuotas <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
@@ -213,23 +213,26 @@ export default {
                 kardex:'',
                 folio:'',
                 lotizacion_id:'',
+                ubicacion_id:'',
                 fecha_venta:("0" + (new Date().getDate())).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear() ,
                 costo_total:'',
                 tipo_venta:'1',
                 numero_cuotas:'',
                 valor_cuotas:'',
                 fecha_inicial:'',
-                estado_venta:'',
+                estado_venta:'0',
                 observaciones:'',
                 vendedor_id:'',
                 user_id:'1',
                 estado_lote:''  // Tabla de lotizacion
             },     
-            afiliado:'',            
+            afiliado:'', 
+            credito: false,           
             errors:[]
         }
     },    
     computed: {
+        ...mapState(['user_system']),
         ...mapGetters({ getlotizacion_ubicacion: 'getLotizacionUbicacionById'}),
         lotizacion_ubicacionByid: function(){
             return this.getlotizacion_ubicacion(this.$route.params.ubicacion);
@@ -244,14 +247,15 @@ export default {
                 afiliado_id:'',
                 kardex:'',
                 folio:'',
-                lotizacion_id:'',
+                lotizacion_id:row.id,
+                ubicacion_id:'',
                 fecha_venta:("0" + (new Date().getDate())).slice(-2) + "/" + ("0" + (parseInt(new Date().getMonth()) + 1)).slice(-2) + "/" + new Date().getFullYear() ,
                 costo_total:'',
                 tipo_venta:'1',
                 numero_cuotas:'',
                 valor_cuotas:'',
                 fecha_inicial:'',   // fecha de inicio para generar los pagos --- PAGOS
-                estado_venta:'',
+                estado_venta:'0',
                 observaciones:'',
                 vendedor_id:'',
                 user_id:'1',
@@ -298,6 +302,9 @@ export default {
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
+            this.dataVenta.vendedor_id = this.user_system.user.empleado.id
+            this.dataVenta.ubicacion_id = this.$route.params.ubicacion
+
             axios.post(url, this.dataVenta).then(response => {
             if(typeof(response.data.errors) != "undefined"){
                 this.errors = response.data.errors;
@@ -319,7 +326,17 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors);
             console.log(error.response.status);
             });
-        },                
+        }, 
+        BloqueoNumCuota: function(value){
+            if(value == 0){
+                this.credito = true
+                this.dataVenta.numero_cuotas = '1'
+            }
+            else
+            {
+                this.credito = false
+            }
+        },              
     }      
 }
 </script>

@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Venta;
 use App\Pago;
 use App\Lotizacion;
+use App\Ubicacion;
 
 class VentasController extends Controller
 {
@@ -48,7 +49,7 @@ class VentasController extends Controller
         DB::beginTransaction();    
 
         try {
-            $rules = [     'fecha_venta'            => 'date_format:Y-m-d',
+            $rules = [     'fecha_venta'            => 'date_format:d/m/Y',
                            'afiliado_id'            => 'required',
                            'kardex'                 => 'required',
                            'folio'                  => 'required',
@@ -68,42 +69,34 @@ class VentasController extends Controller
 
             /*-- Grabamos la Venta ---*/
             $venta = new Venta($request->all());
-            $venta->fecha_venta = empty($venta->fecha_venta) ? null : date("Y-m-d", strtotime($venta->fecha_venta));
+            $formfec = explode("/", $venta->fecha_venta); 
+            $venta->fecha_venta = empty($venta->fecha_venta) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
             $venta->save();
 
             /*-- Grabamos el cronograma de pagos ---*/
+            $formfec2 = explode("/", $request->fecha_inicial); 
+            $fecha_ini = Carbon::create($formfec2[2],$formfec2[1],$formfec2[0]);
+
             for ($i=1; $i <= $request->numero_cuotas ; $i++) { 
                 $pago = new Pago();
                 $pago->venta_id = $venta->id;
                 $pago->numero_cuota = $i;
-                $pago->fecha_programada;
+                $pago->fecha_programada = $fecha_ini;
                 $pago->user_id = $request->user_id;
-    
-                $pago->date_attention = empty($pago->date_attention) ? null : date("Y-m-d", strtotime($pago->date_attention));
-                $pago->sale_id = $sale->id;
                 $pago->save();   
-            }
-            foreach ($request->detalles as $key => $value) {
-         
-    
+                $fecha_ini->addMonth();    
             }
 
             /* --- actualizamos el estado del lote --- */
+            $lote = Lotizacion::find($request->lotizacion_id);
+            $lote->estado_lote = 'vendido';
+            $lote->save();
 
             /* --- actualizamos las cantidades de la estructura */
-
-
-            /* ---- Guardamos el detalle de venta y los pagos ---*/
-            foreach ($request->detalles as $key => $value) {
-                $saledet = new Saledetail($value);
-                $saledet->sale_id = $sale->id;
-                $saledet->save();  
-                
-                $payment = new Payment($value);
-                $payment->saledetail_id = $saledet->id;
-                $payment->attention_id = $attention->id;
-                $payment->save();                 
-            }
+            $ubicacion = Ubicacion::find($request->ubicacion_id);
+            $ubicacion->lotes_disponibles = ($ubicacion->lotes_disponibles) - 1;
+            $ubicacion->lotes_vendidos = ($ubicacion->lotes_vendidos) + 1;
+            $ubicacion->save();
 
             DB::commit();        
             return;
