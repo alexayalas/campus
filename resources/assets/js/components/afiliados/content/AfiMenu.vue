@@ -42,7 +42,7 @@ export default {
     name:'afimenu',
     data() {
         return {
-
+            nombre:''
         }
     },
     computed: {
@@ -50,7 +50,7 @@ export default {
       afiliadoByid: function(){
         return this.getafiliado(this.$route.params.afiliado);
       }
-    }    
+    } 
   
 }
 </script>
