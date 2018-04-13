@@ -250,12 +250,12 @@ export default {
                 tipo_venta:'1',
                 numero_cuotas:'',
                 valor_cuotas:'',
-                fecha_inicial:'',
+                fecha_inicial:'',   // fecha de inicio para generar los pagos --- PAGOS
                 estado_venta:'',
                 observaciones:'',
                 vendedor_id:'',
                 user_id:'1',
-                estado_lote:''  // Tabla de lotizacion
+                estado_lote:'vendido'  // Tabla de lotizacion
             }     
             this.afiliado = null                 
             this.$modal.show('venta')
