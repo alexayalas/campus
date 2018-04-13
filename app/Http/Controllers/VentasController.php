@@ -71,16 +71,27 @@ class VentasController extends Controller
             $venta->fecha_venta = empty($venta->fecha_venta) ? null : date("Y-m-d", strtotime($venta->fecha_venta));
             $venta->save();
 
-            /*-- Grabamos la Atencion ---*/
-            $pago = new Pago();
-            $pago->venta_id = $venta->id;
-            $pago->numero_cuota;
-            $pago->fecha_programada;
-            $pago->user_id = $request->user_id;
+            /*-- Grabamos el cronograma de pagos ---*/
+            for ($i=1; $i <= $request->numero_cuotas ; $i++) { 
+                $pago = new Pago();
+                $pago->venta_id = $venta->id;
+                $pago->numero_cuota = $i;
+                $pago->fecha_programada;
+                $pago->user_id = $request->user_id;
+    
+                $pago->date_attention = empty($pago->date_attention) ? null : date("Y-m-d", strtotime($pago->date_attention));
+                $pago->sale_id = $sale->id;
+                $pago->save();   
+            }
+            foreach ($request->detalles as $key => $value) {
+         
+    
+            }
 
-            $pago->date_attention = empty($pago->date_attention) ? null : date("Y-m-d", strtotime($pago->date_attention));
-            $pago->sale_id = $sale->id;
-            $pago->save();            
+            /* --- actualizamos el estado del lote --- */
+
+            /* --- actualizamos las cantidades de la estructura */
+
 
             /* ---- Guardamos el detalle de venta y los pagos ---*/
             foreach ($request->detalles as $key => $value) {
