@@ -122,5 +122,13 @@ export default {
             });
         }
         commit('SET_PERFIL_USER', { list: null })
-    },                                        
+    }, 
+    LOAD_TIPOS_PAGOSEXTRAORDINARIOS_LIST: function ({ commit }) {
+        var urlTiposPagosExtraordinarios = '/api/tipos-pagosextraordinarios';
+        return axios.get(urlTiposPagosExtraordinarios).then((response) => {
+            commit('SET_TIPOS_PAGOSEXTRAORDINARIOS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                                           
 }

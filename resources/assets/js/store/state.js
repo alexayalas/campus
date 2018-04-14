@@ -11,6 +11,7 @@ export default {
     perfiles:[],
     modulos:[],
     usuarios:[],
+    tipo_pagosextraordinarios:[],
     user_system: null,   
     perfil_user: [],     
     authenticated: false,

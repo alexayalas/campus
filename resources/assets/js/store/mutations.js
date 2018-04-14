@@ -49,5 +49,8 @@ export default {
     }, 
     SET_PERFIL_USER: (state, { list }) => {      // PERFIL DE USUARIO
         state.perfil_user = list
-    },                                
+    }, 
+    SET_TIPOS_PAGOSEXTRAORDINARIOS_LIST: (state, { list }) => {      // PERFIL DE USUARIO
+        state.tipo_pagosextraordinarios = list
+    },                                   
 }

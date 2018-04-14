@@ -11,9 +11,10 @@ use Exception;
 use Validator;
 use Image;
 use Carbon\Carbon;
-use App\Pago;
+use App\TipoPagoExtraordinario;
 
-class PagosController extends Controller
+
+class TiposPagosExtraordinariosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +23,8 @@ class PagosController extends Controller
      */
     public function index()
     {
-        //
+        $tipo_pagosextraordinarios = TipoPagoExtraordinario::where('activo',1)->get();
+        return $tipo_pagosextraordinarios;
     }
 
     /**
@@ -77,37 +79,7 @@ class PagosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction(); 
-
-        try {
-            $rules = ['importe'     => 'required',
-                      'pagado_por' => 'required',
-                      'numero_documento' => 'required'
-                    ];
-    
-            $validator = Validator::make($request->all(), $rules );
-            if ($validator->fails()) {
-                return response()->json(['errors'=>$validator->errors()]);
-            }
-
-            $pago = Pago::where('venta_id',$request->venta_id)->where('estado_pago',0)->first();
-
-            $pago->fill($request->all());
-            $formfec = explode("/", $pago->fecha_pago); 
-            $pago->fecha_pago = empty($pago->fecha_pago) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
-            $pago->estado_pago = 1;
-  
-            $pago->save();
-  
-          DB::commit();           
-          return;
-        } catch (Exception $e) {
-          DB::rollback();          
-          return response()->json(
-              ['status' => $e->getMessage()], 422
-          );
-        }
-
+        //
     }
 
     /**
@@ -119,15 +91,5 @@ class PagosController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function pagos(Request $request)
-    {
-        $pagos = Pago::where('venta_id',$request->venta_id)->orderBy('numero_cuota','ASC')->get();
-        foreach ($pagos as $pago) {
-            $pago['estado_pago_letras'] = ($pago->estado_pago == 0) ? 'PENDIENTE'  : 'PAGADO' ; 
-		}
-        //return $quotes;
-        return Response()->json($pagos);
     }
 }
