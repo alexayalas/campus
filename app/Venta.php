@@ -34,5 +34,10 @@ class Venta extends Model
     public function vendedor()
     {
         return $this->belongsTo('App\Vendedor');
-    }     
+    }  
+    
+    public function pagos()
+    {
+        return $this->hasMany('App\Pago');
+    }
 }

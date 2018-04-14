@@ -5,14 +5,14 @@
             <div class="panel-heading">                                
                 <h3 class="panel-title">JR</h3>  
                 <ul class="panel-controls">
-                    <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Afiliado</button></li>
+                    <li><button type="button" class="btn btn-info" @click.prevent="$router.go(-1)"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Regresar</button></li>
                 </ul>                                                        
             </div>
             <div class="panel-body">
                 <vue-good-table
-                title="Compras Efectuadas"
+                title="Cronograma de Pagos"
                 :columns="columns"
-                :rows="compras"
+                :rows="pagos"
                 :paginate="true"
                 :lineNumbers="true"
                 :rowsPerPageText="textpage"
@@ -21,12 +21,13 @@
                 :ofText="textof"
                 styleClass="table condensed table-bordered table-striped">
                     <template slot="table-row" slot-scope="props">
-                        <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.ubicacion.asociacion.nombre }}</td>
-                        <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.ubicacion.sector}} {{ props.row.lotizacion.ubicacion.grupo}} {{ props.row.lotizacion.ubicacion.manzana}}</td>
-                        <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.lote }}</td>
-                        <td>{{ props.row.costo_total }}</td>
-                        <td>{{ props.row.acuenta }}</td>
-                        <td>{{ props.row.costo_total - props.row.acuenta }}</td>
+                        <td>{{ props.row.numero_cuota }}</td>
+                        <td>{{ props.row.fecha_programada | reversefecha}}</td>
+                        <td>{{ props.row.fecha_pago | reversefecha }}</td>
+                        <td>{{ props.row.numero_documento }}</td>
+                        <td>{{ props.row.importe }}</td>
+                        <td>{{ props.row.pagado_por }}</td>
+                        <td>{{ props.row.estado_pago }}</td>                        
                         <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
                     </template>                              
                 </vue-good-table>
@@ -34,13 +35,13 @@
         </div>
         <!-- END DEFAULT DATATABLE -->                       
         
-    </div>    
+    </div>
 </template>
 <script>
     export default {
-        name:'aficompras',
+        name:'afipagos',
         mounted() {
-            this.CargaCompras()
+            this.CargaPagos()
         },        
         data() {
             return {
@@ -52,53 +53,63 @@
                 textof:'de',
                 columns: [
                     {
-                    label: 'Asociacion',
-                    field: 'asociacion',
+                    label: 'Num.Cuota',
+                    field: 'numero_cuota',
                     filterable: true,
                     width:'30%',
                     },
                     {
-                    label: 'Ubicacion',
-                    field: 'ubicacion',
-                    filterable: true,
-                    width:'15',                
+                    label: 'Fec.Programada',
+                    field: 'fecha_programada',
+                    type: 'date',
+                    inputFormat : 'YYYY-MM-DD',
+                    outputFormat: 'DD/MM/YYYY',
+                    width:'15%',                
                     },
                     {
-                    label: 'Lote',
-                    field: 'lote',
+                    label: 'Fec.Pago',
+                    field: 'fecha_pago',
+                    type: 'date',
+                    inputFormat : 'YYYY-MM-DD',
+                    outputFormat: 'DD/MM/YYYY',                    
                     width:'25%',                
                     },
                     {
-                    label: 'Precio',
-                    field: 'precio',
+                    label: 'Num.Documento',
+                    field: 'numero_documento',
                     width:'15%',                
                     },
                     {
-                    label: 'A Cuenta',
-                    field: 'acuenta',
+                    label: 'Importe',
+                    field: 'importe',
                     width:'15%',                
                     },
                     {
-                    label: 'Saldo',
-                    field: 'saldo',
+                    label: 'Pagado por',
+                    field: 'pagado_por',
                     width:'15%',                
-                    },                                        
+                    }, 
+                    {
+                    label: 'Estado',
+                    field: 'estado_pago',
+                    width:'15%',                
+                    },                                                            
                     {
                     label: 'Acción',
                     html: true  ,
                     width:'15%',  
                     }                               
                 ],  
-                compras:[],                   
+                pagos:[],                   
                 errors:[]
             }
         },
         methods: {
-            CargaCompras: function(){
-                var url ="/api/compras"
+            CargaPagos: function(){
+                var url ="/api/pagos"
                 axios.get(url,{
                 params:{
-                    afiliado_id: this.$route.params.afiliado
+                    venta_id: this.$route.params.venta
                 }
                 }).then(response => {
 
@@ -113,7 +124,7 @@
                     return;
                 }
                 if(response.data.length >0 ){
-                    this.compras = response.data
+                    this.pagos = response.data
                 }
 
                 }).catch(error => {
@@ -128,13 +139,15 @@
                 this.$router.push({ name: 'AfiPagos',  params: { afiliado: this.$route.params.afiliado ,venta : row.id } })
             }              
         },
+        filters:{
+            reversefecha: function(value){
+                if(!value) return ''
+                value = value.toString()
+                return value.split('-').reverse().join('-')
+            }
+        }        
        
     }
-</script>
-<style scoped>
-    .enlace:hover {
-        cursor:pointer; cursor: hand	      
-    } 
-</style>
 
+</script>
 

@@ -113,8 +113,7 @@ export default {
             });
             
             $(".x-navigation  li > a").click(function(){
-                console.log("click li > a")
-                
+
                 var li = $(this).parent('li');        
                 var ul = li.parent("ul");
                 
@@ -123,7 +122,6 @@ export default {
             });
             
             $(".x-navigation li").click(function(event){
-                console.log("click li")
                 event.stopPropagation();
                 
                 var li = $(this);

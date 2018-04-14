@@ -3,11 +3,11 @@
         <div class="panel panel-default">
             <div class="panel-body profile" style="background-color: #14171b;">
                 <div class="profile-image">
-                    <img :src="'/assets/images/users/user5.jpg'" alt="Nadia Ali"/>
+                    <img :src="'/images/'+ afiliadoByid.foto" alt="JR"/>
                 </div>
                 <div class="profile-data">
-                    <div class="profile-data-name">Alexander Ayala</div>
-                    <div class="profile-data-title" style="color: #FFF;">Web Developer</div>
+                    <div class="profile-data-name">{{ afiliadoByid.nombre_completo }}</div>
+                    <div class="profile-data-title" style="color: #FFF;">{{ afiliadoByid.credencial }}</div>
                 </div>
                 <div class="profile-controls">
                     <a href="#" class="profile-control-left twitter"><span class="fa fa-twitter"></span></a>
@@ -25,15 +25,8 @@
                 </div>
             </div>
             <div class="panel-body list-group border-bottom">
-                <router-link v-for="men in menuPerfil.options" v-if="men.bloque == 1" tag="li" :to="{ name: men.nombre_ruta , params : { afiliado: afiliadoByid.id }}" :key="men.id" class="list-group-item" exact><i class="fa fa-angle-double-right pull-left"></i>{{ men.nombre_plantilla }}</router-link>                                              
-<!--                 <router-link class="list-group-item" :to="{ name: 'AfiDatosPersonales' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-bar-chart-o"></span> Datos Personales</router-link>
- -->
-<!--                 <a href="#" class="list-group-item active"><span class="fa fa-bar-chart-o"></span> Datos Personales</a> -->
-<!--                 <router-link class="list-group-item" :to="{ name: 'AfiDatosFamiliares' , params : { afiliado: afiliadoByid.id }}" exact><span class="fa fa-coffee"></span> Datos Familiares</router-link>
-                <a href="#" class="list-group-item"><span class="fa fa-users"></span> Compras </a>
-                <a href="#" class="list-group-item"><span class="fa fa-folder"></span> Pagos Extraordinarios</a>
-                <a href="#" class="list-group-item"><span class="fa fa-cog"></span> Documentos</a>
- -->            </div>
+                <router-link v-for="men in menuPerfil.options" v-if="men.bloque == 1" tag="li" :to="{ name: men.nombre_ruta , params : { afiliado: afiliadoByid.id }}" :key="men.id" class="list-group-item enlace" exact><i class="fa fa-angle-double-right pull-left"></i>{{ men.nombre_plantilla }}</router-link>                                              
+           </div>
         </div>                            
         
     </div>  
@@ -60,4 +53,10 @@ export default {
   
 }
 </script>
+<style scoped>
+    .enlace:hover {
+        cursor:pointer; cursor: hand	      
+    } 
+</style>
+
 

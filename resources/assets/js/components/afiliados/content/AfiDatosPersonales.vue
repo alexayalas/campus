@@ -224,7 +224,6 @@ export default {
         ...mapState(['afiliados','estadosciviles']),
         ...mapGetters(['getAfiliadoById','getubigeos']),
         afiliadoByid: function(){
-            //console.log("afiliado datos: ",this.getAfiliadoById(this.$route.params.afiliado))  
             return this.getAfiliadoById(this.$route.params.afiliado);
         },        
         departamentosBy: function(){

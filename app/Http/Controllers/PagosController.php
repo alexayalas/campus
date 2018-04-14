@@ -3,6 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;        // facade para saber el usuario autentificado Auth::user() -- Auth::id() -- Auth::check()
+use Exception;
+use Validator;
+use Image;
+use Carbon\Carbon;
+use App\Pago;
 
 class PagosController extends Controller
 {
@@ -80,5 +89,11 @@ class PagosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pagos(Request $request)
+    {
+        $pagos = Pago::where('venta_id',$request->venta_id)->orderBy('numero_cuota','ASC')->get();
+        return $pagos;
     }
 }

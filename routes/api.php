@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function() {
   Route::resource('users','UsersController', ['except' => ['edit']]); 
   Route::resource('afiliados','AfiliadosController', ['except' => ['edit']]);  
   Route::get('/buscaAfiliado', 'AfiliadosController@buscaAfiliado')->name('buscaAfiliado');  
+  Route::get('/compras', 'AfiliadosController@compras')->name('compras'); 
+  Route::get('/pagos', 'PagosController@pagos')->name('pagos');     
   Route::resource('hijos','HijosController', ['except' => ['edit']]);  
   Route::resource('asociaciones','AsociacionesController', ['except' => ['edit']]);    
   Route::resource('ubicaciones','UbicacionesController', ['except' => ['edit']]);

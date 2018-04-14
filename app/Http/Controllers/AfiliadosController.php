@@ -15,6 +15,7 @@ use App\Ubigeo;
 use App\EstadoCivil;
 use App\User;
 use App\Afiliado;
+use App\Venta;
 
 
 class AfiliadosController extends Controller
@@ -228,8 +229,18 @@ class AfiliadosController extends Controller
 
     public function buscaAfiliado(Request $request)
     {
-        //dd($request->dato);
         $afiliado = Afiliado::search($request->dato,$request->opcion)->get();
         return $afiliado;
+    }
+
+    public function compras(Request $request)
+    {
+        $compras = Venta::with('lotizacion','lotizacion.ubicacion','lotizacion.ubicacion.asociacion','pagos')->where('afiliado_id',$request->afiliado_id)->where('activo',1)->get();
+
+        foreach ($compras as $compra) {
+            $compra['acuenta'] = collect($compra['pagos'])->sum('importe'); 
+		}
+        //return $quotes;
+        return Response()->json($compras);
     }
 }

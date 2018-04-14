@@ -40,9 +40,15 @@ class User extends Authenticatable
     public function asociaciones()
     {
         return $this->hasMany('App\Asociacion');
-    }  
+    } 
+
     public function empleado()
     {
         return $this->belongsTo('App\Empleado');
-    }           
+    } 
+    
+    public function pagos()
+    {
+        return $this->hasMany('App\Pago');
+    }                
 }
