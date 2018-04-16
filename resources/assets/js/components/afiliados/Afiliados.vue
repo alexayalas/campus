@@ -556,39 +556,39 @@ export default {
 }
 </script>
 <style scoped>
-  .title-form {
-    background-color: #347c7c;
-    color: white;
-    margin:0;
-    padding:0
-  }
+    .title-form {
+        background-color: #347c7c;
+        color: white;
+        margin:0;
+        padding:0
+    }
 
-  .h3-title {
-    margin:10px 0 10px 20px;
-    color: white;
-  }
+    .h3-title {
+        margin:10px 0 10px 20px;
+        color: white;
+    }
 
-  .close-form {
-    margin:15px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+    .close-form {
+        margin:15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 
-  .img-thumbs {
-    max-width: 35px;
-  }
+    .img-thumbs {
+        max-width: 35px;
+    }
 
-  .separator {
-    border-top: 1px solid #CCC7B8;
-  }
+    .separator {
+        border-top: 1px solid #CCC7B8;
+    }
 
-  input.mayusculas{
-    text-transform:uppercase;
-  }  
+    input.mayusculas{
+        text-transform:uppercase;
+    }  
 
-  .enlace:hover {
-    cursor:pointer; cursor: hand	      
-  } 
+    .enlace:hover {
+        cursor:pointer; cursor: hand	      
+    } 
 
 </style>
 

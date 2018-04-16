@@ -19,5 +19,10 @@ class Asociacion extends Model
     public function ubicaciones()
     {
         return $this->hasMany('App\Ubicacion');
-    }                               
+    }  
+ 
+    public function asociacionesusers()
+    {
+        return $this->hasMany('App\AsociacionUser');
+    }
 }

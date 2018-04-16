@@ -14,6 +14,7 @@ import VuejsDialog from 'vuejs-dialog';
 import './interceptors'
 import VueGoodTable from 'vue-good-table';
 import ToggleButton from 'vue-js-toggle-button';
+import underscore from 'vue-underscore';
 
 
 /**
@@ -40,3 +41,4 @@ Vue.use(VueGoodTable)
 Vue.use(VModal)
 Vue.use(VuejsDialog);
 Vue.use(ToggleButton);
+Vue.use(underscore);

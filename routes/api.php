@@ -31,8 +31,16 @@ Route::middleware('auth')->group(function() {
   Route::resource('perfiles','PerfilesController', ['except' => ['edit']]);  
   Route::resource('modulos','ModulosController', ['except' => ['edit']]); 
   Route::resource('pagos','PagosController', ['except' => ['edit']]); 
+  Route::resource('pagos-extraordinarios','PagosExtraordinariosController', ['except' => ['edit']]);   
   Route::resource('tipos-pagosextraordinarios','TiposPagosExtraordinariosController', ['except' => ['edit']]);     
-  Route::get('/pagosventa', 'PagosController@pagos')->name('pagos');       
-  Route::put('/empleados/updateattribute/{id}','EmpleadosController@updateAttribute');                               
+  Route::get('/pagosventa', 'PagosController@pagos')->name('pagos'); 
+  Route::get('/pagos-extraordinarios-afiliado', 'PagosExtraordinariosController@pagos_extraordinarios');         
+  Route::put('/empleados/updateattribute/{id}','EmpleadosController@updateAttribute'); 
+  Route::post('/uploadPdf','AfiliadosController@uploadPdf'); 
+  Route::post('/uploadImages','AfiliadosController@uploadImages');   
+  Route::get('/listarPDF/{id}','AfiliadosController@listarPDF');
+  Route::get('/listarImages/{id}','AfiliadosController@listarImages');      
+  Route::post('/deletePDF','AfiliadosController@destroy_file');  
+  Route::get('/asociacioncombo','AsociacionesController@list_combobox');                               
 });
 

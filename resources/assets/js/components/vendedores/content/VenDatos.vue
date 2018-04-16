@@ -55,7 +55,22 @@
                     <div>
                     <masked-input v-model="vendedorByid.fecha_ingreso" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                     </div>
-                </div>                                                   
+                </div>  
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4 col-xs-4">Asociaciones <span class="asterisk">*</span></label>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <multi-select :options="asociacioncombo"
+                                    :selected-options="dataVendedor.items_aso"
+                                    placeholder="seleccione la Asociacion"
+                                    @select="onSelectAso">
+                        </multi-select>
+                    </div>
+
+                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!dataVendedor.items_aso.text"></span>
+                    <div class="col-md-1 col-sm-1" v-if="dataVendedor.items_aso.text">
+                    <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetAso"><i class="fa fa-close"></i> </button>
+                    </div>
+                </div><!-- /.form-group -->                                                                    
             </div>                                
             <hr/>
             <div class="col-md-12 mt-20 pt-10" style="border-top:1px solid #000;">

@@ -2,6 +2,7 @@
 export default {
     afiliados: [],
     asociaciones:[],
+    asociacioncombo:[],
     hijos: [],
     ubigeos: [],
     estadosciviles: [],

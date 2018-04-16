@@ -50,5 +50,16 @@ class User extends Authenticatable
     public function pagos()
     {
         return $this->hasMany('App\Pago');
-    }                
+    } 
+    
+    public function pagosextraordinarios()
+    {
+        return $this->hasMany('App\PagoExtraordinario');
+    } 
+
+    public function asociacionesusers()
+    {
+        return $this->hasMany('App\AsociacionUser');
+    }    
+   
 }

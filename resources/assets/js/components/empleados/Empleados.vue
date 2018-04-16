@@ -8,11 +8,9 @@
         <!-- END PAGE TITLE -->                
 
         <!-- PAGE CONTENT WRAPPER -->
-        <div class="page-content-wrap">                
-        
+        <div class="page-content-wrap">                        
             <div class="row">
                 <div class="col-md-12">
-
                     <!-- START DEFAULT DATATABLE -->
                     <div class="panel panel-default">
                         <div class="panel-heading">                                
@@ -41,17 +39,17 @@
                                     <td>{{ props.row.telefono }}</td>
                                     <td>{{ props.row.celular }}</td>
                                     <td>{{ props.row.email }}</td>
-                                    <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
+                                    <td>
+                                        <button @click.prevent="processEdit(props.row)"><i class="material-icons md-18">mode_edit</i></button>
+                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons md-18">delete_forever</i></button>
+                                    </td>
                                 </template>                              
                             </vue-good-table>
                         </div>
                     </div>
                     <!-- END DEFAULT DATATABLE -->
-
-
                 </div>
-            </div>                                
-            
+            </div>                                            
         </div>        
         <!-- PAGE CONTENT WRAPPER -->  
         <modal name="empleado" :width="'70%'" :height="'auto'" :scrollable="true" :clickToClose="false">
@@ -61,7 +59,7 @@
                 <h3 class="pull-left h3-title">Registro de Empleado</h3>
                 <div class="pull-right close-form" @click="$modal.hide('empleado')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
-            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createVendedor">
+            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="AccionEmpleado">
                 <div class="form-body">
                 <div class="col-md-9 pt-20">
                     <div class="form-group">
@@ -133,20 +131,31 @@
                                 <basic-select :options="getPerfilesEmpleados"
                                     :selected-option="item_per"
                                     placeholder="seleccione una opción"
-                                    @select="onSelectPer">
+                                    @select="onSelectPer"
+                                    :isDisabled="editable">
                                 </basic-select>
                                 </div>
                                 <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_per.text"></span>
                                 <div class="col-md-1 col-sm-1" v-if="item_per.text">
-                                    <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetPer"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
+                                    <button type="button" title="Borrar Opción" class="btn btn-danger btn-sm pull-right" @click.prevent="resetPer" :disabled="editable"><i class="glyphicon glyphicon-remove mt-5"></i> </button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Nombre de Usuario </label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input-sm minusculas" name="empleado_username" v-model="dataEmpleado.username" />
+                                    <input type="text" class="form-control input-sm minusculas" name="empleado_username" v-model="dataEmpleado.username" :disabled="editable"/>
                                 </div>
-                            </div>                                
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-4">Asociaciones <span class="asterisk">*</span></label>
+                                <div class="col-md-7 col-sm-7 col-xs-7">
+                                    <multi-select :options="asociacioncombo"
+                                                :selected-options="dataEmpleado.items_aso"
+                                                placeholder="seleccione la Asociacion"
+                                                @select="onSelectAso">
+                                    </multi-select>
+                                </div>
+                            </div><!-- /.form-group -->                                                           
                         </div>
                         </div>
                     </div>                    
@@ -162,7 +171,7 @@
                 <div class="col-md-12 pt-20 mt-20 mb-10 mt-0 pr-20 separator">
                     <div class="pull-right pr-10">
                         <button type="button" class="btn btn-danger active" @click="$modal.hide('empleado')"><i class="fa fa-reply-all"></i> Cancelar</button>
-                        <button type="submit" class="btn btn-primary active"><i class="fa fa-cloud-upload"></i> Grabar</button>
+                        <button type="submit" class="btn btn-success active" :disabled="ShowIcon"><i v-show="ShowIcon" :class="[IconClass]"></i> Grabar</button>
                     </div>
                 </div><!-- /.form-footer -->
             </form>
@@ -173,20 +182,28 @@
     </div>
 </template>
 <script>
+import 'semantic-ui-icon/icon.min.css';
+import _ from 'lodash'
+import { MultiSelect } from 'vue-search-select'
 import { BasicSelect } from 'vue-search-select'
 import MaskedInput from 'vue-masked-input'
 import { mapState, mapGetters } from 'vuex'
 export default {
     name: 'empleados',
     mounted() {
-        this.$store.dispatch('LOAD_EMPLEADOS_LIST').then(() => {
-
-        })  
+        this.$store.dispatch('LOAD_EMPLEADOS_LIST')
+        this.$store.dispatch('LOAD_ASOCIACION_COMBOBOX')  
     },
     data() {
         return {  
             searchText: '', // If value is falsy, reset searchText & searchItem
             item_per: { value: '', text: ''},  
+
+            lastSelectItem: {},
+
+            IconClass : 'fa fa-cloud-upload',
+            ShowIcon : false,
+            labelButton: 'Grabar Datos',          
 
             textpage: 'Registros por pagina',
             textnext:'Sig',
@@ -203,7 +220,7 @@ export default {
                 label: 'Empleado',
                 field: 'nombre_completo',
                 filterable: true,
-                width:'30%',                
+                width:'25%',                
                 },
                 {
                 label: 'DNI',
@@ -218,21 +235,22 @@ export default {
                 {
                 label: 'Telefono',
                 field: 'telefono',
-                width:'10%',                
+                width:'8%',                
                 },
                 {
                 label: 'Celular',
                 field: 'celular',
-                width:'10%',                
+                width:'9%',                
                 }, 
                 {
                 label: 'Email',
                 field: 'email',
-                width:'30%',                
+                width:'20%',                
                 },
                 {
                 label: 'Acción',
-                html: true    
+                html: true,
+                width:'10%',                     
                 }                               
             ],
             dataEmpleado : {
@@ -251,22 +269,32 @@ export default {
                 habilitado:1,
                 acceso: false,
                 username:'',
-                image: ''       
+                image: '',
+                items_aso: []       
             },                       
             errors:[],
+            editable: false,
+            editing : false,
             collapse : 'collapse'            
         }
     },
     components: {
         MaskedInput ,
-        BasicSelect
+        BasicSelect,
+        MultiSelect  
     },
     computed: {
-        ...mapState(['empleados','perfiles']),
+        ...mapState(['empleados','perfiles','asociacioncombo']),
         ...mapGetters(['getPerfilesEmpleados'])
     }, 
     methods: {
-        LoadForm: function(){        
+        LoadForm: function(){  
+            this.editing = false
+            this.editable = false
+            this.item_per = { value: '', text: ''}  
+
+            this.lastSelectItem = {}  
+
             this.dataEmpleado = {
                 codigo:'',
                 apellidos:'',
@@ -281,17 +309,30 @@ export default {
                 foto:'no-image.png',
                 perfil_id:2,
                 habilitado:1,
-                acceso:false,                
-                image: ''           
+                acceso:false,   
+                username:'',             
+                image: '',
+                items_aso: []           
             }
             this.$emit('getClear')
             this.$store.dispatch('LOAD_DATA_INIT_EMPLEADOS_LIST')                  
             this.$modal.show('empleado')
-        },  
-        createVendedor: function(){
+        }, 
+        AccionEmpleado: function(){
+            if(typeof(this.dataEmpleado.id) === "undefined"){
+                this.createEmpleado()
+            }else{
+                this.updateEmpleado()
+            }
+        },          
+        createEmpleado: function(){
             var url = '/api/empleados';
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
+
+            this.ShowIcon = true
+            this.IconClass = 'fa fa-circle-o-notch fa-spin'
+            this.labelButton = 'Procesando'    
 
             axios.post(url, this.dataEmpleado).then(response => {
             if(typeof(response.data.errors) != "undefined"){
@@ -306,8 +347,12 @@ export default {
                 return;
             }
             this.$store.dispatch('LOAD_EMPLEADOS_LIST')
-            //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
             this.errors = [];
+
+            this.ShowIcon = false
+            this.IconClass = 'fa fa-cloud-upload'
+            this.labelButton = 'Grabar Datos'  
+
             this.$modal.hide('empleado');
             toastr.success('Nuevo Empleado creado con exito');
             }).catch(error => {
@@ -316,6 +361,71 @@ export default {
             console.log(error.response.status);
             });
         }, 
+        updateEmpleado: function(){
+            var url = '/api/empleados/'+this.dataEmpleado.id;
+            toastr.options.closeButton = true
+            toastr.options.progressBar = true
+
+            this.ShowIcon = true
+            this.IconClass = 'fa fa-circle-o-notch fa-spin'        
+            this.labelButton = 'Procesando'   
+
+            axios.put(url, this.dataEmpleado).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.$store.dispatch('LOAD_EMPLEADOS_LIST') 
+            this.errors = [];
+
+            this.ShowIcon = false
+            this.IconClass = 'fa fa-cloud-upload'          
+            this.labelButton = 'Grabar Datos'  
+
+            this.$modal.hide('empleado');
+            toastr.success('el Empleado fue actualizado con exito');          
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },        
+        processEdit(empl){
+            this.collapse = 'collapse'
+            this.editing = true
+            this.editable = true
+            var dataempl = []
+            dataempl = _.clone(empl)
+            dataempl.acceso = dataempl.acceso == 1 ? true : false
+ 
+            if(dataempl.perfil_id != null){
+                this.item_per = this.perfiles.find((perf) => perf.value == dataempl.perfil_id)
+            }  
+
+            if(dataempl.acceso){
+                this.collapse = 'collapse in'
+            }
+            this.dataEmpleado = dataempl
+            var self = this
+            self.items_aso = []
+
+            _.forEach(this.dataEmpleado.user.asociacionesusers, function(value, key) {
+                self.items_aso.push(_.find(self.asociacioncombo, function(o) { return o.value == value.asociacion_id; }));
+            });            
+            this.dataEmpleado.items_aso = self.items_aso      
+            if(dataempl.user != null){
+                this.dataEmpleado.username = dataempl.user.name
+            }
+            this.$modal.show('empleado')
+        
+        },        
         processDelete(row){
             this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar este Empleado: " + row.nombre_completo + " ?</strong></span>", {
                 html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
@@ -332,8 +442,6 @@ export default {
                 toastr.options.progressBar = true;
                 axios.delete(url).then(response=> {
                 this.$store.dispatch('LOAD_VENDEDORES_LIST')                    
-                //this.getPatient(this.pagination.current_page,this.patientSearch); 
-                //this.$store.dispatch('LOAD_PATIENTS_LIST', { page: this.$route.params.page, search:this.patientSearch });     
                 toastr.success('Vendedor Eliminado correctamente');
                 dialog.close();
                 });
@@ -360,52 +468,75 @@ export default {
         resetPer () {
             this.item_per = {}
             this.dataEmpleado.perfil_id = ''
-        },   
+        }, 
+        onSelectAso (items, lastSelectItem) {
+            this.dataEmpleado.items_aso = items
+            this.lastSelectItem = lastSelectItem
+        },          
         cambioAcceso() {
+            console.log("checked ",this.dataEmpleado.acceso)
             $('#btn-access').click()
-            if(!this.checkAccess){
-                this.resetPer()  
-                this.dataEmpleado.username =''
-            }      
+            if(this.editing){      // editando
+                if(this.dataEmpleado.user == null){
+                    this.resetPer()  
+                    this.dataEmpleado.username ='' 
+                    this.editable = false                   
+                }
+            }else{                  // creando
+                if(!this.dataEmpleado.acceso){
+                    this.resetPer()  
+                    this.dataEmpleado.username =''
+                }     
+            }
+  
         }              
  
     }               
 }
 </script>
 <style scoped>
-  .title-form {
-    background-color: #347c7c;
-    color: white;
-    margin:0;
-    padding:0
-  }
+    .title-form {
+        background-color: #347c7c;
+        color: white;
+        margin:0;
+        padding:0
+    }
 
-  .h3-title {
-    margin:10px 0 10px 20px;
-    color: white;
-  }
+    .h3-title {
+        margin:10px 0 10px 20px;
+        color: white;
+    }
 
-  .close-form {
-    margin:15px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+    .close-form {
+        margin:15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 
-  .img-thumbs {
-    max-width: 35px;
-  }
+    .img-thumbs {
+        max-width: 35px;
+    }
 
-  .separator {
-    border-top: 1px solid #CCC7B8;
-  }
+    .separator {
+        border-top: 1px solid #CCC7B8;
+    }
 
-  input.mayusculas{
-    text-transform:uppercase;
-  }  
+    input.mayusculas{
+        text-transform:uppercase;
+    } 
 
-  .enlace:hover {
-    cursor:pointer; cursor: hand	      
-  } 
+    input.minusculas{
+        text-transform:lowercase;
+    }   
+
+    .enlace:hover {
+        cursor:pointer; cursor: hand	      
+    } 
+
+    .material-icons.md-18 { font-size: 18px; }
+    .material-icons.md-24 { font-size: 24px; }
+    .material-icons.md-36 { font-size: 36px; }
+    .material-icons.md-48 { font-size: 48px; }    
 
 </style>
 

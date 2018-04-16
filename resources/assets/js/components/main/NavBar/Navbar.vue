@@ -80,11 +80,11 @@ export default {
 
     },         
     mounted() {
-      console.log("usuario: ",this.user_system)
+        //console.log("usuario: ",this.user_system)
     } ,
     methods: {
         getMenuClick() {
-            console.log("cargando actions.js")
+
             $(".x-navigation-control").click(function(){
                 $(this).parents(".x-navigation").toggleClass("x-navigation-open");
                 

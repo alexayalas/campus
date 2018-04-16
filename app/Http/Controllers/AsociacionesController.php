@@ -149,4 +149,10 @@ class AsociacionesController extends Controller
             );
         }
     }
+
+    public function list_combobox()
+    {
+        $asociaciones = Asociacion::where('activo',1)->get(['id as value','nombre as text']);
+        return $asociaciones;
+    }     
 }

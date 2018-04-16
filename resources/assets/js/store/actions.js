@@ -130,5 +130,13 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },                                           
+    }, 
+    LOAD_ASOCIACION_COMBOBOX: function ({ commit }) {
+        var urlEmployees = '/api/asociacioncombo';
+        return axios.get(urlEmployees).then((response) => {
+            commit('SET_ASOCIACION_COMBOBOX', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                                                 
 }

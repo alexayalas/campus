@@ -66,7 +66,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Codigo <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control input-sm" name="credencial" v-model="dataVendedor.codigo" required>
+                            <input type="text" class="form-control input-sm mayusculas" name="codigo" v-model="dataVendedor.codigo" required>
                         </div>
                         <label class="col-sm-2 control-label">Numero DNI <span class="asterisk">*</span></label>
                         <div class="col-sm-3">
@@ -120,6 +120,27 @@
                             <masked-input v-model="dataVendedor.fecha_ingreso" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                         </div>                        
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Nombre de Usuario <span class="asterisk">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm minusculas" name="empleado_username" v-model="dataVendedor.username" required/>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-4">Asociaciones <span class="asterisk">*</span></label>
+                        <div class="col-md-7 col-sm-7 col-xs-7">
+                            <multi-select :options="asociacioncombo"
+                                        :selected-options="dataVendedor.items_aso"
+                                        placeholder="seleccione la Asociacion"
+                                        @select="onSelectAso">
+                            </multi-select>
+                        </div>
+
+                        <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!dataVendedor.items_aso.text"></span>
+                        <div class="col-md-1 col-sm-1" v-if="dataVendedor.items_aso.text">
+                        <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetAso"><i class="fa fa-close"></i> </button>
+                        </div>
+                    </div><!-- /.form-group -->                       
                                                                                                                                                                                                  
                 </div>
                 <div class="col-md-2 pt-20">
@@ -143,17 +164,20 @@
     </div>
 </template>
 <script>
+import 'semantic-ui-icon/icon.min.css';
+import { MultiSelect } from 'vue-search-select'
 import MaskedInput from 'vue-masked-input'
 import { mapState, mapGetters } from 'vuex'
 export default {
     name: 'vendedores',
     mounted() {
-        this.$store.dispatch('LOAD_EMPLEADOS_LIST').then(() => {
-
-        })  
+        this.$store.dispatch('LOAD_EMPLEADOS_LIST')
+        this.$store.dispatch('LOAD_ASOCIACION_COMBOBOX')  
     },
     data() {
-        return {          
+        return {  
+            lastSelectItem: {},
+
             textpage: 'Registros por pagina',
             textnext:'Sig',
             textprev:'Ant',
@@ -212,20 +236,24 @@ export default {
                 habilitado:1,
                 acceso:1,
                 image: '',
-                username:''       
+                username:'',
+                items_aso: []         
             },                       
             errors:[]
         }
     },
     components: {
-      MaskedInput
+        MaskedInput,
+        MultiSelect        
     },
     computed: {
-        ...mapState(['vendedores']),
+        ...mapState(['vendedores','asociacioncombo']),
         ...mapGetters(['getVendedores']),        
     }, 
     methods: {
-        LoadForm: function(){        
+        LoadForm: function(){  
+            this.lastSelectItem = {}  
+
             this.dataVendedor = {
                 codigo:'',
                 apellidos:'',
@@ -242,10 +270,10 @@ export default {
                 habilitado:1,
                 acceso:1,                
                 image: '',
-                username:''          
+                username:'',
+                items_aso: []          
             }
-            this.$emit('getClear')
-            //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
+            this.$emit('getClear')     
             this.$modal.show('vendedor')
         },  
         createVendedor: function(){
@@ -253,7 +281,11 @@ export default {
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
-            this.dataVendedor.username = this.dataVendedor.dni  // nombre de usuario por defecto de vendedores
+            if(this.dataVendedor.items_aso.length == 0){
+                toastr.warning('Tiene que asignar al menos una asociacion al vendedor !!!');
+                return
+            }
+            //this.dataVendedor.username = this.dataVendedor.dni  // nombre de usuario por defecto de vendedores
 
             axios.post(url, this.dataVendedor).then(response => {
             if(typeof(response.data.errors) != "undefined"){
@@ -315,6 +347,13 @@ export default {
         getClear: function(){
             console.log("evento clear");
         },
+        onSelectAso (items, lastSelectItem) {
+            this.dataVendedor.items_aso = items
+            this.lastSelectItem = lastSelectItem
+        },
+        resetAso () {
+            this.dataVendedor.items_aso = [] // reset
+        },          
  
     }               
 }
@@ -350,6 +389,9 @@ export default {
     text-transform:uppercase;
   }  
 
+  input.minusculas{
+    text-transform:lowercase;
+  }  
   .enlace:hover {
     cursor:pointer; cursor: hand	      
   } 

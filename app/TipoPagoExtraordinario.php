@@ -10,4 +10,8 @@ class TipoPagoExtraordinario extends Model
 
     protected $fillable = ['id', 'nombre','activo'];
 
+    public function pagosextraordinarios()
+    {
+        return $this->hasMany('App\PagoExtraordinario');
+    }
 }

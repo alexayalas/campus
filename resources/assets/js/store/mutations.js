@@ -52,5 +52,8 @@ export default {
     }, 
     SET_TIPOS_PAGOSEXTRAORDINARIOS_LIST: (state, { list }) => {      // PERFIL DE USUARIO
         state.tipo_pagosextraordinarios = list
-    },                                   
+    }, 
+    SET_ASOCIACION_COMBOBOX: (state, { list }) => {      // EMPLEADOS
+        state.asociacioncombo = list
+    },                                       
 }

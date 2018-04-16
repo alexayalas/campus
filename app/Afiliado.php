@@ -41,7 +41,12 @@ class Afiliado extends Model
         }else{              // credencial
             return $query->where('credencial',$dato)->where('activo',1);
         }
-    }       
+    }
+    
+    public function pagosextraordinarios()
+    {
+        return $this->hasMany('App\PagoExtraordinario');
+    }    
 
 }
 

@@ -85,8 +85,8 @@
 
         }, 
         mounted(){
-            this.$parent.$on('send', (pac) => {
-                this.idpac = pac;
+            this.$parent.$on('send', (afi) => {
+                this.idafi = afi;
                 //console.log('text: ',pac)
             })
         },      
@@ -98,7 +98,7 @@
                 },
                 postFormData: new FormData(),
                 loading : false ,
-                idpac: ''          
+                idafi: ''          
             }
         },
         methods : {
@@ -138,7 +138,7 @@
                     }
                 }                
                 var url ="/api/uploadPdf"
-                this.postFormData.append('id', this.idpac)
+                this.postFormData.append('id', this.idafi)
                 axios.post(url,this.postFormData, config).then(response => {
                     if(typeof(response.data.errors) != "undefined"){
                         this.errors = response.data.errors;

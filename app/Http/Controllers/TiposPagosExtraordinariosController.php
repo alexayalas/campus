@@ -23,7 +23,7 @@ class TiposPagosExtraordinariosController extends Controller
      */
     public function index()
     {
-        $tipo_pagosextraordinarios = TipoPagoExtraordinario::where('activo',1)->get();
+        $tipo_pagosextraordinarios = TipoPagoExtraordinario::where('activo',1)->get(['id as value','nombre as text']);
         return $tipo_pagosextraordinarios;
     }
 
