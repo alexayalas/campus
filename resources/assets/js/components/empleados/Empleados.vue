@@ -415,7 +415,7 @@ export default {
             }
             this.dataEmpleado = dataempl
               
-            if(dataempl.user != null){
+/*             if(dataempl.user != null){
                 this.dataEmpleado.username = dataempl.user.name
                 if(dataempl.user.asociacionesusers != null){
                     var self = this
@@ -424,12 +424,11 @@ export default {
                         self.items_aso.push(_.find(self.asociacioncombo, function(o) { return o.value == value.asociacion_id; }));
                     }); 
                     this.dataEmpleado.items_aso = self.items_aso
-                    this.dataEmpleado.items_aso = []
                 }
             }else{
                 this.dataEmpleado.username = ''
                 this.dataEmpleado.items_aso = []
-            }
+            } */
             this.$modal.show('empleado')
         
         },        
