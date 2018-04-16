@@ -128,12 +128,12 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-4">Perfil </label>
                                 <div class="col-md-7 col-sm-7 col-xs-7">
-                                <basic-select :options="getPerfilesEmpleados"
-                                    :selected-option="item_per"
-                                    placeholder="seleccione una opción"
-                                    @select="onSelectPer"
-                                    :isDisabled="editable">
-                                </basic-select>
+                                    <basic-select :options="getPerfilesEmpleados"
+                                        :selected-option="item_per"
+                                        placeholder="seleccione una opción"
+                                        @select="onSelectPer"
+                                        :isDisabled="editable">
+                                    </basic-select>
                                 </div>
                                 <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!item_per.text"></span>
                                 <div class="col-md-1 col-sm-1" v-if="item_per.text">
@@ -289,6 +289,7 @@ export default {
     }, 
     methods: {
         LoadForm: function(){  
+            this.collapse = 'collapse'
             this.editing = false
             this.editable = false
             this.item_per = { value: '', text: ''}  
@@ -413,15 +414,21 @@ export default {
                 this.collapse = 'collapse in'
             }
             this.dataEmpleado = dataempl
-            var self = this
-            self.items_aso = []
-
-            _.forEach(this.dataEmpleado.user.asociacionesusers, function(value, key) {
-                self.items_aso.push(_.find(self.asociacioncombo, function(o) { return o.value == value.asociacion_id; }));
-            });            
-            this.dataEmpleado.items_aso = self.items_aso      
+              
             if(dataempl.user != null){
                 this.dataEmpleado.username = dataempl.user.name
+                if(dataempl.user.asociacionesusers != null){
+                    var self = this
+                    self.items_aso = []
+                    _.forEach(dataempl.user.asociacionesusers, function(value, key) {
+                        self.items_aso.push(_.find(self.asociacioncombo, function(o) { return o.value == value.asociacion_id; }));
+                    }); 
+                    this.dataEmpleado.items_aso = self.items_aso
+                    this.dataEmpleado.items_aso = []
+                }
+            }else{
+                this.dataEmpleado.username = ''
+                this.dataEmpleado.items_aso = []
             }
             this.$modal.show('empleado')
         
@@ -474,7 +481,6 @@ export default {
             this.lastSelectItem = lastSelectItem
         },          
         cambioAcceso() {
-            console.log("checked ",this.dataEmpleado.acceso)
             $('#btn-access').click()
             if(this.editing){      // editando
                 if(this.dataEmpleado.user == null){

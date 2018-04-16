@@ -213,8 +213,51 @@ class EmpleadosController extends Controller
             $Empleado->nombres = Str::upper($Empleado->nombres);
             $Empleado->apellidos = Str::upper($Empleado->apellidos);
             $Empleado->nombre_completo = Str::upper($Empleado->nombres).' '.Str::upper($Empleado->apellidos);
-  
-            $Empleado->save();
+            $Empleado->save();            
+            /* --- Verificamos si el $request->acceso es true ---*/
+            if($request->acceso == true){
+                $user = User::where('empleado_id',$Empleado->id)->where('activo',1)->get();
+                if(!$user){
+                    $var_newusu = Str::lower($request->get('username'));
+                    $usuario = User::where('name',$var_newusu)->count();
+                    if($usuario > 0){
+                        return response()->json(['errors'=>['Usuario ' => 'Ya existe un Usuario con estos datos : '.$request->get('username')]]);
+                    }   
+                    /* ---- creamos el usuario ----*/
+                    $newuser = new User();
+                    $newuser->name = ($request->has('username')) ? Str::lower($request->username) : null;
+                    $newuser->email = ($request->has('email')) ? Str::lower($request->email) : null;
+                    $newuser->password = bcrypt('secreto');
+                    $newuser->empleado_id = $Empleado->id;
+                    $newuser->save(); 
+                    /* ---- Guardamos las asociaciones del usuario ---*/
+                    foreach ($request->items_aso as $key => $value) {
+                        $asouser = new AsociacionUser();
+                        $asouser->asociacion_id = $value['value'];
+                        $asouser->user_id = $user->id;
+                        $asouser->save();               
+                    }                      
+                }else{
+                    $items_asouse = AsociacionUser::where('user_id',$user->id)->count();
+                    if($items_asouse > 0){
+                        $items_asouse = AsociacionUser::where('user_id',$user->id)->delete();    
+                    }
+                    /* ---- Guardamos las asociaciones del usuario ---*/
+                    foreach ($request->items_aso as $key => $value) {
+                        $asouser = new AsociacionUser();
+                        $asouser->asociacion_id = $value['value'];
+                        $asouser->user_id = $user->id;
+                        $asouser->save();               
+                    }                     
+
+                }
+            }
+
+            /* --- borramos con delete los registros de asociacion_user ---*/
+            $asoc_user = AsociacionUser::where('user_id',$request->user_id)->delete();
+            /* --- ingresamos los registros de asociacion_user ---*/
+
+
   
           DB::commit();           
           return;
