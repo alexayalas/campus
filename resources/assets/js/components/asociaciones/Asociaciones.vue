@@ -25,7 +25,7 @@
                             <vue-good-table
                             title="Lista General de Asociaciones"
                             :columns="columns"
-                            :rows="asociaciones"
+                            :rows="asociaciones_users"
                             :paginate="true"
                             :lineNumbers="true"
                             :rowsPerPageText="textpage"
@@ -34,14 +34,14 @@
                             :ofText="textof"
                             styleClass="table condensed table-bordered table-striped">
                                 <template slot="table-row" slot-scope="props">
-                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.nombre}}</td>
-                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.ruc }}</td>
-                                    <td>{{ props.row.nombre_comercial }}</td>
-                                    <td>{{ props.row.fecha_inicio_labores }}</td>
+                                    <td class="enlace" @click.prevent="onClickFn(props.row.asociacion,props.index)">{{ props.row.asociacion.nombre}}</td>
+                                    <td class="enlace" @click.prevent="onClickFn(props.row.asociacion,props.index)">{{ props.row.asociacion.ruc }}</td>
+                                    <td>{{ props.row.asociacion.nombre_comercial }}</td>
+                                    <td>{{ props.row.asociacion.fecha_inicio_labores }}</td>
                                     <td>
-                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">mode_edit</i></button>
-                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">location_on</i></button>
-                                        <button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button>                                    
+                                        <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">mode_edit</i></button>
+                                        <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">location_on</i></button>
+                                        <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">delete_forever</i></button>                                    
                                     </td>
                                 </template>                              
                             </vue-good-table>
@@ -118,8 +118,9 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
     name:'asociaciones',
-    mounted() {
-        this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+    created() {
+        //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+        this.CargaAsociacionUser()
     },
     data() {
         return {
@@ -169,14 +170,15 @@ export default {
                 fecha_inicio_labores: '',
                 descripcion:''
             },                      
-            errors:[]
+            errors:[],
+            asociaciones_users:[]
         }
     },
     components: {
       MaskedInput 
     },     
     computed: {
-        ...mapState(['asociaciones'])
+        ...mapState(['asociaciones','user_system'])
     }, 
     methods: {
         LoadForm: function(){
@@ -187,9 +189,40 @@ export default {
                 user_id: 1,
                 fecha_inicio_labores: '',
                 descripcion:''
-            }, 
-            //this.$store.dispatch('LOAD_DATA_INIT_LIST')       
+            },     
             this.$modal.show('asociacion')            
+        },
+        CargaAsociacionUser: function(){
+            var url = '/api/asociaciones-user'
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            axios.get(url,{
+                params:{
+                    user_id: this.user_system.user.id
+                }
+            }).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            if(response.data.length >0 ){
+                this.asociaciones_users = response.data
+            }            
+        
+            this.errors = [];
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
         },
         createAsociacion: function(){
             var url = '/api/asociaciones';
@@ -244,8 +277,6 @@ export default {
             });
         },
         onClickFn: function(row, index){
-            console.log(row); //the object for the row that was clicked on
-            console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'Ubicaciones',  params: { asociacion : row.id } })
         },                               
     }    
@@ -285,4 +316,10 @@ export default {
     .enlace:hover {
         cursor:pointer; cursor: hand	      
     } 
+
+    .material-icons.md-18 { font-size: 18px; }
+    .material-icons.md-24 { font-size: 24px; }
+    .material-icons.md-36 { font-size: 36px; }
+    .material-icons.md-48 { font-size: 48px; } 
+
 </style>

@@ -9,6 +9,7 @@ import AfiDatosFamiliares from './components/afiliados/content/AfiDatosFamiliare
 import AfiDocumentos from './components/afiliados/content/AfiDocumentos.vue'
 import AfiPagosExtraordinarios from './components/afiliados/content/AfiPagosExtraordinarios.vue'
 import AfiCompras from './components/afiliados/content/AfiCompras.vue'
+import AfiPrecompras from './components/afiliados/content/AfiPrecompras.vue'
 import AfiPagos from './components/afiliados/content/AfiPagos.vue'
 /*<!-- Opciones del Menu Vendedores -->*/
 import Vendedores from './components/vendedores/Vendedores.vue'
@@ -79,6 +80,12 @@ export default [
                         component: AfiCompras,
                         props: true
                     },
+                    {
+                        path: 'precompras/:afiliado',
+                        name: 'AfiPrecompras',
+                        component: AfiPrecompras,
+                        props: true
+                    },                    
                     {
                         path: 'pagosextraordinarios/:afiliado',
                         name: 'AfiPagosextraordinarios',

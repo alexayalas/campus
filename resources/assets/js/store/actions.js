@@ -138,5 +138,21 @@ export default {
         }, (err) => {
             console.log(err)
         });
-    },                                                 
+    },  
+    LOAD_VENTAS_LIST: function ({ commit }) {
+        var urlPerfiles = '/api/ventas';
+        return axios.get(urlPerfiles).then((response) => {
+            commit('SET_VENTAS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    }, 
+    LOAD_PREVENTAS_LIST: function ({ commit }) {
+        var urlPerfiles = '/api/preventas';
+        return axios.get(urlPerfiles).then((response) => {
+            commit('SET_PREVENTAS_LIST', { list: response.data })
+        }, (err) => {
+            console.log(err)
+        });
+    },                                                      
 }

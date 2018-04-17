@@ -181,9 +181,9 @@ class EmpleadosController extends Controller
 
         try {
             $rules = ['nombres'     => 'required',
-                      'apellidos' => 'required',
-                      'codigo' => 'required',
-                      'dni' => 'required'
+                      'apellidos'   => 'required',
+                      //'codigo'      => 'required',
+                      'dni'         => 'required'
                     ];
   
             if($request->has('fecha_nacimiento')){
@@ -216,7 +216,7 @@ class EmpleadosController extends Controller
             $Empleado->save();            
             /* --- Verificamos si el $request->acceso es true ---*/
             if($request->acceso == true){
-                $user = User::where('empleado_id',$Empleado->id)->where('activo',1)->get();
+                $user = User::where('empleado_id',$id)->where('activo',1)->first();
                 if(!$user){
                     $var_newusu = Str::lower($request->get('username'));
                     $usuario = User::where('name',$var_newusu)->count();
@@ -228,16 +228,17 @@ class EmpleadosController extends Controller
                     $newuser->name = ($request->has('username')) ? Str::lower($request->username) : null;
                     $newuser->email = ($request->has('email')) ? Str::lower($request->email) : null;
                     $newuser->password = bcrypt('secreto');
-                    $newuser->empleado_id = $Empleado->id;
+                    $newuser->empleado_id = $id;
                     $newuser->save(); 
                     /* ---- Guardamos las asociaciones del usuario ---*/
                     foreach ($request->items_aso as $key => $value) {
                         $asouser = new AsociacionUser();
                         $asouser->asociacion_id = $value['value'];
-                        $asouser->user_id = $user->id;
+                        $asouser->user_id = $newuser->id;
                         $asouser->save();               
                     }                      
                 }else{
+                    //dd($user);
                     $items_asouse = AsociacionUser::where('user_id',$user->id)->count();
                     if($items_asouse > 0){
                         $items_asouse = AsociacionUser::where('user_id',$user->id)->delete();    
@@ -252,12 +253,6 @@ class EmpleadosController extends Controller
 
                 }
             }
-
-            /* --- borramos con delete los registros de asociacion_user ---*/
-            $asoc_user = AsociacionUser::where('user_id',$request->user_id)->delete();
-            /* --- ingresamos los registros de asociacion_user ---*/
-
-
   
           DB::commit();           
           return;

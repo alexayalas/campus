@@ -91,7 +91,6 @@ class PerfilesController extends Controller
     public function show($id)
     {
         // funcion para recuperar los items del menu por perfil
-        //return Profile::find($id)->modules()->where('module_profile.state',1)->get();
         $modulos = Perfil::find($id)->modulos()->where('modulo_perfil.state',1)->where('activo',1)->get();
         //$modules = Module::all();               // cargo todos los modulos de la BD        
         $menus = array();

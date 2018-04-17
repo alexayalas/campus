@@ -32,9 +32,9 @@
                             :ofText="textof"
                             styleClass="table condensed table-bordered table-striped">
                                 <template slot="table-row" slot-scope="props">
-                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.codigo }}</td>
-                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.nombre_completo}}</td>
-                                    <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.dni }}</td>
+                                    <td>{{ props.row.codigo }}</td>
+                                    <td>{{ props.row.nombre_completo}}</td>
+                                    <td>{{ props.row.dni }}</td>
                                     <td>{{ props.row.perfil.nombre }}</td>
                                     <td>{{ props.row.telefono }}</td>
                                     <td>{{ props.row.celular }}</td>
@@ -284,7 +284,7 @@ export default {
         MultiSelect  
     },
     computed: {
-        ...mapState(['empleados','perfiles','asociacioncombo']),
+        ...mapState(['empleados','perfiles_empleados','asociacioncombo']),
         ...mapGetters(['getPerfilesEmpleados'])
     }, 
     methods: {
@@ -363,7 +363,7 @@ export default {
             });
         }, 
         updateEmpleado: function(){
-            var url = '/api/empleados/'+this.dataEmpleado.id;
+            var url = '/api/empleados/'+this.dataEmpleado.id
             toastr.options.closeButton = true
             toastr.options.progressBar = true
 
@@ -399,23 +399,44 @@ export default {
             });
         },        
         processEdit(empl){
+            this.$store.dispatch('LOAD_DATA_INIT_EMPLEADOS_LIST')  
             this.collapse = 'collapse'
             this.editing = true
             this.editable = true
             var dataempl = []
             dataempl = _.clone(empl)
             dataempl.acceso = dataempl.acceso == 1 ? true : false
- 
+
             if(dataempl.perfil_id != null){
-                this.item_per = this.perfiles.find((perf) => perf.value == dataempl.perfil_id)
+                this.item_per = this.perfiles_empleados.find((perf) => perf.value == dataempl.perfil_id)
             }  
 
             if(dataempl.acceso){
                 this.collapse = 'collapse in'
             }
-            this.dataEmpleado = dataempl
+
+            this.dataEmpleado = {
+                id:dataempl.id,
+                codigo: dataempl.codigo,
+                apellidos:dataempl.apellidos,
+                nombres:dataempl.nombres,
+                dni:dataempl.dni,
+                telefono:dataempl.telefono,
+                celular:dataempl.celular,
+                email:dataempl.email,
+                fecha_nacimiento:dataempl.fecha_nacimiento,
+                fecha_ingreso:dataempl.fecha_ingreso,
+                sexo:dataempl.sexo,
+                foto:dataempl.foto,
+                perfil_id:dataempl.perfil_id,
+                habilitado:dataempl.habilitado,
+                acceso:dataempl.acceso,   
+                username:'',             
+                //image: '',
+                items_aso: []           
+            }
               
-/*             if(dataempl.user != null){
+            if(dataempl.user != null){
                 this.dataEmpleado.username = dataempl.user.name
                 if(dataempl.user.asociacionesusers != null){
                     var self = this
@@ -428,7 +449,7 @@ export default {
             }else{
                 this.dataEmpleado.username = ''
                 this.dataEmpleado.items_aso = []
-            } */
+            }
             this.$modal.show('empleado')
         
         },        

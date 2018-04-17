@@ -27,7 +27,7 @@ export default {
         return state.empleados.find(empleado => empleado.id == id)
     },
     getPerfilesEmpleados: (state, getters) => {
-        return state.perfiles.filter(perfiles => perfiles.value != 2)
+        return state.perfiles_empleados.filter(perfil => perfil.value != 2)
     }, 
     getPerfilById: (state, getters) => (id) => {
         return state.perfiles.find(perfil => perfil.id == id)

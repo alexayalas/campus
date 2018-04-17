@@ -8,7 +8,7 @@ class Preventa extends Model
 {
     protected $table = "preventas";
 
-    protected $fillable = ['id', 'afiliado_id','numero_documento','folio','lotizacion_id','fecha_venta','costo_total','tipo_venta','numero_cuotas','valor_cuotas','estado_venta','observaciones','vendedor_id','user_id','activo'];
+    protected $fillable = ['id', 'afiliado_id','fecha_preventa','numero_documento','importe','lotizacion_id','vendedor_id','user_id','activo'];
 
 
     public function user()
@@ -16,9 +16,9 @@ class Preventa extends Model
         return $this->belongsTo('App\User');
     } 
 
-    public function preventa()
+    public function venta()
     {
-        return $this->belongsTo('App\Preventa');
+        return $this->belongsTo('App\Venta');
     }
 
     public function afiliado()
@@ -33,6 +33,6 @@ class Preventa extends Model
     
     public function vendedor()
     {
-        return $this->belongsTo('App\Vendedor');
+        return $this->belongsTo('App\Empleado');
     }
 }

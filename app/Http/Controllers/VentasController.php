@@ -25,7 +25,13 @@ class VentasController extends Controller
      */
     public function index()
     {
-        //
+        $ventas = Venta::with('lotizacion','lotizacion.ubicacion','lotizacion.ubicacion.asociacion','vendedor')->where('activo',1)->get();
+
+        foreach ($ventas as $venta) {
+            $venta['acuenta'] = collect($venta['pagos'])->sum('importe'); 
+		}
+
+        return Response()->json($ventas);
     }
 
     /**

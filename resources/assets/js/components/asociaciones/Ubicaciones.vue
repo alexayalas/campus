@@ -41,7 +41,7 @@
                                     <td>{{ props.row.lotes_prevendidos }}</td>
                                     <td>{{ props.row.lotes_vendidos }}</td>
                                     <td>{{ props.row.lotes_total }}</td>                                    
-                                    <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
+                                    <td><button @click.prevent="processDelete(props.row)"><i class="material-icons md-18">delete_forever</i></button></td>
                                 </template>                              
                             </vue-good-table>
                         </div>
@@ -106,7 +106,7 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
     name:'ubicaciones',
-    mounted() {
+    created() {
         this.$store.dispatch('LOAD_UBICACIONES_LIST')
     },  
     data() {
@@ -179,7 +179,6 @@ export default {
     computed: {
         ...mapGetters({ getubicacion_asociacion: 'getUbicacionAsociacionById'}),
         ubicacion_asociacionByid: function(){
-            console.log("ubicacion:",this.getubicacion_asociacion(this.$route.params.asociacion))
             return this.getubicacion_asociacion(this.$route.params.asociacion);
         }
     },
@@ -232,8 +231,6 @@ export default {
             });
         },
         onClickFn: function(row, index){
-            console.log(row); //the object for the row that was clicked on
-            console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'Lotizaciones',  params: { ubicacion : row.id } })
         },                        
     }      
@@ -272,6 +269,10 @@ export default {
 
     .enlace:hover {
         cursor:pointer; cursor: hand	      
-    } 
+    }
+    .material-icons.md-18 { font-size: 18px; }
+    .material-icons.md-24 { font-size: 24px; }
+    .material-icons.md-36 { font-size: 36px; }
+    .material-icons.md-48 { font-size: 48px; }        
 </style>
 

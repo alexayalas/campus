@@ -21,4 +21,14 @@ class Empleado extends Model
     {
         return $this->belongsTo('App\Perfil');
     }
+
+    public function ventas()
+    {
+        return $this->hasMany('App\Venta');        
+    }  
+
+    public function preventas()
+    {
+        return $this->hasMany('App\Preventa');        
+    }
 }

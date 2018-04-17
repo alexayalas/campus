@@ -10,9 +10,9 @@
             </div>
             <div class="panel-body">
                 <vue-good-table
-                title="Compras Efectuadas"
+                title="Precompras Efectuadas"
                 :columns="columns"
-                :rows="compras"
+                :rows="precompras"
                 :paginate="true"
                 :lineNumbers="true"
                 :rowsPerPageText="textpage"
@@ -24,10 +24,9 @@
                         <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.ubicacion.asociacion.nombre }}</td>
                         <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.ubicacion.sector}} {{ props.row.lotizacion.ubicacion.grupo}} {{ props.row.lotizacion.ubicacion.manzana}}</td>
                         <td class="enlace" @click.prevent="onClickFn(props.row,props.index)">{{ props.row.lotizacion.lote }}</td>
-                        <td>{{ props.row.costo_total }}</td>
-                        <td>{{ props.row.acuenta }}</td>
-                        <td>{{ props.row.costo_total - props.row.acuenta }}</td>
-                        <td><button @click.prevent="processDelete(props.row)"><i class="material-icons">delete_forever</i></button></td>
+                        <td>{{ props.row.importe }}</td>
+                        <td>{{ props.row.vendedor.nombre_completo }}</td>
+                        <td><button @click.prevent="processDelete(props.row)"><i class="material-icons md-18">delete_forever</i></button></td>
                     </template>                              
                 </vue-good-table>
             </div>
@@ -38,9 +37,9 @@
 </template>
 <script>
     export default {
-        name:'aficompras',
+        name:'afiprecompras',
         mounted() {
-            this.CargaCompras()
+            this.CargaPrecompras()
         },        
         data() {
             return {
@@ -55,7 +54,7 @@
                     label: 'Asociacion',
                     field: 'asociacion',
                     filterable: true,
-                    width:'30%',
+                    width:'25%',
                     },
                     {
                     label: 'Ubicacion',
@@ -66,36 +65,31 @@
                     {
                     label: 'Lote',
                     field: 'lote',
+                    width:'10%',                
+                    },
+                    {
+                    label: 'Importe',
+                    field: 'importe',
+                    width:'10%',                
+                    },
+                    {
+                    label: 'Vendedor',
+                    field: 'vendedor',
                     width:'25%',                
-                    },
-                    {
-                    label: 'Precio',
-                    field: 'precio',
-                    width:'15%',                
-                    },
-                    {
-                    label: 'A Cuenta',
-                    field: 'acuenta',
-                    width:'15%',                
-                    },
-                    {
-                    label: 'Saldo',
-                    field: 'saldo',
-                    width:'15%',                
-                    },                                        
+                    },                                       
                     {
                     label: 'Acción',
                     html: true  ,
                     width:'15%',  
                     }                               
                 ],  
-                compras:[],                   
+                precompras:[],                   
                 errors:[]
             }
         },
         methods: {
-            CargaCompras: function(){
-                var url ="/api/compras"
+            CargaPrecompras: function(){
+                var url ="/api/precompras"
                 axios.get(url,{
                 params:{
                     afiliado_id: this.$route.params.afiliado
@@ -113,7 +107,7 @@
                     return;
                 }
                 if(response.data.length >0 ){
-                    this.compras = response.data
+                    this.precompras = response.data
                 }
 
                 }).catch(error => {
@@ -133,6 +127,13 @@
     .enlace:hover {
         cursor:pointer; cursor: hand	      
     } 
+
+    .material-icons.md-18 { font-size: 18px; }
+    .material-icons.md-24 { font-size: 24px; }
+    .material-icons.md-36 { font-size: 36px; }
+    .material-icons.md-48 { font-size: 48px; }     
 </style>
+
+
 
 

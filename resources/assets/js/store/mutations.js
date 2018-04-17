@@ -42,7 +42,7 @@ export default {
         state.perfiles = list
     }, 
     SET_DATA_INIT_EMPLEADOS_LIST: (state, { list }) => {
-        state.perfiles = list
+        state.perfiles_empleados = list
     },  
     SET_USUARIOS_LIST: (state, { list }) => {      // USUARIOS
         state.usuarios = list
@@ -53,7 +53,13 @@ export default {
     SET_TIPOS_PAGOSEXTRAORDINARIOS_LIST: (state, { list }) => {      // PERFIL DE USUARIO
         state.tipo_pagosextraordinarios = list
     }, 
-    SET_ASOCIACION_COMBOBOX: (state, { list }) => {      // EMPLEADOS
+    SET_ASOCIACION_COMBOBOX: (state, { list }) => {      // ASOCIACION USERS
         state.asociacioncombo = list
-    },                                       
+    }, 
+    SET_VENTAS_LIST: (state, { list }) => {      // VENTAS
+        state.ventas = list
+    }, 
+    SET_PREVENTAS_LIST: (state, { list }) => {      // PREVENTAS
+        state.preventas = list
+    },                                               
 }

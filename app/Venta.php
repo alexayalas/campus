@@ -33,7 +33,7 @@ class Venta extends Model
     
     public function vendedor()
     {
-        return $this->belongsTo('App\Vendedor');
+        return $this->belongsTo('App\Empleado');
     }  
     
     public function pagos()

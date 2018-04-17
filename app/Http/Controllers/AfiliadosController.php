@@ -16,6 +16,7 @@ use App\EstadoCivil;
 use App\User;
 use App\Afiliado;
 use App\Venta;
+use App\Preventa;
 
 
 class AfiliadosController extends Controller
@@ -242,6 +243,12 @@ class AfiliadosController extends Controller
 		}
         //return $quotes;
         return Response()->json($compras);
+    }
+
+    public function precompras(Request $request)
+    {
+        $precompras = Preventa::with('lotizacion','lotizacion.ubicacion','lotizacion.ubicacion.asociacion','vendedor')->where('afiliado_id',$request->afiliado_id)->where('activo',1)->get();
+        return $precompras;
     }
 
     public function uploadPdf(Request $request){

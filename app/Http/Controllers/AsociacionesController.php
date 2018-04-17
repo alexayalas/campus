@@ -12,6 +12,7 @@ use Validator;
 use Image;
 use Carbon\Carbon;
 use App\Asociacion;
+use App\AsociacionUser;
 
 class AsociacionesController extends Controller
 {
@@ -154,5 +155,11 @@ class AsociacionesController extends Controller
     {
         $asociaciones = Asociacion::where('activo',1)->get(['id as value','nombre as text']);
         return $asociaciones;
-    }     
+    }
+    
+    public function asociaciones_users(Request $request)
+    {
+        $aso_user = AsociacionUser::with('asociacion')->where('user_id',$request->user_id)->where('activo',1)->get();
+        return $aso_user;
+    }
 }

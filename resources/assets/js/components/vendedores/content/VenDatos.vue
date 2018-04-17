@@ -56,20 +56,13 @@
                     <masked-input v-model="vendedorByid.fecha_ingreso" mask="11/11/1111" placeholder="DD/MM/YYYY" />
                     </div>
                 </div>  
-                <div class="form-group">
-                    <label class="control-label col-md-4 col-sm-4 col-xs-4">Asociaciones <span class="asterisk">*</span></label>
-                    <div class="col-md-7 col-sm-7 col-xs-7">
-                        <multi-select :options="asociacioncombo"
-                                    :selected-options="dataVendedor.items_aso"
-                                    placeholder="seleccione la Asociacion"
-                                    @select="onSelectAso">
-                        </multi-select>
-                    </div>
-
-                    <span class="glyphicon glyphicon-folder-open mt-5" style="font-size:20px" aria-hidden="true" v-if="!dataVendedor.items_aso.text"></span>
-                    <div class="col-md-1 col-sm-1" v-if="dataVendedor.items_aso.text">
-                    <button type="button" title="Borrar Opción" class="btn btn-danger btn-md pull-right" @click.prevent="resetAso"><i class="fa fa-close"></i> </button>
-                    </div>
+                <div class="form-group has-warning">
+                    <label class="control-label">Asociaciones <span class="asterisk">*</span></label>
+                    <multi-select :options="asociacioncombo"
+                                :selected-options="items_asociaciones"
+                                placeholder="seleccione la Asociacion"
+                                @select="onSelectAso">
+                    </multi-select>
                 </div><!-- /.form-group -->                                                                    
             </div>                                
             <hr/>
@@ -87,24 +80,41 @@
     </div>  
 </template>
 <script>
+import 'semantic-ui-icon/icon.min.css';
+import _ from 'lodash'
+import { MultiSelect } from 'vue-search-select'
 import MaskedInput from 'vue-masked-input'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
     name:'vendatos',
     mounted() {
-      
+        if(typeof this.vendedorByid != 'undefined'){
+            if(this.vendedorByid.user != null){
+                if(this.vendedorByid.user.asociacionesusers != null){
+                    var self = this
+                    self.items_aso = []
+                    _.forEach(this.vendedorByid.user.asociacionesusers, function(value, key) {
+                        self.items_aso.push(_.find(self.asociacioncombo, function(o) { return o.value == value.asociacion_id; }));
+                    }); 
+                    this.items_asociaciones = self.items_aso
+                }
+            }
+
+        }      
     },    
     data() {
         return {
-      
+            items_asociaciones: [],
+            dataCompleta: {}
         }
     },
     components: {
-      MaskedInput 
+        MaskedInput ,
+        MultiSelect  
     },
     computed: {
-        ...mapState(['vendedores']),
+        ...mapState(['vendedores','asociacioncombo']),
         ...mapGetters(['getEmpleadoById']),
         vendedorByid: function(){
             return this.getEmpleadoById(this.$route.params.vendedor);
@@ -122,7 +132,13 @@ export default {
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
-            axios.put(url, this.vendedorByid).then(response => {
+            this.dataCompleta = this.vendedorByid
+            this.dataCompleta.items_aso = this.items_asociaciones
+            this.dataCompleta.acceso = this.dataCompleta.acceso == 1 ? true : false
+
+            console.log("datitos vendedor ",this.dataCompleta)
+
+            axios.put(url, this.dataCompleta).then(response => {
             if(typeof(response.data.errors) != "undefined"){
                 this.errors = response.data.errors;
                 var resultado = "";
@@ -147,7 +163,11 @@ export default {
         },
         getClear: function(){
             console.log("evento clear");
-        }
+        },
+        onSelectAso (items, lastSelectItem) {
+            this.items_asociaciones = items
+            //this.lastSelectItem = lastSelectItem
+        },           
                                     
     }      
   
