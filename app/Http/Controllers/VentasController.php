@@ -12,6 +12,7 @@ use Validator;
 use Image;
 use Carbon\Carbon;
 use App\Venta;
+use App\Preventa;
 use App\Pago;
 use App\Lotizacion;
 use App\Ubicacion;
@@ -82,6 +83,19 @@ class VentasController extends Controller
             /*-- Grabamos el cronograma de pagos ---*/
             $formfec2 = explode("/", $request->fecha_inicial); 
             $fecha_ini = Carbon::create($formfec2[2],$formfec2[1],$formfec2[0]);
+            
+            /* --- si hay preventa grabamos la cuota cero ---*/
+            if($request->has('preventa_id')){
+                $pagocero = new Pago();
+                $pagocero->venta_id = $venta->id;
+                $pagocero->numero_cuota = 0;
+                $pagocero->fecha_programada = $venta->fecha_venta;
+                $pagocero->fecha_pago = $venta->fecha_venta;  
+                $pagocero->importe = $request->cuota_cero;
+                $pagocero->estado_pago = 1;              
+                $pagocero->user_id = $request->user_id;
+                $pagocero->save();                
+            }
 
             for ($i=1; $i <= $request->numero_cuotas ; $i++) { 
                 $pago = new Pago();
@@ -102,7 +116,16 @@ class VentasController extends Controller
             $ubicacion = Ubicacion::find($request->ubicacion_id);
             $ubicacion->lotes_disponibles = ($ubicacion->lotes_disponibles) - 1;
             $ubicacion->lotes_vendidos = ($ubicacion->lotes_vendidos) + 1;
+            if($request->has('preventa_id')){
+                $ubicacion->lotes_prevendidos = ($ubicacion->lotes_prevendidos) - 1;
+            }
             $ubicacion->save();
+
+            if($request->has('preventa_id')){
+                $preventa = Preventa::find($request->preventa_id);
+                $preventa->estado = 1;
+                $preventa->save();
+            }            
 
             DB::commit();        
             return;
@@ -160,4 +183,5 @@ class VentasController extends Controller
     {
         //
     }
+
 }

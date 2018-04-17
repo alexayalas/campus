@@ -24,7 +24,7 @@ class PreventasController extends Controller
      */
     public function index()
     {
-        $preventas = Preventa::with('lotizacion','lotizacion.ubicacion','lotizacion.ubicacion.asociacion','vendedor')->where('activo',1)->get();
+        $preventas = Preventa::with('lotizacion','lotizacion.ubicacion','lotizacion.ubicacion.asociacion','vendedor','afiliado')->where('estado',0)->where('activo',1)->get();
         return $preventas;
     }
 
