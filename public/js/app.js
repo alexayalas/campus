@@ -62665,6 +62665,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             } else {
                 this.credito = false;
             }
+            this.valorizando();
+        },
+        valorizando: function valorizando() {
+            if (parseInt(this.dataVenta.numero_cuotas) > 0 && parseFloat(this.dataVenta.costo_total).toFixed(2) > 0.00) {
+                this.dataVenta.valor_cuotas = parseFloat(this.dataVenta.costo_total).toFixed(2) / parseInt(this.dataVenta.numero_cuotas);
+            }
         }
     }
 });
@@ -63126,14 +63132,17 @@ var render = function() {
                               expression: "dataVenta.costo_total"
                             }
                           ],
-                          staticClass: "form-control input-sm mayusculas",
+                          staticClass: "form-control input-sm",
                           attrs: {
-                            type: "text",
+                            type: "number",
                             name: "nombre_comercial",
+                            autocomplete: "off",
+                            step: "any",
                             required: ""
                           },
                           domProps: { value: _vm.dataVenta.costo_total },
                           on: {
+                            keyup: _vm.valorizando,
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -63239,11 +63248,13 @@ var render = function() {
                           attrs: {
                             type: "number",
                             name: "numero_cuotas",
+                            autocomplete: "off",
                             disabled: _vm.credito,
                             required: ""
                           },
                           domProps: { value: _vm.dataVenta.numero_cuotas },
                           on: {
+                            keyup: _vm.valorizando,
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -63275,8 +63286,9 @@ var render = function() {
                           ],
                           staticClass: "form-control input-sm",
                           attrs: {
-                            type: "text",
+                            type: "number",
                             name: "valor_cuotas",
+                            step: "any",
                             required: ""
                           },
                           domProps: { value: _vm.dataVenta.valor_cuotas },

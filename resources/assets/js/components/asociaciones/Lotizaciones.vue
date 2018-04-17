@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Costo Total <span class="asterisk">*</span></label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataVenta.costo_total" required>
+                                <input type="number" class="form-control input-sm" name="nombre_comercial" v-model="dataVenta.costo_total" autocomplete="off" @keyup="valorizando" step="any" required />
                             </div>
                             <label class="col-sm-2 control-label">Tipo de Venta <span class="asterisk">*</span></label>
                             <div class="col-sm-3 pt-5">
@@ -118,11 +118,11 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Num. Cuotas (Mensuales)<span class="asterisk">*</span></label>
                             <div class="col-sm-3">
-                                <input type="number" class="form-control input-sm" name="numero_cuotas" v-model="dataVenta.numero_cuotas" :disabled="credito" required>
+                                <input type="number" class="form-control input-sm" name="numero_cuotas" v-model="dataVenta.numero_cuotas" autocomplete="off" @keyup="valorizando" :disabled="credito" required/>
                             </div>
                             <label class="col-sm-2 control-label">Valor de Cuotas <span class="asterisk">*</span></label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm" name="valor_cuotas" v-model="dataVenta.valor_cuotas" required>
+                                <input type="number" class="form-control input-sm" name="valor_cuotas" v-model="dataVenta.valor_cuotas" step="any"  required>
                             </div>                        
                         </div><!-- /.form-group --> 
                         <div class="form-group">
@@ -454,7 +454,13 @@ export default {
             {
                 this.credito = false
             }
-        },              
+            this.valorizando()
+        },
+        valorizando: function(){
+            if(parseInt(this.dataVenta.numero_cuotas) > 0 && parseFloat(this.dataVenta.costo_total).toFixed(2) > 0.00){
+                this.dataVenta.valor_cuotas = (parseFloat(this.dataVenta.costo_total).toFixed(2)) / parseInt(this.dataVenta.numero_cuotas)
+            }
+        }                         
     }      
 }
 </script>
