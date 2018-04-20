@@ -76,7 +76,7 @@ export default {
       }
     },
     updated(){
-      this.getMenuClick()
+      //this.getMenuClick()
 
     },         
     mounted() {
