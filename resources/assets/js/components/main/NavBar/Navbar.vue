@@ -76,7 +76,7 @@ export default {
       }
     },
     updated(){
-      //this.getMenuClick()
+      this.getMenuClick()
 
     },         
     mounted() {
@@ -84,35 +84,7 @@ export default {
     } ,
     methods: {
         getMenuClick() {
-
-            $(".x-navigation-control").click(function(){
-                $(this).parents(".x-navigation").toggleClass("x-navigation-open");
-                
-                onresize();
-                
-                return false;
-            });
-
-            if($(".page-navigation-toggled").length > 0){
-                x_navigation_minimize("close");
-            }    
-            
-            $(".x-navigation-minimize").click(function(){
-                console.log("minimizando....")
-                        
-                if($(".page-sidebar .x-navigation").hasClass("x-navigation-minimized")){
-                    $(".page-container").removeClass("page-navigation-toggled");
-                    x_navigation_minimize("open");
-                }else{            
-                    $(".page-container").addClass("page-navigation-toggled");
-                    x_navigation_minimize("close");            
-                }
-                
-                onresize();
-                
-                return false;        
-            });
-            
+           
             $(".x-navigation  li > a").click(function(){
 
                 var li = $(this).parent('li');        
@@ -146,27 +118,7 @@ export default {
             /* XN-SEARCH */
             $(".xn-search").on("click",function(){
                 $(this).find("input").focus();
-            })
-
-            function x_navigation_minimize(action){
-                
-                if(action == 'open'){
-                    $(".page-container").removeClass("page-container-wide");
-                    $(".page-sidebar .x-navigation").removeClass("x-navigation-minimized");
-                    $(".x-navigation-minimize").find(".fa").removeClass("fa-indent").addClass("fa-dedent");
-                    $(".page-sidebar.scroll").mCustomScrollbar("update");
-                }
-                
-                if(action == 'close'){
-                    $(".page-container").addClass("page-container-wide");
-                    $(".page-sidebar .x-navigation").addClass("x-navigation-minimized");
-                    $(".x-navigation-minimize").find(".fa").removeClass("fa-dedent").addClass("fa-indent");
-                    $(".page-sidebar.scroll").mCustomScrollbar("disable",true);
-                }
-                
-                $(".x-navigation li.active").removeClass("active");
-                
-            }            
+            })       
             
         },
 
