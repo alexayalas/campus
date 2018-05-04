@@ -17,6 +17,7 @@ import ToggleButton from 'vue-js-toggle-button';
 import underscore from 'vue-underscore';
 
 
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -42,3 +43,4 @@ Vue.use(VModal)
 Vue.use(VuejsDialog);
 Vue.use(ToggleButton);
 Vue.use(underscore);
+

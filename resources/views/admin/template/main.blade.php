@@ -56,6 +56,7 @@
         <script type="text/javascript" src="{{ asset('js/plugins/daterangepicker/daterangepicker.js') }}"></script>
         <!-- END THIS PAGE PLUGINS-->        
 
+        <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
         <!-- START TEMPLATE -->
         <!--<script type="text/javascript" src="{{ asset('js/settings.js') }}"></script>-->
         

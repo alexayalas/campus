@@ -17,6 +17,17 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="col-md-12">
+                        <h3> Bind ReCAPTCHA to button </h3>
+                        <vue-recaptcha
+                        @verify="onVerify"
+                        @expired="onExpired"
+                        :sitekey="sitekey">
+                        <button>Click me</button>
+                        </vue-recaptcha>
+                    </div>                    
+                </div>
+                <div class="form-group">
                     <div class="col-md-6">
                         <a href="#" class="btn btn-link btn-block">Olvido su contraseña?</a>
                     </div>
@@ -41,6 +52,7 @@
     </div>  
 </template>
 <script>
+import VueRecaptcha from 'vue-recaptcha';
 export default {
     name:'login',
     data() {
@@ -48,10 +60,14 @@ export default {
             dataLogin: {
                 name: '',
                 password: '',
-            },   
+            },  
+            sitekey: '6LfaYFcUAAAAAFVD3dAq4jzNTeZkwzFBtqaiAr76' ,           
             errors:[]          
         }
     },
+    components: { 
+        'vue-recaptcha': VueRecaptcha 
+    },    
     methods: {
         login() {
             var url = "/api/login";
@@ -83,7 +99,19 @@ export default {
                 toastr.error("Hubo un error en el proceso: "+this.errors)
 
             });
-        }
+        },
+        onSubmit: function () {
+        this.$refs.invisibleRecaptcha.execute()
+        },
+        onVerify: function (response) {
+        console.log('Verify: ' + response)
+        },
+        onExpired: function () {
+        console.log('Expired')
+        },
+        resetRecaptcha () {
+        this.$refs.recaptcha.reset() // Direct call reset method
+        }        
     }
 }
 </script>
