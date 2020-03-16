@@ -16,7 +16,7 @@
                         <input type="password" class="form-control" v-model="dataLogin.password" placeholder="Contraseña"/>
                     </div>
                 </div>
-                <div class="form-group">
+<!--                 <div class="form-group">
                     <div class="col-md-12">
                         <h3> Bind ReCAPTCHA to button </h3>
                         <vue-recaptcha
@@ -26,7 +26,7 @@
                         <button>Click me</button>
                         </vue-recaptcha>
                     </div>                    
-                </div>
+                </div> -->
                 <div class="form-group">
                     <div class="col-md-6">
                         <a href="#" class="btn btn-link btn-block">Olvido su contraseña?</a>
@@ -52,7 +52,7 @@
     </div>  
 </template>
 <script>
-import VueRecaptcha from 'vue-recaptcha';
+//import VueRecaptcha from 'vue-recaptcha';
 export default {
     name:'login',
     data() {
@@ -65,9 +65,9 @@ export default {
             errors:[]          
         }
     },
-    components: { 
+/*     components: { 
         'vue-recaptcha': VueRecaptcha 
-    },    
+    },    */ 
     methods: {
         login() {
             var url = "/api/login";
@@ -100,7 +100,7 @@ export default {
 
             });
         },
-        onSubmit: function () {
+/*         onSubmit: function () {
         this.$refs.invisibleRecaptcha.execute()
         },
         onVerify: function (response) {
@@ -111,7 +111,7 @@ export default {
         },
         resetRecaptcha () {
         this.$refs.recaptcha.reset() // Direct call reset method
-        }        
+        }   */      
     }
 }
 </script>

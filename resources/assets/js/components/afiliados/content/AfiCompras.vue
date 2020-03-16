@@ -4,9 +4,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">                                
                 <h3 class="panel-title">JR</h3>  
-                <ul class="panel-controls">
+                <!--<ul class="panel-controls">
                     <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nuevo Afiliado</button></li>
-                </ul>                                                        
+                </ul>-->                                                        
             </div>
             <div class="panel-body">
                 <vue-good-table

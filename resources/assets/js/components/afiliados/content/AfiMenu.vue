@@ -9,10 +9,10 @@
                     <div class="profile-data-name">{{ afiliadoByid.nombre_completo }}</div>
                     <div class="profile-data-title" style="color: #FFF;">{{ afiliadoByid.credencial }}</div>
                 </div>
-                <div class="profile-controls">
+                <!--<div class="profile-controls">
                     <a href="#" class="profile-control-left twitter"><span class="fa fa-twitter"></span></a>
                     <a href="#" class="profile-control-right facebook"><span class="fa fa-facebook"></span></a>
-                </div>                                    
+                </div>-->                                    
             </div>                                
             <div class="panel-body">                                    
                 <div class="row">
@@ -25,7 +25,9 @@
                 </div>
             </div>
             <div class="panel-body list-group border-bottom">
-                <router-link v-for="men in menuPerfil.options" v-if="men.bloque == 1" tag="li" :to="{ name: men.nombre_ruta , params : { afiliado: afiliadoByid.id }}" :key="men.id" class="list-group-item enlace" exact><i class="fa fa-angle-double-right pull-left"></i>{{ men.nombre_plantilla }}</router-link>                                              
+                <template v-for="men in menuPerfil.options">
+                    <router-link v-if="men.bloque == 1" tag="li" :to="{ name: men.nombre_ruta , params : { afiliado: afiliadoByid.id }}" :key="men.id" class="list-group-item enlace" exact><i class="fa fa-angle-double-right pull-left"></i>{{ men.nombre_plantilla }}</router-link>                                              
+                </template>
            </div>
         </div>                            
         
