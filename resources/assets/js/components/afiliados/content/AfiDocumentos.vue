@@ -27,11 +27,11 @@
                                     <tbody>
                                         <tr v-for="(archivo, index) in archivos" :key="archivo.name">
                                             <td class="text-center">{{ index + 1}}</td>
-                                            <td><a data-tooltip :href="archivo.url.replace('localhost','localhost:8000')" target="_blank" data-toggle="tooltip" data-placement="top" title="" data-original-title="ver detalle">{{ archivo.name }}</a></td>
+                                            <td><a data-tooltip :href="archivo.url.replace('52.14.253.150','localhost:8000')" target="_blank" data-toggle="tooltip" data-placement="top" title="" data-original-title="ver detalle">{{ archivo.name }}</a></td>
                                             <td>{{ archivo.size | returnFileSize }}</td>
                                             <td>{{ archivo.time | returnTime }}</td>
                                             <td class="text-center">
-                                                <a data-tooltip :href="archivo.url.replace('localhost','localhost:8000')" target="_blank" data-toggle="tooltip" data-placement="top" title="" data-original-title="ver detalle"><i class="fa fa-eye"></i></a>
+                                                <a data-tooltip :href="archivo.url.replace('52.14.253.150','localhost:8000')" target="_blank" data-toggle="tooltip" data-placement="top" title="" data-original-title="ver detalle"><i class="fa fa-eye"></i></a>
                                                 <!--<a data-tooltip :href="archivo.url.replace('localhost','localhost:8000')" target="_blank" data-toggle="tooltip" data-placement="top" title="" data-original-title="imprimir"><i class="fa fa-print"></i></a>-->
                                                 <a data-tooltip href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="eliminar" @click.prevent="processDelete(archivo.name)"><i class="fa fa-trash-o"></i></a>
                                             </td>

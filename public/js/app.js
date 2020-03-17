@@ -53596,7 +53596,7 @@ var render = function() {
                                       attrs: {
                                         "data-tooltip": "",
                                         href: archivo.url.replace(
-                                          "localhost",
+                                          "52.14.253.150",
                                           "localhost:8000"
                                         ),
                                         target: "_blank",
@@ -53631,7 +53631,7 @@ var render = function() {
                                       attrs: {
                                         "data-tooltip": "",
                                         href: archivo.url.replace(
-                                          "localhost",
+                                          "52.14.253.150",
                                           "localhost:8000"
                                         ),
                                         target: "_blank",
