@@ -16,9 +16,9 @@
                     <!-- START DEFAULT DATATABLE -->
                     <div class="panel panel-default">
                         <div class="panel-heading">                                
-                            <h3 class="panel-title">JR</h3>  
+                            <h3 class="panel-title">Vista Hermosa</h3>  
                             <ul class="panel-controls">
-                                <li><button type="button" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nueva Asociacion</button></li>
+                                <li><button type="button" v-if="user_system.user.empleado.perfil_id == 1" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nueva Asociación</button></li>
                             </ul>                                                        
                         </div>
                         <div class="panel-body">
@@ -39,8 +39,8 @@
                                     <td>{{ props.row.asociacion.nombre_comercial }}</td>
                                     <td>{{ props.row.asociacion.fecha_inicio_labores }}</td>
                                     <td>
-                                        <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">mode_edit</i></button>
-                                        <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">location_on</i></button>
+                                        <button @click.prevent="processEdit(props.row.asociacion)"><i class="material-icons md-18">mode_edit</i></button>
+                                        <button @click.prevent="onClickFn(props.row.asociacion,props.index)"><i class="material-icons md-18">location_on</i></button>
                                         <button @click.prevent="processDelete(props.row.asociacion)"><i class="material-icons md-18">delete_forever</i></button>                                    
                                     </td>
                                 </template>                              
@@ -120,7 +120,10 @@ export default {
     name:'asociaciones',
     created() {
         //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
-        this.CargaAsociacionUser()
+        this.CargaAsociacionUser()        
+    },
+    mounted(){
+        console.log("datos user",this.user_system)
     },
     data() {
         return {
@@ -224,6 +227,13 @@ export default {
             console.log(error.response.status);
             });
         },
+        AccionAsociacion: function(){
+            if(typeof(this.dataAsociacion.id) === "undefined"){
+                this.createAsociacion()
+            }else{
+                this.updateAsociacion()
+            }
+        },         
         createAsociacion: function(){
             var url = '/api/asociaciones';
             toastr.options.closeButton = true;
@@ -241,7 +251,8 @@ export default {
                 toastr.error(resultado);
                 return;
             }
-            this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+            //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+            this.CargaAsociacionUser()
             //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
             this.errors = [];
             this.$modal.hide('asociacion');
@@ -251,7 +262,50 @@ export default {
             toastr.error("Hubo un error en el proceso: "+this.errors);
             console.log(error.response.status);
             });
-        }, 
+        },
+        updateAsociacion: function(){
+            var url = '/api/asociaciones/'+this.dataAsociacion.id
+            toastr.options.closeButton = true
+            toastr.options.progressBar = true
+
+            axios.put(url, this.dataAsociacion).then(response => {
+            if(typeof(response.data.errors) != "undefined"){
+                this.errors = response.data.errors;
+                var resultado = "";
+                for (var i in this.errors) {
+                    if (this.errors.hasOwnProperty(i)) {
+                        resultado += "error -> " + i + " = " + this.errors[i] + "\n";
+                    }
+                }
+                toastr.error(resultado);
+                return;
+            }
+            this.CargaAsociacionUser()
+            this.errors = [];
+
+            this.$modal.hide('asociacion');
+            toastr.success('La asociación fue actualizada con exito');          
+            }).catch(error => {
+            this.errors = error.response.data.status;
+            toastr.error("Hubo un error en el proceso: "+this.errors);
+            console.log(error.response.status);
+            });
+        },          
+        processEdit(asoc) {
+            console.log("asociacion",asoc)
+            var dataasoc = []
+            dataasoc = _.clone(asoc)  
+            
+            this.dataAsociacion = {
+                nombre:dataasoc.nombre,
+                ruc:dataasoc.ruc,
+                nombre_completo:dataasoc.nombre_completo,
+                user_id: this.user_system.user.id,
+                fecha_inicio_labores: dataasoc.fecha_inicio_labores,
+                descripcion:dataasoc.descripcion
+            },     
+            this.$modal.show('asociacion')                          
+        },
         processDelete(row){
             this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar esta Asociacion: " + row.nombre + " ?</strong></span>", {
                 html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"

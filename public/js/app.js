@@ -47660,8 +47660,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
 
         onClickFn: function onClickFn(row, index) {
-            console.log(row); //the object for the row that was clicked on
-            console.log(index); // index of the row that was clicked on
+            //console.log(row); //the object for the row that was clicked on
+            //console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'AfiDatosPersonales', params: { afiliado: row.id } });
         },
         getImagen: function getImagen(imagen) {
@@ -50231,8 +50231,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     }),
     methods: {
         onClickFn: function onClickFn(row, index) {
-            console.log(row); //the object for the row that was clicked on
-            console.log(index); // index of the row that was clicked on
+            //console.log(row); //the object for the row that was clicked on
+            //console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'AfiDatosPersonales', params: { afiliado: row.id } });
         },
         updateAfiliado: function updateAfiliado() {
@@ -60622,6 +60622,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
         this.CargaAsociacionUser();
     },
+    mounted: function mounted() {
+        console.log("datos user", this.user_system);
+    },
     data: function data() {
         return {
             searchText: '', // If value is falsy, reset searchText & searchItem
@@ -60718,6 +60721,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 console.log(error.response.status);
             });
         },
+        AccionAsociacion: function AccionAsociacion() {
+            if (typeof this.dataAsociacion.id === "undefined") {
+                this.createAsociacion();
+            } else {
+                this.updateAsociacion();
+            }
+        },
         createAsociacion: function createAsociacion() {
             var _this2 = this;
 
@@ -60737,7 +60747,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     toastr.error(resultado);
                     return;
                 }
-                _this2.$store.dispatch('LOAD_ASOCIACIONES_LIST');
+                //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')
+                _this2.CargaAsociacionUser();
                 //this.getAfiliado(this.pagination.current_page,this.patientSearch);          
                 _this2.errors = [];
                 _this2.$modal.hide('asociacion');
@@ -60748,8 +60759,52 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 console.log(error.response.status);
             });
         },
-        processDelete: function processDelete(row) {
+        updateAsociacion: function updateAsociacion() {
             var _this3 = this;
+
+            var url = '/api/asociaciones/' + this.dataAsociacion.id;
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = true;
+
+            axios.put(url, this.dataAsociacion).then(function (response) {
+                if (typeof response.data.errors != "undefined") {
+                    _this3.errors = response.data.errors;
+                    var resultado = "";
+                    for (var i in _this3.errors) {
+                        if (_this3.errors.hasOwnProperty(i)) {
+                            resultado += "error -> " + i + " = " + _this3.errors[i] + "\n";
+                        }
+                    }
+                    toastr.error(resultado);
+                    return;
+                }
+                _this3.CargaAsociacionUser();
+                _this3.errors = [];
+
+                _this3.$modal.hide('asociacion');
+                toastr.success('La asociación fue actualizada con exito');
+            }).catch(function (error) {
+                _this3.errors = error.response.data.status;
+                toastr.error("Hubo un error en el proceso: " + _this3.errors);
+                console.log(error.response.status);
+            });
+        },
+        processEdit: function processEdit(asoc) {
+            console.log("asociacion", asoc);
+            var dataasoc = [];
+            dataasoc = _.clone(asoc);
+
+            this.dataAsociacion = {
+                nombre: dataasoc.nombre,
+                ruc: dataasoc.ruc,
+                nombre_completo: dataasoc.nombre_completo,
+                user_id: this.user_system.user.id,
+                fecha_inicio_labores: dataasoc.fecha_inicio_labores,
+                descripcion: dataasoc.descripcion
+            }, this.$modal.show('asociacion');
+        },
+        processDelete: function processDelete(row) {
+            var _this4 = this;
 
             this.$dialog.confirm("<span style='color:red'><strong>¿ Desea Eliminar esta Asociacion: " + row.nombre + " ?</strong></span>", {
                 html: true, // set to true if your message contains HTML tags. eg: "Delete <b>Foo</b> ?"
@@ -60765,7 +60820,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 toastr.options.progressBar = true;
                 axios.delete(url).then(function (response) {
                     //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')  
-                    _this3.CargaAsociacionUser();
+                    _this4.CargaAsociacionUser();
                     toastr.success('Asociacion Eliminada correctamente');
                     dialog.close();
                 });
@@ -60798,33 +60853,38 @@ var render = function() {
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "panel panel-default" }, [
               _c("div", { staticClass: "panel-heading" }, [
-                _c("h3", { staticClass: "panel-title" }, [_vm._v("JR")]),
+                _c("h3", { staticClass: "panel-title" }, [
+                  _vm._v("Vista Hermosa")
+                ]),
                 _vm._v(" "),
                 _c("ul", { staticClass: "panel-controls" }, [
                   _c("li", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-info",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.LoadForm($event)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "i",
+                    _vm.user_system.user.empleado.perfil_id == 1
+                      ? _c(
+                          "button",
                           {
-                            staticClass: "material-icons bootstro-prev-btn mr-5"
+                            staticClass: "btn btn-info",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.LoadForm($event)
+                              }
+                            }
                           },
-                          [_vm._v("account_circle")]
-                        ),
-                        _vm._v(" Nueva Asociacion")
-                      ]
-                    )
+                          [
+                            _c(
+                              "i",
+                              {
+                                staticClass:
+                                  "material-icons bootstro-prev-btn mr-5"
+                              },
+                              [_vm._v("account_circle")]
+                            ),
+                            _vm._v(" Nueva Asociación")
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ])
               ]),
@@ -60906,7 +60966,7 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
-                                      _vm.processDelete(props.row.asociacion)
+                                      _vm.processEdit(props.row.asociacion)
                                     }
                                   }
                                 },
@@ -60925,7 +60985,10 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
-                                      _vm.processDelete(props.row.asociacion)
+                                      _vm.onClickFn(
+                                        props.row.asociacion,
+                                        props.index
+                                      )
                                     }
                                   }
                                 },

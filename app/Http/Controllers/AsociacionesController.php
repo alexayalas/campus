@@ -84,7 +84,13 @@ class AsociacionesController extends Controller
           $asociacion->nombre = Str::upper($asociacion->nombre);
           $asociacion->nombre_comercial = Str::upper($asociacion->nombre_comercial);          
           $asociacion->save();
-  
+
+          /* ---- Guardamos las asociaciones del usuario ---*/
+          $asouser = new AsociacionUser();
+          $asouser->asociacion_id = $asociacion->id;
+          $asouser->user_id = $request->get('user_id');;
+          $asouser->save();               
+           
           DB::commit();        
           return;
         }

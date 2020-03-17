@@ -482,8 +482,8 @@ export default {
             });
         },                     
         onClickFn: function(row, index){
-            console.log(row); //the object for the row that was clicked on
-            console.log(index); // index of the row that was clicked on
+            //console.log(row); //the object for the row that was clicked on
+            //console.log(index); // index of the row that was clicked on
             this.$router.push({ name: 'AfiDatosPersonales',  params: { afiliado : row.id } })
         }, 
         getImagen: function(imagen){
