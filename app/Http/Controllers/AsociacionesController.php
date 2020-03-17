@@ -143,7 +143,12 @@ class AsociacionesController extends Controller
             $asociacion = Asociacion::findOrFail($id);
             //$patient->delete();
             $asociacion->activo = 0;
-            $asociacion->save();            
+            $asociacion->save();
+            $asoc_user = AsociacionUser::where('asociacion_id', $id)->get();
+            foreach ($asoc_user as $key => $value) {
+                $value->activo = 0;
+                $value->save();               
+            }                         
         } catch (Exception $e) {
             return response()->json(
                 ['status' => $e->getMessage()], 422

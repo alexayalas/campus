@@ -60764,7 +60764,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 toastr.options.closeButton = true;
                 toastr.options.progressBar = true;
                 axios.delete(url).then(function (response) {
-                    _this3.$store.dispatch('LOAD_ASOCIACIONES_LIST');
+                    //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')  
+                    _this3.CargaAsociacionUser();
                     toastr.success('Asociacion Eliminada correctamente');
                     dialog.close();
                 });

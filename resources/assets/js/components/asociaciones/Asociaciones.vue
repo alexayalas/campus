@@ -267,9 +267,10 @@ export default {
                 toastr.options.closeButton = true;
                 toastr.options.progressBar = true;
                 axios.delete(url).then(response=> {
-                this.$store.dispatch('LOAD_ASOCIACIONES_LIST')                    
-                toastr.success('Asociacion Eliminada correctamente');
-                dialog.close();
+                    //this.$store.dispatch('LOAD_ASOCIACIONES_LIST')  
+                    this.CargaAsociacionUser()                  
+                    toastr.success('Asociacion Eliminada correctamente');
+                    dialog.close();
                 });
                 })
             .catch(() => {
