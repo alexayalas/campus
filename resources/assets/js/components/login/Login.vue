@@ -39,7 +39,7 @@
             </div>
             <div class="login-footer">
                 <div class="pull-left">
-                    &copy; 2014 JR
+                    &copy; 2020 Vista Hermosa
                 </div>
                 <div class="pull-right">
                     <a href="#">About</a> |

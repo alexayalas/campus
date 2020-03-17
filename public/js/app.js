@@ -45368,7 +45368,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "login-footer" }, [
       _c("div", { staticClass: "pull-left" }, [
-        _vm._v("\n                    © 2014 JR\n                ")
+        _vm._v("\n                    © 2020 Vista Hermosa\n                ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pull-right" }, [
@@ -85044,7 +85044,7 @@ var render = function() {
                 _c("img", {
                   attrs: {
                     src: "/images/" + _vm.user_system.user.empleado.foto,
-                    alt: "JR"
+                    alt: "Vista hermosa"
                   }
                 })
               ]),
@@ -85054,7 +85054,7 @@ var render = function() {
                   _c("img", {
                     attrs: {
                       src: "/images/" + _vm.user_system.user.empleado.foto,
-                      alt: "JR"
+                      alt: "Vista hermosa"
                     }
                   })
                 ]),
@@ -85157,7 +85157,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "xn-logo" }, [
-      _c("a", { attrs: { href: "/Dashboard" } }, [_vm._v("JR")]),
+      _c("a", { attrs: { href: "/Dashboard" } }, [_vm._v("Vista Hermosa")]),
       _vm._v(" "),
       _c("a", { staticClass: "x-navigation-control", attrs: { href: "#" } })
     ])
