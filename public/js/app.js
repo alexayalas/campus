@@ -85069,9 +85069,7 @@ var render = function() {
                   _c("div", { staticClass: "profile-data-title" }, [
                     _vm._v(_vm._s(_vm.user_system.user.empleado.perfil.nombre))
                   ])
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -85160,20 +85158,6 @@ var staticRenderFns = [
       _c("a", { attrs: { href: "/Dashboard" } }, [_vm._v("Vista Hermosa")]),
       _vm._v(" "),
       _c("a", { staticClass: "x-navigation-control", attrs: { href: "#" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-controls" }, [
-      _c("a", { staticClass: "profile-control-left", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "fa fa-info" })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "profile-control-right", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "fa fa-envelope" })
-      ])
     ])
   }
 ]

@@ -19,10 +19,10 @@
                         <div class="profile-data-name">{{ user_system.user.empleado.nombre_completo }}</div>
                         <div class="profile-data-title">{{ user_system.user.empleado.perfil.nombre }}</div>
                     </div>
-                    <div class="profile-controls">
+<!--                     <div class="profile-controls">
                         <a href="#" class="profile-control-left"><span class="fa fa-info"></span></a>
                         <a href="#" class="profile-control-right"><span class="fa fa-envelope"></span></a>
-                    </div>
+                    </div> -->
                 </div>                                                                        
             </li>
             <!-- Menu del Sistema -->             
