@@ -11,7 +11,7 @@
         <!-- END META SECTION -->
        
         <!-- CSS INCLUDE -->        
-        <link rel="stylesheet" type="text/css" id="theme" href="{{ asset('css/theme-default.css') }}"/>
+        <link rel="stylesheet" type="text/css" id="theme" href="{{ asset('css/theme-white.css') }}"/>
         <!-- EOF CSS INCLUDE -->   
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >        
         <!-- Custom App Vue Style incluye bootstrap y toastr -->
