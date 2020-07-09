@@ -170,7 +170,25 @@ class AsociacionesController extends Controller
     
     public function asociaciones_users(Request $request)
     {
-        $aso_user = AsociacionUser::with('asociacion')->where('user_id',$request->user_id)->where('activo',1)->get();
+        if($request->perfil_id == 1){
+            $_aso_user = Asociacion::orderBy('id','ASC')->where('activo',1)->get();
+            foreach ($_aso_user as $key => $value) {
+                $lista[]['asociacion'] = [
+                    'id' => $value['id'],
+                    'nombre' => $value['nombre'],
+                    'ruc'  => $value['ruc'],
+                    'nombre_comercial' => $value['nombre_comercial'],
+                    'fecha_inicio_labores' => $value['fecha_inicio_labores']
+                ];
+            }
+            $aso_user = $lista;
+        }else{
+            $aso_user = AsociacionUser::with('asociacion')
+            ->whereHas('asociacion', function($q){
+                $q->where('activo', '=', '1');           
+            })
+            ->where('user_id',$request->user_id)->where('activo',1)->get();
+        }
         return $aso_user;
     }
 }

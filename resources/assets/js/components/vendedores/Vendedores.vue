@@ -164,7 +164,7 @@
     </div>
 </template>
 <script>
-import 'semantic-ui-icon/icon.min.css';
+//import 'semantic-ui-icon/icon.min.css';
 import { MultiSelect } from 'vue-search-select'
 import MaskedInput from 'vue-masked-input'
 import { mapState, mapGetters } from 'vuex'

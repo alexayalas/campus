@@ -197,14 +197,17 @@ export default {
         },
         CargaAsociacionUser: function(){
             var url = '/api/asociaciones-user'
+
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
 
             axios.get(url,{
                 params:{
-                    user_id: this.user_system.user.id
+                    user_id: this.user_system.user.id,
+                    perfil_id : this.user_system.user.empleado.perfil_id
                 }
             }).then(response => {
+                console.log("response",response.data)
             if(typeof(response.data.errors) != "undefined"){
                 this.errors = response.data.errors;
                 var resultado = "";

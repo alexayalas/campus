@@ -182,7 +182,7 @@
     </div>
 </template>
 <script>
-import 'semantic-ui-icon/icon.min.css';
+//import 'semantic-ui-icon/icon.min.css';
 import _ from 'lodash'
 import { MultiSelect } from 'vue-search-select'
 import { BasicSelect } from 'vue-search-select'
