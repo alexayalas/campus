@@ -54,7 +54,7 @@ class AsociacionesController extends Controller
                   ];
   
           if($request->has('fecha_inicio_labores')){
-            $rules = array_add($rules, 'fecha_inicio_labores', 'date_format:d/m/Y');
+            $rules = array_add($rules, 'fecha_inicio_labores', 'date_format:d-m-Y');
           }
 
           $messages = ['fecha_inicio_labores.date_format' => 'Formato de fecha invalido'];
@@ -79,7 +79,7 @@ class AsociacionesController extends Controller
   
           $asociacion = new Asociacion($request->all());
 
-          $formfec = explode("/", $asociacion->fecha_inicio_labores);          
+          $formfec = explode("-", $asociacion->fecha_inicio_labores);          
           $asociacion->fecha_inicio_labores = empty($asociacion->fecha_inicio_labores) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
           $asociacion->nombre = Str::upper($asociacion->nombre);
           $asociacion->nombre_comercial = Str::upper($asociacion->nombre_comercial);          
@@ -134,7 +134,48 @@ class AsociacionesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction(); 
+ 
+
+        try {
+            $rules = ['nombre'     => 'required',
+                    'ruc' => 'required',
+                    'nombre_comercial' => 'required'
+            ];
+
+            if($request->has('fecha_inicio_labores')){
+                $rules = array_add($rules, 'fecha_inicio_labores', 'date_format:d-m-Y');
+            }
+
+            $messages = ['fecha_inicio_labores.date_format' => 'Formato de fecha invalido'];
+
+            $validator = Validator::make($request->all(), $rules , $messages);
+            if ($validator->fails()) {
+                return response()->json(['errors'=>$validator->errors()]);
+            }
+            
+            $asociacion = Asociacion::find($id);
+            
+            $formfec = explode("-", $request->get('fecha_inicio_labores'));   
+                        
+            $asociacion->fill($request->all());
+            $asociacion->fecha_inicio_labores = empty($request->get('fecha_inicio_labores')) ? null : Carbon::createFromFormat('Y-m-d', $formfec[2].'-'.$formfec[1].'-'.$formfec[0]);
+            $asociacion->nombre = Str::upper($request->get('nombre'));
+            $asociacion->nombre_comercial = Str::upper($request->get('nombre_comercial'));   
+            //dd($asociacion);
+            $asociacion->save();
+                       
+            DB::commit();        
+            return;
+  
+          DB::commit();           
+          return;
+        } catch (Exception $e) {
+            DB::rollback();          
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
+        }
     }
 
     /**
@@ -178,7 +219,8 @@ class AsociacionesController extends Controller
                     'nombre' => $value['nombre'],
                     'ruc'  => $value['ruc'],
                     'nombre_comercial' => $value['nombre_comercial'],
-                    'fecha_inicio_labores' => $value['fecha_inicio_labores']
+                    'fecha_inicio_labores' => $value['fecha_inicio_labores'],
+                    'descripcion' => $value['descripcion']
                 ];
             }
             $aso_user = $lista;

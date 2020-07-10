@@ -10,7 +10,9 @@
         "cviebrock/eloquent-sluggable": "^4.2",
         "intervention/image": "dev-master",        
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "nesbot/carbon": "2.20.0 as 1.20.0",
+        "kylekatarnls/laravel-carbon-2": "^1.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

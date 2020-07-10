@@ -62,50 +62,49 @@
                 <h3 class="pull-left h3-title">Registro de Estructura de Asociaciones</h3>
                 <div class="pull-right close-form" @click="$modal.hide('asociacion')"><i class="glyphicon glyphicon-remove"></i></div>                
             </div>
-            <form data-sample-validation-1 class="form-horizontal form-bordered" role="form" method="POST" v-on:submit.prevent="createAsociacion">
+            <div class="form-horizontal form-bordered">
                 <div class="form-body">
-                <div class="col-md-11 pt-20">
-                   
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Nombres <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm mayusculas" name="asociacion_name" v-model="dataAsociacion.nombre" required>
+                    <div class="col-md-11 pt-20">                   
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Nombres <span class="asterisk">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm mayusculas" name="asociacion_name" v-model="dataAsociacion.nombre" required>
+                            </div>
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">RUC <span class="asterisk">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm " name="ruc" v-model="dataAsociacion.ruc" maxlength="11" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                            </div>
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Nombre Comercial <span class="asterisk">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataAsociacion.nombre_comercial" required>
+                            </div>
+                        </div><!-- /.form-group -->                                                           
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-4">Fec.Inicio Labores </label>
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                            <masked-input v-model="dataAsociacion.fecha_inicio_labores" mask="11-11-1111" placeholder="DD-MM-YYYY" />
+                            </div>
                         </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">RUC <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm " name="ruc" v-model="dataAsociacion.ruc" maxlength="11" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
-                        </div>
-                    </div><!-- /.form-group -->
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Nombre Comercial <span class="asterisk">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm mayusculas" name="nombre_comercial" v-model="dataAsociacion.nombre_comercial" required>
-                        </div>
-                    </div><!-- /.form-group -->                                                           
-                    <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-4">Fec.Inicio Labores </label>
-                        <div class="col-md-8 col-sm-8 col-xs-8">
-                        <masked-input v-model="dataAsociacion.fecha_inicio_labores" mask="11/11/1111" placeholder="DD/MM/YYYY" />
-                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Descripcion </label>
+                            <div class="col-sm-8">
+                                <textarea name="descripcion" rows="4" cols="78" v-model="dataAsociacion.descripcion"></textarea>
+                            </div>
+                        </div><!-- /.form-group -->                    
+                                                                                                                                                                                    
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Descripcion </label>
-                        <div class="col-sm-8">
-                            <textarea name="descripcion" rows="4" cols="78" v-model="dataAsociacion.descripcion"></textarea>
-                        </div>
-                    </div><!-- /.form-group -->                    
-                                                                                                                                                                                  
-                </div>
                 </div><!-- /.form-body -->
                 <div class="col-md-12 pt-20 mb-10 mt-20 pr-20 separator">
                     <div class="pull-right pr-10">
                         <button type="button" class="btn btn-danger active" @click="$modal.hide('asociacion')"><i class="fa fa-reply-all"></i> Cancelar</button>
-                        <button type="submit" class="btn btn-success active"><i class="fa fa-cloud-upload"></i> Grabar</button>
+                        <button type="submit" class="btn btn-success active" @click.prevent="AccionAsociacion"><i class="fa fa-cloud-upload"></i> Grabar</button>
                     </div>
                 </div><!-- /.form-footer -->
-            </form>
+            </div>
         </div>
         <!-- /. form de registro de pacientes -->
         </modal>        
@@ -168,7 +167,7 @@ export default {
             dataAsociacion : {
                 nombre:'',
                 ruc:'',
-                nombre_completo:'',
+                nombre_comercial:'',
                 user_id: 1,
                 fecha_inicio_labores: '',
                 descripcion:''
@@ -188,8 +187,8 @@ export default {
             this.dataAsociacion = {
                 nombre:'',
                 ruc:'',
-                nombre_completo:'',
-                user_id: 1,
+                nombre_comercial:'',
+                user_id: this.user_system.id,
                 fecha_inicio_labores: '',
                 descripcion:''
             },     
@@ -207,7 +206,6 @@ export default {
                     perfil_id : this.user_system.user.empleado.perfil_id
                 }
             }).then(response => {
-                console.log("response",response.data)
             if(typeof(response.data.errors) != "undefined"){
                 this.errors = response.data.errors;
                 var resultado = "";
@@ -267,6 +265,7 @@ export default {
             });
         },
         updateAsociacion: function(){
+            console.log("datos",this.dataAsociacion)
             var url = '/api/asociaciones/'+this.dataAsociacion.id
             toastr.options.closeButton = true
             toastr.options.progressBar = true
@@ -300,9 +299,10 @@ export default {
             dataasoc = _.clone(asoc)  
             
             this.dataAsociacion = {
+                id:dataasoc.id,
                 nombre:dataasoc.nombre,
                 ruc:dataasoc.ruc,
-                nombre_completo:dataasoc.nombre_completo,
+                nombre_comercial:dataasoc.nombre_comercial,
                 user_id: this.user_system.user.id,
                 fecha_inicio_labores: dataasoc.fecha_inicio_labores,
                 descripcion:dataasoc.descripcion

@@ -60053,7 +60053,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
 
 
 
@@ -60104,7 +60103,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             dataAsociacion: {
                 nombre: '',
                 ruc: '',
-                nombre_completo: '',
+                nombre_comercial: '',
                 user_id: 1,
                 fecha_inicio_labores: '',
                 descripcion: ''
@@ -60123,8 +60122,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.dataAsociacion = {
                 nombre: '',
                 ruc: '',
-                nombre_completo: '',
-                user_id: 1,
+                nombre_comercial: '',
+                user_id: this.user_system.id,
                 fecha_inicio_labores: '',
                 descripcion: ''
             }, this.$modal.show('asociacion');
@@ -60143,7 +60142,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     perfil_id: this.user_system.user.empleado.perfil_id
                 }
             }).then(function (response) {
-                console.log("response", response.data);
                 if (typeof response.data.errors != "undefined") {
                     _this.errors = response.data.errors;
                     var resultado = "";
@@ -60207,6 +60205,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         updateAsociacion: function updateAsociacion() {
             var _this3 = this;
 
+            console.log("datos", this.dataAsociacion);
             var url = '/api/asociaciones/' + this.dataAsociacion.id;
             toastr.options.closeButton = true;
             toastr.options.progressBar = true;
@@ -60240,9 +60239,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             dataasoc = _.clone(asoc);
 
             this.dataAsociacion = {
+                id: dataasoc.id,
                 nombre: dataasoc.nombre,
                 ruc: dataasoc.ruc,
-                nombre_completo: dataasoc.nombre_completo,
+                nombre_comercial: dataasoc.nombre_comercial,
                 user_id: this.user_system.user.id,
                 fecha_inicio_labores: dataasoc.fecha_inicio_labores,
                 descripcion: dataasoc.descripcion
@@ -60510,258 +60510,244 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "form-horizontal form-bordered",
-                attrs: {
-                  "data-sample-validation-1": "",
-                  role: "form",
-                  method: "POST"
-                },
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    _vm.createAsociacion($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-body" }, [
-                  _c("div", { staticClass: "col-md-11 pt-20" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("Nombres "),
-                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataAsociacion.nombre,
-                              expression: "dataAsociacion.nombre"
-                            }
-                          ],
-                          staticClass: "form-control input-sm mayusculas",
-                          attrs: {
-                            type: "text",
-                            name: "asociacion_name",
-                            required: ""
-                          },
-                          domProps: { value: _vm.dataAsociacion.nombre },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.dataAsociacion,
-                                "nombre",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
+            _c("div", { staticClass: "form-horizontal form-bordered" }, [
+              _c("div", { staticClass: "form-body" }, [
+                _c("div", { staticClass: "col-md-11 pt-20" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-sm-4 control-label" }, [
+                      _vm._v("Nombres "),
+                      _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("RUC "),
-                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataAsociacion.ruc,
-                              expression: "dataAsociacion.ruc"
-                            }
-                          ],
-                          staticClass: "form-control input-sm ",
-                          attrs: {
-                            type: "text",
-                            name: "ruc",
-                            maxlength: "11",
-                            onkeyup:
-                              "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')",
-                            required: ""
-                          },
-                          domProps: { value: _vm.dataAsociacion.ruc },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.dataAsociacion,
-                                "ruc",
-                                $event.target.value
-                              )
-                            }
+                    _c("div", { staticClass: "col-sm-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataAsociacion.nombre,
+                            expression: "dataAsociacion.nombre"
                           }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("Nombre Comercial "),
-                        _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataAsociacion.nombre_comercial,
-                              expression: "dataAsociacion.nombre_comercial"
-                            }
-                          ],
-                          staticClass: "form-control input-sm mayusculas",
-                          attrs: {
-                            type: "text",
-                            name: "nombre_comercial",
-                            required: ""
-                          },
-                          domProps: {
-                            value: _vm.dataAsociacion.nombre_comercial
-                          },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.dataAsociacion,
-                                "nombre_comercial",
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass:
-                            "control-label col-md-4 col-sm-4 col-xs-4"
-                        },
-                        [_vm._v("Fec.Inicio Labores ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-md-8 col-sm-8 col-xs-8" },
-                        [
-                          _c("masked-input", {
-                            attrs: {
-                              mask: "11/11/1111",
-                              placeholder: "DD/MM/YYYY"
-                            },
-                            model: {
-                              value: _vm.dataAsociacion.fecha_inicio_labores,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.dataAsociacion,
-                                  "fecha_inicio_labores",
-                                  $$v
-                                )
-                              },
-                              expression: "dataAsociacion.fecha_inicio_labores"
-                            }
-                          })
                         ],
-                        1
-                      )
+                        staticClass: "form-control input-sm mayusculas",
+                        attrs: {
+                          type: "text",
+                          name: "asociacion_name",
+                          required: ""
+                        },
+                        domProps: { value: _vm.dataAsociacion.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataAsociacion,
+                              "nombre",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-sm-4 control-label" }, [
+                      _vm._v("RUC "),
+                      _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { staticClass: "col-sm-4 control-label" }, [
-                        _vm._v("Descripcion ")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-8" }, [
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dataAsociacion.descripcion,
-                              expression: "dataAsociacion.descripcion"
+                    _c("div", { staticClass: "col-sm-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataAsociacion.ruc,
+                            expression: "dataAsociacion.ruc"
+                          }
+                        ],
+                        staticClass: "form-control input-sm ",
+                        attrs: {
+                          type: "text",
+                          name: "ruc",
+                          maxlength: "11",
+                          onkeyup:
+                            "if (/\\D/g.test(this.value)) this.value = this.value.replace(/\\D/g,'')",
+                          required: ""
+                        },
+                        domProps: { value: _vm.dataAsociacion.ruc },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          ],
-                          attrs: { name: "descripcion", rows: "4", cols: "78" },
-                          domProps: { value: _vm.dataAsociacion.descripcion },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
+                            _vm.$set(
+                              _vm.dataAsociacion,
+                              "ruc",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-sm-4 control-label" }, [
+                      _vm._v("Nombre Comercial "),
+                      _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-8" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataAsociacion.nombre_comercial,
+                            expression: "dataAsociacion.nombre_comercial"
+                          }
+                        ],
+                        staticClass: "form-control input-sm mayusculas",
+                        attrs: {
+                          type: "text",
+                          name: "nombre_comercial",
+                          required: ""
+                        },
+                        domProps: {
+                          value: _vm.dataAsociacion.nombre_comercial
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataAsociacion,
+                              "nombre_comercial",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "control-label col-md-4 col-sm-4 col-xs-4"
+                      },
+                      [_vm._v("Fec.Inicio Labores ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-8 col-sm-8 col-xs-8" },
+                      [
+                        _c("masked-input", {
+                          attrs: {
+                            mask: "11-11-1111",
+                            placeholder: "DD-MM-YYYY"
+                          },
+                          model: {
+                            value: _vm.dataAsociacion.fecha_inicio_labores,
+                            callback: function($$v) {
                               _vm.$set(
                                 _vm.dataAsociacion,
-                                "descripcion",
-                                $event.target.value
+                                "fecha_inicio_labores",
+                                $$v
                               )
-                            }
+                            },
+                            expression: "dataAsociacion.fecha_inicio_labores"
                           }
                         })
-                      ])
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-sm-4 control-label" }, [
+                      _vm._v("Descripcion ")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-8" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataAsociacion.descripcion,
+                            expression: "dataAsociacion.descripcion"
+                          }
+                        ],
+                        attrs: { name: "descripcion", rows: "4", cols: "78" },
+                        domProps: { value: _vm.dataAsociacion.descripcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataAsociacion,
+                              "descripcion",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-md-12 pt-20 mb-10 mt-20 pr-20 separator"
-                  },
-                  [
-                    _c("div", { staticClass: "pull-right pr-10" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger active",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.$modal.hide("asociacion")
-                            }
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-12 pt-20 mb-10 mt-20 pr-20 separator" },
+                [
+                  _c("div", { staticClass: "pull-right pr-10" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger active",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.$modal.hide("asociacion")
                           }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-reply-all" }),
-                          _vm._v(" Cancelar")
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success active",
-                          attrs: { type: "submit" }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-cloud-upload" }),
-                          _vm._v(" Grabar")
-                        ]
-                      )
-                    ])
-                  ]
-                )
-              ]
-            )
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-reply-all" }),
+                        _vm._v(" Cancelar")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success active",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.AccionAsociacion($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-cloud-upload" }),
+                        _vm._v(" Grabar")
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ])
           ])
         ]
       )

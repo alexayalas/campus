@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Asociacion extends Model
 {
@@ -10,6 +11,14 @@ class Asociacion extends Model
 
     protected $fillable = ['id', 'nombre', 'ruc','nombre_comercial', 'user_id',
                          'fecha_inicio_labores','descripcion', 'activo'];
+
+    public function getFechaInicioLaboresAttribute($date){
+        if($date){
+            return Carbon::createFromFormat('Y-m-d', $date)->format('d-m-Y');   //formateo de la fecha para verlo en el frontend
+        }else{
+            return null;
+        }
+    } 
 
     public function user()
     {
