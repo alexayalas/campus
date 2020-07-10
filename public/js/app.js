@@ -60123,7 +60123,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 nombre: '',
                 ruc: '',
                 nombre_comercial: '',
-                user_id: this.user_system.id,
+                user_id: this.user_system.user.id,
                 fecha_inicio_labores: '',
                 descripcion: ''
             }, this.$modal.show('asociacion');

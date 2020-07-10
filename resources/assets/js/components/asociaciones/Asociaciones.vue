@@ -188,7 +188,7 @@ export default {
                 nombre:'',
                 ruc:'',
                 nombre_comercial:'',
-                user_id: this.user_system.id,
+                user_id: this.user_system.user.id,
                 fecha_inicio_labores: '',
                 descripcion:''
             },     
