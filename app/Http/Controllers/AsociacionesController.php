@@ -79,8 +79,9 @@ class AsociacionesController extends Controller
   
           $asociacion = new Asociacion($request->all());
 
-          $formfec = explode("-", $asociacion->fecha_inicio_labores);          
-          $asociacion->fecha_inicio_labores = empty($asociacion->fecha_inicio_labores) ? null : Carbon::create($formfec[2],$formfec[1],$formfec[0]);
+          $formfec = explode("-", $asociacion->fecha_inicio_labores);    
+
+          $asociacion->fecha_inicio_labores = empty($asociacion->fecha_inicio_labores) ? null : Carbon::createFromFormat('Y-m-d', $formfec[2].'-'.$formfec[1].'-'.$formfec[0]);
           $asociacion->nombre = Str::upper($asociacion->nombre);
           $asociacion->nombre_comercial = Str::upper($asociacion->nombre_comercial);          
           $asociacion->save();
