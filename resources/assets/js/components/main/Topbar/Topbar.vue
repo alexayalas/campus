@@ -147,11 +147,8 @@ export default {
         logout() {
         //this.$router.push({ name: 'login' })
         this.$store.dispatch('LOGOUT').then(() => {
-            //this.$store.dispatch('LOAD_PROFILE_USER')
-            $(".message-box").removeClass("open");
-          
+            $(".message-box").removeClass("open");          
             this.$router.push({ name: 'login' })
-
         })
         }       
     } 

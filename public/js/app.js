@@ -84650,7 +84650,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "xn-logo" }, [
-      _c("a", { attrs: { href: "/Dashboard" } }, [_vm._v("Vista Hermosa")]),
+      _c("a", { attrs: { href: "/Dashboard" } }, [_vm._v("Vargas Rubio")]),
       _vm._v(" "),
       _c("a", { staticClass: "x-navigation-control", attrs: { href: "#" } })
     ])
@@ -84870,9 +84870,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             //this.$router.push({ name: 'login' })
             this.$store.dispatch('LOGOUT').then(function () {
-                //this.$store.dispatch('LOAD_PROFILE_USER')
                 $(".message-box").removeClass("open");
-
                 _this.$router.push({ name: 'login' });
             });
         }

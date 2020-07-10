@@ -4,7 +4,7 @@
         <!-- START X-NAVIGATION -->
         <ul class="x-navigation" v-if="listMenu">
             <li class="xn-logo">
-                <a href="/Dashboard">Vista Hermosa</a>
+                <a href="/Dashboard">Vargas Rubio</a>
                 <a href="#" class="x-navigation-control"></a>
             </li>
             <li class="xn-profile">
