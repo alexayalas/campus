@@ -45331,7 +45331,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "login-footer" }, [
       _c("div", { staticClass: "pull-left" }, [
-        _vm._v("\n                    © 2020 Vista Hermosa\n                ")
+        _vm._v(
+          "\n                    © 2020 Vargas Rubio Residencial\n                "
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pull-right" }, [
@@ -48913,7 +48915,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control input-sm",
-                          attrs: { type: "email", name: "lugar_nacimiento" },
+                          attrs: { type: "text", name: "lugar_nacimiento" },
                           domProps: {
                             value: _vm.dataAfiliado.lugar_nacimiento
                           },
@@ -49288,7 +49290,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control input-sm",
-                          attrs: { type: "email", name: "ocupacion" },
+                          attrs: { type: "text", name: "ocupacion" },
                           domProps: { value: _vm.dataAfiliado.ocupacion },
                           on: {
                             input: function($event) {
@@ -49322,7 +49324,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control input-sm",
-                          attrs: { type: "email", name: "profesion" },
+                          attrs: { type: "text", name: "profesion" },
                           domProps: { value: _vm.dataAfiliado.profesion },
                           on: {
                             input: function($event) {
@@ -60299,7 +60301,7 @@ var render = function() {
             _c("div", { staticClass: "panel panel-default" }, [
               _c("div", { staticClass: "panel-heading" }, [
                 _c("h3", { staticClass: "panel-title" }, [
-                  _vm._v("Vista Hermosa")
+                  _vm._v("Vargas Rubio Residencial")
                 ]),
                 _vm._v(" "),
                 _c("ul", { staticClass: "panel-controls" }, [
@@ -84539,7 +84541,7 @@ var render = function() {
                 _c("img", {
                   attrs: {
                     src: "/images/" + _vm.user_system.user.empleado.foto,
-                    alt: "Vista hermosa"
+                    alt: "Vargar Rubio Residencial"
                   }
                 })
               ]),
@@ -84549,7 +84551,7 @@ var render = function() {
                   _c("img", {
                     attrs: {
                       src: "/images/" + _vm.user_system.user.empleado.foto,
-                      alt: "Vista hermosa"
+                      alt: "Vargas Rubio Residencial"
                     }
                   })
                 ]),

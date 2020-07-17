@@ -9,11 +9,11 @@
             </li>
             <li class="xn-profile">
                 <a href="#" class="profile-mini">
-                    <img :src="'/images/'+ user_system.user.empleado.foto" alt="Vista hermosa"/>
+                    <img :src="'/images/'+ user_system.user.empleado.foto" alt="Vargar Rubio Residencial"/>
                 </a>
                 <div class="profile">
                     <div class="profile-image">
-                        <img :src="'/images/'+ user_system.user.empleado.foto" alt="Vista hermosa"/>
+                        <img :src="'/images/'+ user_system.user.empleado.foto" alt="Vargas Rubio Residencial"/>
                     </div>
                     <div class="profile-data">
                         <div class="profile-data-name">{{ user_system.user.empleado.nombre_completo }}</div>

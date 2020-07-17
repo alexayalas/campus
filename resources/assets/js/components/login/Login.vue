@@ -39,7 +39,7 @@
             </div>
             <div class="login-footer">
                 <div class="pull-left">
-                    &copy; 2020 Vista Hermosa
+                    &copy; 2020 Vargas Rubio Residencial
                 </div>
                 <div class="pull-right">
                     <a href="#">About</a> |

@@ -16,7 +16,7 @@
                     <!-- START DEFAULT DATATABLE -->
                     <div class="panel panel-default">
                         <div class="panel-heading">                                
-                            <h3 class="panel-title">Vista Hermosa</h3>  
+                            <h3 class="panel-title">Vargas Rubio Residencial</h3>  
                             <ul class="panel-controls">
                                 <li><button type="button" v-if="user_system.user.empleado.perfil_id == 1" class="btn btn-info" @click.prevent="LoadForm"><i class="material-icons bootstro-prev-btn mr-5">account_circle</i> Nueva Asociación</button></li>
                             </ul>                                                        
