@@ -139,7 +139,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Lugar de Nacimiento </label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control input-sm" name="lugar_nacimiento" v-model="dataAfiliado.lugar_nacimiento">
+                            <input type="text" class="form-control input-sm" name="lugar_nacimiento" v-model="dataAfiliado.lugar_nacimiento">
                         </div>
                     </div><!-- /.form-group --> 
                     <div class="form-group">
@@ -221,13 +221,13 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Ocupación </label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control input-sm" name="ocupacion" v-model="dataAfiliado.ocupacion">
+                            <input type="text" class="form-control input-sm" name="ocupacion" v-model="dataAfiliado.ocupacion">
                         </div>
                     </div><!-- /.form-group -->                                                                                                                                                                    
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Profesion </label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control input-sm" name="profesion" v-model="dataAfiliado.profesion">
+                            <input type="text" class="form-control input-sm" name="profesion" v-model="dataAfiliado.profesion">
                         </div>
                     </div><!-- /.form-group -->                       
                     <div class="form-group">
